@@ -1,5 +1,10 @@
 import BannerRecom from "./BannerRecom"
-import Products from "./Products"
+import ProductList from "./ProductList"
+import BannerInfo from "./BannerInfo"
+import express from "@/assets/Express.png"
+import bicycleGift from "@/assets/bicyclegift.png"
+import { productCardData, productCardData2, productCardData3 } from "@/data"
+import Rent from "./Rent"
 
 
 const Banner = () => {
@@ -7,7 +12,13 @@ const Banner = () => {
         <section>
             <div className="container">
                 <BannerRecom />
-                <Products />
+                <ProductList title="Велосипеды" productData={productCardData} />
+                <BannerInfo img={express} />
+                <ProductList title="Спортивный тренажеры" productData={productCardData2} />
+                <BannerInfo img={bicycleGift} reverse />
+                <ProductList title="Гаджеты и другие" productData={productCardData3} />
+                <BannerInfo img={express} />
+                <Rent />
             </div>
         </section>
     )
