@@ -2,6 +2,7 @@ import { ShoppingBag, Heart, User } from "lucide-react"
 import bike from "@/assets/bicycle.png"
 import bikepath from "@/assets/bikepath.png"
 import ps from "@/assets/PS.png"
+import type { RentDataProps } from "@/components/type"
 
 export const headerLinks = [
     {
@@ -302,7 +303,7 @@ export const productCardData3 = [
     },
 ]
 
-export const rentData = [
+export const rentData: RentDataProps[] = [
     {
         id: 0,
         title: "1",

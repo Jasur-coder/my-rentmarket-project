@@ -10,3 +10,10 @@ export interface ProductCardProps {
     seat: string;
     brake: string;
 }
+
+export interface RentDataProps {
+    id: number;
+    title: string;
+    text: string;
+    description: string;
+}
