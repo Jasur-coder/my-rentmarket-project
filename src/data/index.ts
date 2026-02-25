@@ -2,7 +2,20 @@ import { ShoppingBag, Heart, User } from "lucide-react"
 import bike from "@/assets/bicycle.png"
 import bikepath from "@/assets/bikepath.png"
 import ps from "@/assets/PS.png"
-import type { RentDataProps } from "@/components/type"
+import type { Post, RentDataProps } from "@/components/type"
+import express24 from "../assets/partners/express24.png"
+import tezkor from "../assets/partners/Utezkor.png"
+import yandex from "../assets/partners/yandex.png"
+import eku from "../assets/partners/ona.png"
+import payme from "../assets/partners/Payme.png"
+import uzum from "../assets/partners/UzumNasiya.png"
+import solfy from "../assets/partners/Solfy.png"
+import zoodpay from "../assets/partners/ZoodPay.png"
+import blog1 from "../assets/blog1.png"
+import blog2 from "../assets/blog2.png"
+import blog3 from "../assets/blog3.png"
+
+
 
 export const headerLinks = [
     {
@@ -325,14 +338,36 @@ export const rentData: RentDataProps[] = [
 ]
 
 export const partners = [
-    { id: 1, name: 'Express 24', logo: '/logos/express24.svg' },
-    { id: 2, name: 'Tezkor', logo: '/logos/tezkor.svg' },
-    { id: 3, name: 'Yandex Eats', logo: '/logos/yandex.svg' },
-    { id: 4, name: 'EKU MARKAZI', logo: '/logos/eku.svg' },
-    { id: 5, name: 'Payme', logo: '/logos/payme.svg' },
-    { id: 6, name: 'Uzum Nasiya', logo: '/logos/uzum.svg' },
-    { id: 7, name: 'Solfy', logo: '/logos/solfy.svg' },
-    { id: 8, name: 'ZoodPay', logo: '/logos/zoodpay.svg' },
+    { id: 1, name: 'Express 24', logo: express24 },
+    { id: 2, name: 'Tezkor', logo: tezkor },
+    { id: 3, name: 'Yandex Eats', logo: yandex },
+    { id: 4, name: 'EKU MARKAZI', logo: eku },
+    { id: 5, name: 'Payme', logo: payme },
+    { id: 6, name: 'Uzum Nasiya', logo: uzum },
+    { id: 7, name: 'Solfy', logo: solfy },
+    { id: 8, name: 'ZoodPay', logo: zoodpay },
   ];
 
-
+export const posts: Post[] = [
+    {
+      id: 1,
+      date: '5 Июля 2024',
+      readTime: '4 минут',
+      title: 'Что изменится для арендаторов и собственников?',
+      imageUrl: blog1, // Заглушка
+    },
+    {
+      id: 2,
+      date: '5 Июля 2024',
+      readTime: '2 минут',
+      title: 'Велосезон открыт! Аренда велосипедов уже доступна',
+      imageUrl: blog2,
+    },
+    {
+      id: 3,
+      date: '5 Июля 2024',
+      readTime: '3 минут',
+      title: 'Аренда на любой срок: от часа до месяца',
+      imageUrl: blog3,
+    },
+  ];

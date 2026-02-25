@@ -17,3 +17,11 @@ export interface RentDataProps {
     text: string;
     description: string;
 }
+
+export interface Post {
+    id: number;
+    date: string;
+    readTime: string;
+    title: string;
+    imageUrl: string;
+  }

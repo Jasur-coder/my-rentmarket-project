@@ -7,6 +7,8 @@ import { productCardData, productCardData2, productCardData3 } from "@/data"
 import Rent from "./Rent"
 import Map from "./Map"
 import Partners from "./Partners"
+import FAQComponent from "./FAQComponent"
+import BlogSection from "./BlogSection"
 
 
 const Banner = () => {
@@ -23,6 +25,8 @@ const Banner = () => {
                 <Rent />
                 <Map />
                 <Partners />
+                <FAQComponent/>
+                <BlogSection />
             </div>
         </section>
     )
