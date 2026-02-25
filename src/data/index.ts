@@ -324,6 +324,15 @@ export const rentData: RentDataProps[] = [
     }
 ]
 
-
+export const partners = [
+    { id: 1, name: 'Express 24', logo: '/logos/express24.svg' },
+    { id: 2, name: 'Tezkor', logo: '/logos/tezkor.svg' },
+    { id: 3, name: 'Yandex Eats', logo: '/logos/yandex.svg' },
+    { id: 4, name: 'EKU MARKAZI', logo: '/logos/eku.svg' },
+    { id: 5, name: 'Payme', logo: '/logos/payme.svg' },
+    { id: 6, name: 'Uzum Nasiya', logo: '/logos/uzum.svg' },
+    { id: 7, name: 'Solfy', logo: '/logos/solfy.svg' },
+    { id: 8, name: 'ZoodPay', logo: '/logos/zoodpay.svg' },
+  ];
 
 

@@ -5,6 +5,8 @@ import express from "@/assets/Express.png"
 import bicycleGift from "@/assets/bicyclegift.png"
 import { productCardData, productCardData2, productCardData3 } from "@/data"
 import Rent from "./Rent"
+import Map from "./Map"
+import Partners from "./Partners"
 
 
 const Banner = () => {
@@ -19,6 +21,8 @@ const Banner = () => {
                 <ProductList title="Гаджеты и другие" productData={productCardData3} />
                 <BannerInfo img={express} />
                 <Rent />
+                <Map />
+                <Partners />
             </div>
         </section>
     )
