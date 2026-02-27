@@ -24,4 +24,13 @@ export interface Post {
     readTime: string;
     title: string;
     imageUrl: string;
-  }
+}
+
+export interface FAQItem {
+    question: string;
+    answer: string;
+}
+
+export interface FAQData {
+    [key: string]: FAQItem[];
+}

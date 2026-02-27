@@ -1,48 +1,25 @@
 import React from 'react';
-import { 
-  Send,           // Вместо Telegram
-  MessageCircle,  // Вместо WhatsApp
-  Facebook, 
-  Instagram, 
-  Youtube,
-  Apple,
-  PlayCircle      // Для иконки Google Play
-} from 'lucide-react';
+import { linksLeft, linksRight } from '@/data';
+import { Link } from 'react-router-dom';
+import footerLogo from "../assets/footer-logo.png"
+import { icons } from "@/assets/icons"
 
 const Footer: React.FC = () => {
-  const linksLeft = [
-    'Велосипеды', 
-    'Спортивные тренажеры', 
-    'Гаджеты и другие', 
-    'Мы заботимся о вас', 
-    'Наши партнеры'
-  ];
-
-  const linksRight = [
-    'Каталог', 
-    'Как оформить', 
-    'О компании', 
-    'Блог', 
-    'Вопросы и ответы'
-  ];
 
   return (
     <footer className="bg-black text-white py-14 px-6 md:px-12 font-sans tracking-tight">
       <div className="max-w-7xl mx-auto">
-        
+
         {/* Логотип */}
         <div className="mb-14">
-          <a href="/" className="flex items-center text-3xl font-bold italic group">
-            <span className="border-2 border-[#00FF00] rounded-full px-4 py-1 not-italic mr-2 group-hover:bg-[#00FF00] group-hover:text-black transition-colors">
-              rent
-            </span>
-            <span className="text-white">market</span>
-          </a>
+          <Link to="/">
+            <img src={footerLogo} alt="" />
+          </Link>
         </div>
 
         {/* Сетка контента */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          
+
           {/* Блок 1: График и адрес */}
           <div className="space-y-6">
             <div>
@@ -80,15 +57,15 @@ const Footer: React.FC = () => {
             {/* Иконки соцсетей */}
             <div className="flex gap-3">
               {[
-                { icon: <Send size={20} />, label: 'TG' },
-                { icon: <MessageCircle size={20} />, label: 'WA' },
-                { icon: <Facebook size={20} />, label: 'FB' },
-                { icon: <Instagram size={20} />, label: 'IG' },
-                { icon: <Youtube size={20} />, label: 'YT' },
+                { icon: <icons.telegram />, label: 'TG' },
+                { icon: <icons.whatsapp />, label: 'WA' },
+                { icon: <icons.facebook />, label: 'FB' },
+                { icon: <icons.instagram />, label: 'IG' },
+                { icon: <icons.youtube />, label: 'YT' },
               ].map((social, idx) => (
-                <a 
-                  key={idx} 
-                  href="#" 
+                <a
+                  key={idx}
+                  href="#"
                   className="w-10 h-10 bg-[#00FF00] rounded-full flex items-center justify-center text-black hover:scale-110 transition-transform"
                 >
                   {social.icon}
@@ -99,15 +76,15 @@ const Footer: React.FC = () => {
             {/* Кнопки магазинов */}
             <div className="flex flex-wrap gap-3">
               <button className="flex items-center gap-2 border border-gray-700 rounded-xl px-4 py-2 hover:bg-white/5 transition-colors min-w-[140px]">
-                <PlayCircle size={24} />
+              <icons.googlePlay />
                 <div className="text-left">
                   <span className="block text-[9px] uppercase text-gray-400">Get it on</span>
                   <span className="block text-sm font-semibold">Google Play</span>
                 </div>
               </button>
-              
+
               <button className="flex items-center gap-2 border border-gray-700 rounded-xl px-4 py-2 hover:bg-white/5 transition-colors min-w-[140px]">
-                <Apple size={24} />
+              <icons.apple />
                 <div className="text-left">
                   <span className="block text-[9px] uppercase text-gray-400">Download on the</span>
                   <span className="block text-sm font-semibold">App Store</span>
