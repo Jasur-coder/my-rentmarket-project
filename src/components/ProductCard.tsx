@@ -1,17 +1,37 @@
 import { Heart } from "lucide-react"
 import { icons } from "@/assets/icons"
 import type { ProductCardProps } from "./type"
+import { useLikes } from "@/context/LikesContext"
+import { useState } from "react"
 
 
 const ProductCard = (props: ProductCardProps) => {
 
     const { title, img, price, period, deposit, depositPeriod, speed, seat, brake } = props
+    const { toggleLike, isLiked } = useLikes()
+    const liked = isLiked(props.id)
+    const [animating, setAnimating] = useState(false)
+
+    const handleLike = () => {
+        toggleLike(props)
+        setAnimating(true)
+    }
 
     return (
         <div className="bg-white rounded-3xl max-w-[19.1875rem] px-5 py-5 mt-8">
             <div className="flex items-center justify-between mb-5">
                 <span>{title}</span>
-                <Heart />
+                <button
+                    onClick={handleLike}
+                    className="cursor-pointer"
+                    onAnimationEnd={() => setAnimating(false)}
+                >
+                    <Heart
+                        fill={liked ? "red" : "none"}
+                        stroke={liked ? "red" : "currentColor"}
+                        className={animating ? "animate-heart-pop" : ""}
+                    />
+                </button>
             </div>
             <img src={img} alt="bicycle" />
             <div className="mt-7 flex justify-between items-center">

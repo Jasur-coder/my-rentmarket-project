@@ -5,6 +5,7 @@ import Catalog from "./pages/Catalog";
 import Apply from "./pages/Apply";
 import Company from "./pages/Company";
 import Business from "./pages/Business";
+import { LikesProvider } from "./context/LikesContext";
 
 
 
@@ -40,7 +41,9 @@ function App() {
   ]);
 
   return (
+    <LikesProvider>
       <RouterProvider router={routes} />
+    </LikesProvider>
   );
 }
 

@@ -1,11 +1,22 @@
 import { headerIcons, headerLinks } from "@/data"
-import { Phone } from "lucide-react"
+import { Heart, Phone } from "lucide-react"
+import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { icons } from "@/assets/icons"
-
-
+import LikeModal from "./modals/LikeModal"
+import CardModal from "./modals/CardModal"
+import { useLikes } from "@/context/LikesContext"
 
 const Header = () => {
+    const [likeOpen, setLikeOpen] = useState(false)
+    const [cardOpen, setCardOpen] = useState(false)
+    const { likedItems } = useLikes()
+
+    const handleIconClick = (id: number) => {
+        if (id === 1) setLikeOpen(true)
+        if (id === 0) setCardOpen(true)
+    }
+
     return (
         <header className="bg-[#]">
             <div className="container">
@@ -43,13 +54,31 @@ const Header = () => {
                         <div className="flex items-center gap-2.5">
                             {headerIcons.map((el) => {
                                 const Icon = el.icon
+                                if (el.id === 1) {
+                                    return (
+                                        <button
+                                            key={el.id}
+                                            className="relative cursor-pointer"
+                                            onClick={() => handleIconClick(el.id)}
+                                        >
+                                            <Heart />
+                                            {likedItems.length > 0 && (
+                                                <span className="absolute -top-2 -right-2 min-w-[1.1rem] h-[1.1rem] flex items-center justify-center bg-red-500 text-white text-[0.6rem] font-bold rounded-full px-[0.2rem] leading-none">
+                                                    {likedItems.length}
+                                                </span>
+                                            )}
+                                        </button>
+                                    )
+                                }
                                 return (
-                                    <button key={el.id}>
+                                    <button className="cursor-pointer" key={el.id} onClick={() => handleIconClick(el.id)}>
                                         <Icon />
                                     </button>
                                 )
                             })}
                         </div>
+                        <LikeModal open={likeOpen} onOpenChange={setLikeOpen} />
+                        <CardModal open={cardOpen} onOpenChange={setCardOpen} />
                     </div>
                 </div>
             </div>
