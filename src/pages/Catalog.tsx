@@ -1,7 +1,9 @@
+import CatalogList from "@/components/CatalogList"
+
 const Catalog = () => {
     return (
-        <div>
-            <h1>Catalog</h1>
+        <div className="container">
+            <CatalogList />
         </div>
     )
 }

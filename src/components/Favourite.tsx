@@ -4,4 +4,4 @@ const Favourite = () => {
     )
 }
 
-export default Favourite;
+export default Favourite

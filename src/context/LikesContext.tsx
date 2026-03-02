@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useState, useEffect } from "react"
 import type { ReactNode } from "react"
 import type { ProductCardProps } from "@/components/type"
 
@@ -11,7 +11,18 @@ interface LikesContextType {
 const LikesContext = createContext<LikesContextType | null>(null)
 
 export const LikesProvider = ({ children }: { children: ReactNode }) => {
-    const [likedItems, setLikedItems] = useState<ProductCardProps[]>([])
+    const [likedItems, setLikedItems] = useState<ProductCardProps[]>(() => {
+        try {
+            const stored = localStorage.getItem("likedItems")
+            return stored ? JSON.parse(stored) : []
+        } catch {
+            return []
+        }
+    })
+
+    useEffect(() => {
+        localStorage.setItem("likedItems", JSON.stringify(likedItems))
+    }, [likedItems])
 
     const toggleLike = (item: ProductCardProps) => {
         setLikedItems((prev) =>

@@ -19,9 +19,9 @@ const LikeModal = ({ open, onOpenChange }: LikeModalProps) => {
 
     return (
         <AlertDialog open={open} onOpenChange={onOpenChange}>
-            <AlertDialogContent className="max-w-5xl w-fit">
+            <AlertDialogContent className="max-w-6xl min-w-5xl">
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Избранное</AlertDialogTitle>
+                    <AlertDialogTitle className="text-3xl font-bold">Список желаний</AlertDialogTitle>
                 </AlertDialogHeader>
                 <div className="overflow-y-auto py-2">
                     {likedItems.length === 0 ? (
@@ -29,7 +29,9 @@ const LikeModal = ({ open, onOpenChange }: LikeModalProps) => {
                     ) : (
                         <div className="flex flex-wrap gap-4 justify-start">
                             {likedItems.map((item) => (
-                                <ProductCard key={item.id} {...item} />
+                                <div key={item.id} className="border border-gray-200 rounded-3xl [&>div]:mt-0">
+                                    <ProductCard {...item} />
+                                </div>
                             ))}
                         </div>
                     )}

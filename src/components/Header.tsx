@@ -6,11 +6,13 @@ import { icons } from "@/assets/icons"
 import LikeModal from "./modals/LikeModal"
 import CardModal from "./modals/CardModal"
 import { useLikes } from "@/context/LikesContext"
+import { useCards } from "@/context/CardsContext"
 
 const Header = () => {
     const [likeOpen, setLikeOpen] = useState(false)
     const [cardOpen, setCardOpen] = useState(false)
     const { likedItems } = useLikes()
+    const { CardItems } = useCards()
 
     const handleIconClick = (id: number) => {
         if (id === 1) setLikeOpen(true)
@@ -71,8 +73,13 @@ const Header = () => {
                                     )
                                 }
                                 return (
-                                    <button className="cursor-pointer" key={el.id} onClick={() => handleIconClick(el.id)}>
+                                    <button key={el.id} className="relative cursor-pointer" onClick={() => handleIconClick(el.id)}>
                                         <Icon />
+                                        {el.id === 0 && CardItems.length > 0 && (
+                                            <span className="absolute -top-2 -right-2 min-w-[1.1rem] h-[1.1rem] flex items-center justify-center bg-green-500 text-white text-[0.6rem] font-bold rounded-full px-[0.2rem] leading-none">
+                                                {CardItems.length}
+                                            </span>
+                                        )}
                                     </button>
                                 )
                             })}

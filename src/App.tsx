@@ -6,6 +6,7 @@ import Apply from "./pages/Apply";
 import Company from "./pages/Company";
 import Business from "./pages/Business";
 import { LikesProvider } from "./context/LikesContext";
+import { CardsProvider } from "./context/CardsContext";
 
 
 
@@ -42,7 +43,9 @@ function App() {
 
   return (
     <LikesProvider>
-      <RouterProvider router={routes} />
+      <CardsProvider>
+        <RouterProvider router={routes} />
+      </CardsProvider>
     </LikesProvider>
   );
 }
