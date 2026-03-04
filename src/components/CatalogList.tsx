@@ -20,7 +20,7 @@ const CATEGORIES = [
   'Гаджеты',
   'Беговая дорожка',
   'Велотренажер',
-  'Спортивные тренажеры',
+  'Тренажерное оборудование',
 ]
 
 const parsePrice = (price: string) =>
@@ -79,8 +79,32 @@ const CatalogList: React.FC = () => {
     const price = parsePrice(item.price)
     const min = appliedMin ? parseInt(appliedMin, 10) : null
     const max = appliedMax ? parseInt(appliedMax, 10) : null
+
     if (min !== null && price < min) return false
     if (max !== null && price > max) return false
+
+    const title = item.title.toLowerCase()
+
+    if (appliedCategory === 'Велосипеды') {
+      // Only bicycle products
+      return title.includes('велосипед')
+    }
+
+    if (appliedCategory === 'Гаджеты') {
+      // All products except bicycles
+      return !title.includes('велосипед')
+    }
+
+    if (
+      appliedCategory === 'Беговая дорожка' ||
+      appliedCategory === 'Велотренажер' ||
+      appliedCategory === 'Тренажерное оборудование'
+    ) {
+      // Only treadmills
+      return title.includes('беговая дорожка')
+    }
+
+    // 'Все' or other categories: no additional category filter
     return true
   })
 
