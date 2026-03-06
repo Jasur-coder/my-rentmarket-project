@@ -6,7 +6,8 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-
+import ProductSwiper from "./ProductSwiper"
+import { productCardData } from "@/data"
 const ProductPage = () => {
     return (
         <div className="mt-2">
@@ -25,8 +26,13 @@ const ProductPage = () => {
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-            <div className="mt-5">
-                <div></div>
+            <div className="mt-5 flex items-center justify-between">
+                <div>
+                    <ProductSwiper
+                        thumbnail={productCardData[0].img}
+                        images={[productCardData[0].img]}
+                    />
+                </div>
                 <div></div>
             </div>
         </div>

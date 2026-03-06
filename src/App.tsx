@@ -7,6 +7,7 @@ import Company from "./pages/Company";
 import Business from "./pages/Business";
 import { LikesProvider } from "./context/LikesContext";
 import { CardsProvider } from "./context/CardsContext";
+import NotFound from "./pages/NotFound";
 
 
 
@@ -36,6 +37,10 @@ function App() {
         {
           path: "/forbusiness",
           element: <Business />,
+        },
+        {
+          path: "*",
+          element: <NotFound />,
         },
       ],
     },
