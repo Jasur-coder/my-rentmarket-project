@@ -4,6 +4,7 @@ import type { ProductCardProps } from "./type"
 import { useLikes } from "@/context/LikesContext"
 import { useCards } from "@/context/CardsContext"
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
 
 const ProductCard = (props: ProductCardProps) => {
@@ -40,7 +41,9 @@ const ProductCard = (props: ProductCardProps) => {
                     />
                 </button>
             </div>
+            <Link to={`/product/${props.id}`}>
             <img src={img} alt="bicycle" />
+            </Link>
             <div className="mt-7 flex justify-between items-center">
                 <div className="flex flex-col justify-start">
                     <span className="font-semibold text-[1rem]">{price}</span>

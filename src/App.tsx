@@ -8,11 +8,11 @@ import Business from "./pages/Business";
 import { LikesProvider } from "./context/LikesContext";
 import { CardsProvider } from "./context/CardsContext";
 import NotFound from "./pages/NotFound";
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 
 function App() {
-
+  const queryClient = new QueryClient();
  const routes = createBrowserRouter([
     {
       path: "/",
@@ -42,16 +42,22 @@ function App() {
           path: "*",
           element: <NotFound />,
         },
+        {
+          path: "/product/:id",
+          element: <Apply />,
+        }
       ],
     },
   ]);
 
   return (
+    <QueryClientProvider client={queryClient}>
     <LikesProvider>
-      <CardsProvider>
-        <RouterProvider router={routes} />
-      </CardsProvider>
-    </LikesProvider>
+        <CardsProvider>
+          <RouterProvider router={routes} />
+        </CardsProvider>
+      </LikesProvider>
+    </QueryClientProvider>
   );
 }
 
