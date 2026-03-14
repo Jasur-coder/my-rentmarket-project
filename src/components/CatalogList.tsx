@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ListFilter } from 'lucide-react';
-import { productCardData, productCardData2, productCardData3 } from '@/data';
 import ProductCard from './ProductCard';
 import type { ProductCardProps } from './type';
+import { productService } from '@/services/api';
+import { useQuery } from '@tanstack/react-query';
 
 type SortOption = 'popular' | 'new' | 'cheap' | 'expensive'
 
@@ -26,13 +27,12 @@ const CATEGORIES = [
 const parsePrice = (price: string) =>
   parseInt(price.replace(/\D/g, ''), 10) || 0
 
-const allItems: ProductCardProps[] = [
-  ...productCardData,
-  ...productCardData2,
-  ...productCardData3,
-]
-
 const CatalogList: React.FC = () => {
+  const { data: allProducts = [], isLoading, error } = useQuery({
+    queryKey: ['products'],
+    queryFn: () => productService.getAllProducts()
+  })
+
   const [sort, setSort] = useState<SortOption>('popular')
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [filterOpen, setFilterOpen] = useState(false)
@@ -75,7 +75,33 @@ const CatalogList: React.FC = () => {
     setAppliedCategory('Все')
   }
 
-  const filteredItems = allItems.filter((item) => {
+  if (isLoading) {
+    return (
+      <div className="w-full flex flex-col gap-4 p-4 pb-44">
+        <div className="bg-white rounded-[40px] overflow-hidden">
+          <div className="flex flex-col items-center justify-center py-8 bg-white">
+            <h1 className="text-3xl font-bold text-[#1a1a1a] mb-1">Каталог</h1>
+            <span className="text-[#6b7280] text-lg">Загрузка...</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="w-full flex flex-col gap-4 p-4 pb-44">
+        <div className="bg-white rounded-[40px] overflow-hidden">
+          <div className="flex flex-col items-center justify-center py-8 bg-white">
+            <h1 className="text-3xl font-bold text-[#1a1a1a] mb-1">Каталог</h1>
+            <span className="text-[#6b7280] text-lg">Ошибка загрузки данных</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const filteredItems = allProducts.filter((item) => {
     const price = parsePrice(item.price)
     const min = appliedMin ? parseInt(appliedMin, 10) : null
     const max = appliedMax ? parseInt(appliedMax, 10) : null

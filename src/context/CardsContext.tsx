@@ -4,7 +4,7 @@ import type { ProductCardProps } from "@/components/type"
 
 interface CardsContextType {
     CardItems: ProductCardProps[]
-    toggleLike: (item: ProductCardProps) => void
+    toggleCard: (item: ProductCardProps) => void
     isCard: (id: number) => boolean
 }
 
@@ -24,7 +24,7 @@ export const CardsProvider = ({ children }: { children: ReactNode }) => {
         localStorage.setItem("cardItems", JSON.stringify(CardItems))
     }, [CardItems])
 
-    const toggleLike = (item: ProductCardProps) => {
+    const toggleCard = (item: ProductCardProps) => {
         setCardItems((prev) =>
             prev.some((i) => i.id === item.id)
                 ? prev.filter((i) => i.id !== item.id)
@@ -35,7 +35,7 @@ export const CardsProvider = ({ children }: { children: ReactNode }) => {
     const isCard = (id: number) => CardItems.some((i) => i.id === id)
 
     return (
-        <CardsContext.Provider value={{ CardItems, toggleLike, isCard }}>
+        <CardsContext.Provider value={{ CardItems, toggleCard, isCard }}>
             {children}
         </CardsContext.Provider>
     )

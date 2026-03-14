@@ -5,16 +5,51 @@ import { useLikes } from "@/context/LikesContext"
 import { useCards } from "@/context/CardsContext"
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import bicycle from "@/assets/bicycle.png"
+import bikepath from "@/assets/bikepath.png"
+import ps from "@/assets/PS.png"
 
 
 const ProductCard = (props: ProductCardProps) => {
-
     const { title, img, price, period, deposit, depositPeriod, speed, seat, brake } = props
     const { toggleLike, isLiked } = useLikes()
-    const { toggleLike: toggleCard, isCard } = useCards()
+    const { toggleCard, isCard } = useCards()
     const liked = isLiked(props.id)
     const inCart = isCard(props.id)
     const [animating, setAnimating] = useState(false)
+    const [imageError, setImageError] = useState(false)
+
+    // Determine appropriate image based on product title
+    const getImageSrc = () => {
+        if (imageError) {
+            // Fallback to local images based on category
+            if (title.toLowerCase().includes('велосипед')) {
+                return bicycle
+            } else if (title.toLowerCase().includes('play station') || title.toLowerCase().includes('ps')) {
+                return ps
+            } else {
+                return bikepath
+            }
+        }
+        
+        // Use API image if available, otherwise use local fallback
+        if (img && !img.includes('placeholder')) {
+            return img
+        }
+        
+        // Use local images based on category
+        if (title.toLowerCase().includes('велосипед')) {
+            return bicycle
+        } else if (title.toLowerCase().includes('play station') || title.toLowerCase().includes('ps')) {
+            return ps
+        } else {
+            return bikepath
+        }
+    }
+
+    const handleImageError = () => {
+        setImageError(true)
+    }
 
     const handleLike = () => {
         toggleLike(props)
@@ -22,6 +57,10 @@ const ProductCard = (props: ProductCardProps) => {
     }
 
     const handleRent = () => {
+        // If item is being added to cart (not already in cart), remove from favorites
+        if (!inCart && liked) {
+            toggleLike(props)
+        }
         toggleCard(props)
     }
 
@@ -42,7 +81,12 @@ const ProductCard = (props: ProductCardProps) => {
                 </button>
             </div>
             <Link to={`/product/${props.id}`}>
-            <img src={img} alt="bicycle" />
+            <img 
+                src={getImageSrc()} 
+                alt={title}
+                onError={handleImageError}
+                className="w-full h-48 object-cover rounded-2xl"
+            />
             </Link>
             <div className="mt-7 flex justify-between items-center">
                 <div className="flex flex-col justify-start">

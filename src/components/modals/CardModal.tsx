@@ -17,7 +17,7 @@ interface CardModalProps {
 }
 
 const CardModal = ({ open, onOpenChange }: CardModalProps) => {
-    const { CardItems, toggleLike } = useCards()
+    const { CardItems, toggleCard } = useCards()
 
     const [quantities, setQuantities] = useState<Record<number, number>>({})
     const [selected, setSelected] = useState<Record<number, boolean>>({})
@@ -72,7 +72,7 @@ const CardModal = ({ open, onOpenChange }: CardModalProps) => {
     const handleRemove = (id: number) => {
         const item = CardItems.find((i) => i.id === id)
         if (item) {
-            toggleLike(item)
+            toggleCard(item)
         }
     }
 
