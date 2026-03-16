@@ -14,12 +14,10 @@ import type { ProductCardProps } from "./type"
 import bicycle from "@/assets/bicycle.png"
 import bikepath from "@/assets/bikepath.png"
 import ps from "@/assets/PS.png"
-import { useState } from "react"
 
 const ProductPage = () => {
     const { id } = useParams<{ id: string }>()
     const productId = parseInt(id || '0', 10)
-    const [imageError, setImageError] = useState(false)
     
     const { data: product, isLoading, error } = useQuery({
         queryKey: ['product', productId],
@@ -29,17 +27,6 @@ const ProductPage = () => {
 
     // Determine appropriate image based on product title
     const getImageSrc = (product: ProductCardProps) => {
-        if (imageError) {
-            // Fallback to local images based on category
-            if (product.title.toLowerCase().includes('велосипед')) {
-                return bicycle
-            } else if (product.title.toLowerCase().includes('play station') || product.title.toLowerCase().includes('ps')) {
-                return ps
-            } else {
-                return bikepath
-            }
-        }
-        
         // Use API image if available, otherwise use local fallback
         if (product.img && !product.img.includes('placeholder')) {
             return product.img
@@ -53,10 +40,6 @@ const ProductPage = () => {
         } else {
             return bikepath
         }
-    }
-
-    const handleImageError = () => {
-        setImageError(true)
     }
 
     if (isLoading) {
@@ -96,15 +79,7 @@ const ProductPage = () => {
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-            <div className="mt-5 flex items-center justify-between">
-                <div>
-                    <ProductSwiper
-                        thumbnail={getImageSrc(product)}
-                        images={[getImageSrc(product)]}
-                    />
-                </div>
-                <div></div>
-            </div>
+            <div className="mt-5 flex items-center justify-between"></div>
         </div>
     )
 }

@@ -1,7 +1,4 @@
 import { ShoppingBag, Heart, User } from "lucide-react"
-import bike from "@/assets/bicycle.png"
-import bikepath from "@/assets/bikepath.png"
-import ps from "@/assets/PS.png"
 import type { FAQData, Post, RentDataProps } from "@/components/type"
 import express24 from "../assets/partners/express24.png"
 import tezkor from "../assets/partners/Utezkor.png"

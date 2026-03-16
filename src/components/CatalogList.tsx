@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ListFilter } from 'lucide-react';
 import ProductCard from './ProductCard';
-import type { ProductCardProps } from './type';
 import { productService } from '@/services/api';
 import { useQuery } from '@tanstack/react-query';
 

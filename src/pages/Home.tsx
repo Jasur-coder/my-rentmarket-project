@@ -10,7 +10,6 @@ import Partners from "@/components/Partners"
 import FAQComponent from "@/components/FAQComponent"
 import BlogSection from "@/components/BlogSection"
 import { useQuery } from "@tanstack/react-query"
-import type { ProductCardProps } from "@/components/type"
 
 const Home = () => {
   const { data: allProducts = [], isLoading, error } = useQuery({
