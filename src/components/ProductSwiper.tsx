@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { FreeMode, Thumbs } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 
 interface ProductSwiperPropsI {
@@ -16,9 +16,8 @@ const ProductSwiper = ({ thumbnail, images }: ProductSwiperPropsI) => {
       <Swiper
         loop={true}
         spaceBetween={10}
-        navigation={true}
         thumbs={{ swiper: thumbsSwiper }}
-        modules={[FreeMode, Navigation, Thumbs]}
+        modules={[FreeMode, Thumbs]}
         className="mySwiper2"
       >
         {images && images.length > 0 ? (
@@ -40,7 +39,7 @@ const ProductSwiper = ({ thumbnail, images }: ProductSwiperPropsI) => {
         slidesPerView={4}
         freeMode={true}
         watchSlidesProgress={true}
-        modules={[FreeMode, Navigation, Thumbs]}
+        modules={[FreeMode, Thumbs]}
         className="mySwiper mt-5"
       >
         {images && images.length > 0 ? (

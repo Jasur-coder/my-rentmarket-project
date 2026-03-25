@@ -2,6 +2,8 @@ export interface ProductCardProps {
     id: number;
     title: string;
     img: string;
+    thumbnail: string;
+    pictures?: string[];
     price: string;
     period: string;
     deposit: string;

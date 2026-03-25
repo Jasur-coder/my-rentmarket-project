@@ -79,7 +79,45 @@ const ProductPage = () => {
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-            <div className="mt-5 flex items-center justify-between"></div>
+            <div className="mt-5 flex items-start justify-between gap-8">
+                <div className="flex-1">
+                    <ProductSwiper thumbnail={getImageSrc(product)} images={product.pictures || []} />
+                </div>
+                <div className="flex-1">
+                    <div className="mb-4">
+                        <span className="text-green-600 text-sm">Более 70 заказов</span>
+                    </div>
+                    <h1 className="text-3xl font-bold mb-6">{product.title}</h1>
+                    
+                    <div className="mb-6">
+                        <h3 className="text-lg font-semibold mb-3">Срок аренды:</h3>
+                        <div className="flex gap-3">
+                            <button className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Неделя</button>
+                            <button className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Месяц</button>
+                        </div>
+                    </div>
+                    
+                    <div className="mb-6">
+                        <h3 className="text-lg font-semibold mb-3">Количество:</h3>
+                        <div className="flex items-center gap-3">
+                            <button className="w-10 h-10 border border-gray-300 rounded-lg hover:bg-gray-50">-</button>
+                            <input type="number" value="1" className="w-16 text-center border border-gray-300 rounded-lg" readOnly />
+                            <button className="w-10 h-10 border border-gray-300 rounded-lg hover:bg-gray-50">+</button>
+                        </div>
+                    </div>
+                    
+                    <div className="mb-6">
+                        <h3 className="text-lg font-semibold mb-2">Цена:</h3>
+                        <p className="text-2xl font-bold">{product.price} сум</p>
+                    </div>
+                    
+                    <div className="flex gap-4">
+                        <button className="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700">В КОРЗИНУ</button>
+                        <button className="flex-1 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700">КУПИТЬ СЕЙЧАС</button>
+                    </div>
+                </div>
+            </div>
+            
         </div>
     )
 }
