@@ -50,7 +50,7 @@ const ProductSwiper = ({ thumbnail, images }: ProductSwiperPropsI) => {
           ))
         ) : (
           <SwiperSlide>
-            <img src={thumbnail} />
+            <img src={images[0]} />
           </SwiperSlide>
         )}
       </Swiper>

@@ -1,343 +1,365 @@
+
+
 {
   "$schema": "./node_modules/json-server/schema.json",
   "products": [
     {
       "id": "0",
-      "title": "Велосипед - 26",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "pictures": [
-        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/1.webp",
-        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/2.webp",
-        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/3.webp"
-      ],
-      "price": "180 000 сум.",
-      "period": "Аренда 7 д.",
-      "deposit": "400 000 сум.",
-      "depositPeriod": "Аренда 1 мес.",
-      "speed": "9 скорость",
-      "seat": "Удобное сиденье",
-      "brake": "Мех. тормоз"
-    },
-    {
-      "id": "1",
       "title": "Горный велосипед",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
+      "thumbnail": "/src/assets/bicycle.png",
       "pictures": [
-        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/1.webp",
-        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/2.webp",
-        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/3.webp",
-        
+        "/src/assets/bicycle.png",
+        "/src/assets/bicycle.png",
+        "/src/assets/bicycle.png"
       ],
-      "price": "200 000 сум.",
+      "price": "250 000 сум.",
       "period": "Аренда 7 д.",
       "deposit": "500 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "12 скорость",
-      "seat": "Спорт сиденье",
-      "brake": "Диск тормоз"
+      "speed": "21 скорость",
+      "seat": "Горное сиденье",
+      "brake": "Дисковый тормоз"
+    },
+    {
+      "id": "1",
+      "title": "Шоссейный велосипед",
+      "thumbnail": "/src/assets/bicycle.png",
+      "pictures": [
+        "/src/assets/bicycle.png",
+        "/src/assets/bikepath.png",
+        "/src/assets/bicyclegift.png"
+      ],
+      "price": "220 000 сум.",
+      "period": "Аренда 7 д.",
+      "deposit": "450 000 сум.",
+      "depositPeriod": "Аренда 1 мес.",
+      "speed": "18 скорость",
+      "seat": "Шоссейное сиденье",
+      "brake": "Клещевой тормоз"
     },
     {
       "id": "2",
-      "title": "Шоссейный велосипед",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
+      "title": "Городской велосипед",
+      "img": "/src/assets/bicycle.png",
+      "thumbnail": "/src/assets/bicycle.png",
       "pictures": [
-        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/1.webp",
-        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/2.webp",
-        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/3.webp"
+        "/src/assets/bicycle.png",
+        "/src/assets/bikepath.png",
+        "/src/assets/bicyclegift.png"
       ],
-      "price": "250 000 сум.",
-      "period": "Аренда 5 д.",
-      "deposit": "600 000 сум.",
+      "price": "180 000 сум.",
+      "period": "Аренда 7 д.",
+      "deposit": "350 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "20 скорость",
-      "seat": "Аэро сиденье",
-      "brake": "Гидро тормоз"
+      "speed": "7 скорость",
+      "seat": "Комфортное сиденье",
+      "brake": "Барабанный тормоз"
     },
     {
       "id": "3",
       "title": "Детский велосипед",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
+      "img": "/src/assets/bicycle.png",
+      "thumbnail": "/src/assets/bicycle.png",
       "pictures": [
-        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/1.webp",
-        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/2.webp",
-        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/3.webp"
+        "/src/assets/bicycle.png",
+        "/src/assets/bikepath.png",
+        "/src/assets/bicyclegift.png"
       ],
-      "price": "100 000 сум.",
+      "price": "120 000 сум.",
       "period": "Аренда 10 д.",
       "deposit": "200 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "1 скорость",
-      "seat": "Мягкое сиденье",
+      "speed": "6 скорость",
+      "seat": "Детское сиденье",
       "brake": "Ножной тормоз"
     },
     {
       "id": "4",
       "title": "Электровелосипед",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
+      "img": "/src/assets/bicycle.png",
+      "thumbnail": "/src/assets/bicycle.png",
       "pictures": [
-        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/1.webp",
-        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/2.webp",
-        "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/3.webp"
+        "/src/assets/bicycle.png",
+        "/src/assets/bikepath.png",
+        "/src/assets/bicyclegift.png"
       ],
-      "price": "400 000 сум.",
-      "period": "Аренда 3 д.",
-      "deposit": "1 000 000 сум.",
+      "price": "450 000 сум.",
+      "period": "Аренда 5 д.",
+      "deposit": "900 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "3 режима",
-      "seat": "Комфорт сиденье",
-      "brake": "Электро тормоз"
+      "speed": "25 км/ч",
+      "seat": "Электрическое сиденье",
+      "brake": "Гидравлический тормоз"
     },
     {
       "id": "5",
-      "title": "BMX трюковой",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "150 000 сум.",
+      "title": "BMX велосипед",
+      "img": "/src/assets/bicycle.png",
+      "thumbnail": "/src/assets/bicycle.png",
+      "pictures": [
+        "/src/assets/bicycle.png",
+        "/src/assets/bikepath.png",
+        "/src/assets/bicyclegift.png"
+      ],
+      "price": "160 000 сум.",
       "period": "Аренда 7 д.",
       "deposit": "300 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
       "speed": "1 скорость",
-      "seat": "Спорт сиденье",
+      "seat": "Трюковое сиденье",
       "brake": "U-тормоз"
     },
     {
       "id": "6",
-      "title": "BMX трюковой",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "150 000 сум.",
-      "period": "Аренда 7 д.",
-      "deposit": "300 000 сум.",
+      "title": "Беговая дорожка Pro",
+      "img": "/src/assets/BG.png",
+      "thumbnail": "/src/assets/BG.png",
+      "pictures": [
+        "/src/assets/BG.png",
+        "/src/assets/Express.png",
+        "/src/assets/PS.png"
+      ],
+      "price": "350 000 сум.",
+      "period": "Аренда 5 д.",
+      "deposit": "700 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "1 скорость",
-      "seat": "Спорт сиденье",
-      "brake": "U-тормоз"
+      "speed": "Макс. 20 км/ч",
+      "seat": "Профессиональная",
+      "brake": "Магнитная система"
     },
     {
       "id": "7",
-      "title": "BMX трюковой",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "150 000 сум.",
+      "title": "Эллиптический тренажер",
+      "img": "/src/assets/BG.png",
+      "thumbnail": "/src/assets/BG.png",
+      "pictures": [
+        "/src/assets/BG.png",
+        "/src/assets/Express.png",
+        "/src/assets/PS.png"
+      ],
+      "price": "280 000 сум.",
       "period": "Аренда 7 д.",
-      "deposit": "300 000 сум.",
+      "deposit": "550 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "1 скорость",
-      "seat": "Спорт сиденье",
-      "brake": "U-тормоз"
+      "speed": "Макс. 15 км/ч",
+      "seat": "Эргономичная",
+      "brake": "Магнитная система"
     },
     {
       "id": "8",
-      "title": "BMX трюковой",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "150 000 сум.",
-      "period": "Аренда 7 д.",
-      "deposit": "300 000 сум.",
+      "title": "Велотренажер",
+      "img": "/src/assets/BG.png",
+      "thumbnail": "/src/assets/BG.png",
+      "pictures": [
+        "/src/assets/BG.png",
+        "/src/assets/Express.png",
+        "/src/assets/PS.png"
+      ],
+      "price": "200 000 сум.",
+      "period": "Аренда 10 д.",
+      "deposit": "400 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "1 скорость",
-      "seat": "Спорт сиденье",
-      "brake": "U-тормоз"
+      "speed": "8 уровней нагрузки",
+      "seat": "Регулируемое",
+      "brake": "Механическая"
     },
     {
       "id": "9",
-      "title": "Беговая дорожка - V1",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "180 000 сум.",
-      "period": "Аренда 7 д.",
-      "deposit": "400 000 сум.",
+      "title": "Гантели набор",
+      "img": "/src/assets/BG.png",
+      "thumbnail": "/src/assets/BG.png",
+      "pictures": [
+        "/src/assets/BG.png",
+        "/src/assets/Express.png",
+        "/src/assets/PS.png"
+      ],
+      "price": "150 000 сум.",
+      "period": "Аренда 14 д.",
+      "deposit": "250 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "9 скорость",
-      "seat": "Удобное сиденье",
-      "brake": "Мех. тормоз"
+      "speed": "2-24 кг",
+      "seat": "Не требуется",
+      "brake": "Не требуется"
     },
     {
       "id": "10",
-      "title": "Беговая дорожка - V2",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "200 000 сум.",
-      "period": "Аренда 7 д.",
-      "deposit": "500 000 сум.",
+      "title": "Турник настенный",
+      "img": "/src/assets/BG.png",
+      "thumbnail": "/src/assets/BG.png",
+      "pictures": [
+        "/src/assets/BG.png",
+        "/src/assets/Express.png",
+        "/src/assets/PS.png"
+      ],
+      "price": "80 000 сум.",
+      "period": "Аренда 14 д.",
+      "deposit": "150 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "12 скорость",
-      "seat": "Спорт сиденье",
-      "brake": "Диск тормоз"
+      "speed": "До 120 кг",
+      "seat": "Не требуется",
+      "brake": "Не требуется"
     },
     {
       "id": "11",
-      "title": "Беговая дорожка - V3",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "250 000 сум.",
-      "period": "Аренда 5 д.",
-      "deposit": "600 000 сум.",
+      "title": "Скакалка",
+      "img": "/src/assets/BG.png",
+      "thumbnail": "/src/assets/BG.png",
+      "pictures": [
+        "/src/assets/BG.png",
+        "/src/assets/Express.png",
+        "/src/assets/PS.png"
+      ],
+      "price": "30 000 сум.",
+      "period": "Аренда 7 д.",
+      "deposit": "50 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "20 скорость",
-      "seat": "Аэро сиденье",
-      "brake": "Гидро тормоз"
+      "speed": "Регулируемая",
+      "seat": "Не требуется",
+      "brake": "Не требуется"
     },
     {
       "id": "12",
-      "title": "Беговая дорожка - V4",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "100 000 сум.",
-      "period": "Аренда 10 д.",
-      "deposit": "200 000 сум.",
+      "title": "Фитнес резинки",
+      "img": "/src/assets/BG.png",
+      "thumbnail": "/src/assets/BG.png",
+      "pictures": [
+        "/src/assets/BG.png",
+        "/src/assets/Express.png",
+        "/src/assets/PS.png"
+      ],
+      "price": "40 000 сум.",
+      "period": "Аренда 7 д.",
+      "deposit": "70 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "1 скорость",
-      "seat": "Мягкое сиденье",
-      "brake": "Ножной тормоз"
+      "speed": "3 уровня сопротивления",
+      "seat": "Не требуется",
+      "brake": "Не требуется"
     },
     {
       "id": "13",
-      "title": "Беговая дорожка - V5",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "400 000 сум.",
-      "period": "Аренда 3 д.",
-      "deposit": "1 000 000 сум.",
+      "title": "Йога коврик",
+      "img": "/src/assets/BG.png",
+      "thumbnail": "/src/assets/BG.png",
+      "pictures": [
+        "/src/assets/BG.png",
+        "/src/assets/Express.png",
+        "/src/assets/PS.png"
+      ],
+      "price": "50 000 сум.",
+      "period": "Аренда 14 д.",
+      "deposit": "80 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "3 режима",
-      "seat": "Комфорт сиденье",
-      "brake": "Электро тормоз"
+      "speed": "Не требуется",
+      "seat": "Противоскользящий",
+      "brake": "Не требуется"
     },
     {
       "id": "14",
-      "title": "Беговая дорожка - V6",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "150 000 сум.",
+      "title": "PlayStation 5 Standard",
+      "img": "/src/assets/PS.png",
+      "thumbnail": "/src/assets/PS.png",
+      "pictures": [
+        "/src/assets/PS.png",
+        "/src/assets/Express.png",
+        "/src/assets/BG.png"
+      ],
+      "price": "350 000 сум.",
       "period": "Аренда 7 д.",
-      "deposit": "300 000 сум.",
+      "deposit": "700 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "1 скорость",
-      "seat": "Спорт сиденье",
-      "brake": "U-тормоз"
+      "speed": "4K Gaming",
+      "seat": "2 геймпада",
+      "brake": "SSD 825GB"
     },
     {
       "id": "15",
-      "title": "Беговая дорожка - V7",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "150 000 сум.",
+      "title": "PlayStation 5 Digital",
+      "img": "/src/assets/PS.png",
+      "thumbnail": "/src/assets/PS.png",
+      "pictures": [
+        "/src/assets/PS.png",
+        "/src/assets/Express.png",
+        "/src/assets/BG.png"
+      ],
+      "price": "300 000 сум.",
       "period": "Аренда 7 д.",
-      "deposit": "300 000 сум.",
+      "deposit": "600 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "1 скорость",
-      "seat": "Спорт сиденье",
-      "brake": "U-тормоз"
+      "speed": "4K Gaming",
+      "seat": "1 геймпад",
+      "brake": "SSD 825GB"
     },
     {
       "id": "16",
-      "title": "Беговая дорожка - V8",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "150 000 сум.",
-      "period": "Аренда 7 д.",
-      "deposit": "300 000 сум.",
+      "title": "PlayStation 5 Pro",
+      "img": "/src/assets/PS.png",
+      "thumbnail": "/src/assets/PS.png",
+      "pictures": [
+        "/src/assets/PS.png",
+        "/src/assets/Express.png",
+        "/src/assets/BG.png"
+      ],
+      "price": "450 000 сум.",
+      "period": "Аренда 5 д.",
+      "deposit": "900 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "1 скорость",
-      "seat": "Спорт сиденье",
-      "brake": "U-тормоз"
+      "speed": "8K Gaming",
+      "seat": "2 геймпада",
+      "brake": "SSD 1TB"
     },
     {
       "id": "17",
-      "title": "Беговая дорожка - V9",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "150 000 сум.",
+      "title": "PlayStation 5 Slim",
+      "img": "/src/assets/PS.png",
+      "thumbnail": "/src/assets/PS.png",
+      "pictures": [
+        "/src/assets/PS.png",
+        "/src/assets/Express.png",
+        "/src/assets/BG.png"
+      ],
+      "price": "320 000 сум.",
       "period": "Аренда 7 д.",
-      "deposit": "300 000 сум.",
+      "deposit": "650 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "1 скорость",
-      "seat": "Спорт сиденье",
-      "brake": "U-тормоз"
+      "speed": "4K Gaming",
+      "seat": "1 геймпад",
+      "brake": "SSD 825GB"
     },
     {
       "id": "18",
-      "title": "Play Station 5",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "180 000 сум.",
-      "period": "Аренда 7 д.",
-      "deposit": "400 000 сум.",
+      "title": "PlayStation 5 VR Bundle",
+      "img": "/src/assets/PS.png",
+      "thumbnail": "/src/assets/PS.png",
+      "pictures": [
+        "/src/assets/PS.png",
+        "/src/assets/Express.png",
+        "/src/assets/BG.png"
+      ],
+      "price": "400 000 сум.",
+      "period": "Аренда 5 д.",
+      "deposit": "800 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "9 скорость",
-      "seat": "Удобное сиденье",
-      "brake": "Мех. тормоз"
+      "speed": "4K VR Gaming",
+      "seat": "VR шлем + 2 геймпада",
+      "brake": "SSD 825GB"
     },
     {
       "id": "19",
-      "title": "Play Station 5",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "180 000 сум.",
+      "title": "PlayStation 5 Family Pack",
+      "img": "/src/assets/PS.png",
+      "thumbnail": "/src/assets/PS.png",
+      "pictures": [
+        "/src/assets/PS.png",
+        "/src/assets/Express.png",
+        "/src/assets/BG.png"
+      ],
+      "price": "380 000 сум.",
       "period": "Аренда 7 д.",
-      "deposit": "400 000 сум.",
+      "deposit": "750 000 сум.",
       "depositPeriod": "Аренда 1 мес.",
-      "speed": "9 скорость",
-      "seat": "Удобное сиденье",
-      "brake": "Мех. тормоз"
-    },
-    {
-      "id": "20",
-      "title": "Play Station 5",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "180 000 сум.",
-      "period": "Аренда 7 д.",
-      "deposit": "400 000 сум.",
-      "depositPeriod": "Аренда 1 мес.",
-      "speed": "9 скорость",
-      "seat": "Удобное сиденье",
-      "brake": "Мех. тормоз"
-    },
-    {
-      "id": "21",
-      "title": "Play Station 5",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "180 000 сум.",
-      "period": "Аренда 7 д.",
-      "deposit": "400 000 сум.",
-      "depositPeriod": "Аренда 1 мес.",
-      "speed": "9 скорость",
-      "seat": "Удобное сиденье",
-      "brake": "Мех. тормоз"
-    },
-    {
-      "id": "22",
-      "title": "Play Station 5",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "180 000 сум.",
-      "period": "Аренда 7 д.",
-      "deposit": "400 000 сум.",
-      "depositPeriod": "Аренда 1 мес.",
-      "speed": "9 скорость",
-      "seat": "Удобное сиденье",
-      "brake": "Мех. тормоз"
-    },
-    {
-      "id": "23",
-      "title": "Play Station 5",
-      "img": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp",
-      "thumbnail": "https://via.placeholder.com/150",
-      "price": "180 000 сум.",
-      "period": "Аренда 7 д.",
-      "deposit": "400 000 сум.",
-      "depositPeriod": "Аренда 1 мес.",
-      "speed": "9 скорость",
-      "seat": "Удобное сиденье",
-      "brake": "Мех. тормоз"
+      "speed": "4K Gaming",
+      "seat": "4 геймпада",
+      "brake": "SSD 825GB"
     }
   ]
 }
