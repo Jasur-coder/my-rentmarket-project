@@ -11,70 +11,81 @@ export type ProductDetails = {
   reviews: ProductReview[]
 }
 
-export const productDetailsById: Record<number, ProductDetails> = {
-  0: {
-    description:
-      "Лёгкий и надёжный велосипед для города и парка. Удобная посадка и плавный ход делают его отличным выбором для ежедневных поездок.",
-    reviews: [
-      {
-        id: "0-1",
-        author: "Алишер",
-        rating: 5,
-        text: "Отличный велосипед, всё как на фото. Едет мягко, тормоза уверенные.",
-        date: "2026-02-11",
-      },
-    ],
-  },
-  1: {
-    description:
-      "Шоссейный велосипед для скорости и длинных дистанций. Лёгкая рама и комфортная геометрия помогают держать темп на асфальте.",
-    reviews: [
-      {
-        id: "1-1",
-        author: "Фарход",
-        rating: 5,
-        text: "Очень быстрый. Для трассы — то, что нужно.",
-        date: "2026-02-20",
-      },
-      {
-        id: "1-2",
-        author: "Мадина",
-        rating: 4,
-        text: "В целом супер, привезли вовремя. Хотелось бы чуть мягче сиденье.",
-        date: "2026-02-23",
-      },
-    ],
-  },
-  2: {
-    description:
-      "Городской велосипед для комфортных поездок. Отлично подходит для парка, набережной и повседневных маршрутов.",
-    reviews: [
-      {
-        id: "2-1",
-        author: "Дилноза",
-        rating: 5,
-        text: "Очень удобный, кататься приятно. Спасибо!",
-        date: "2026-03-01",
-      },
-    ],
-  },
+const RU = new Intl.DateTimeFormat("ru-RU", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+})
+
+function formatRuDate(d: Date) {
+  return RU.format(d)
+}
+
+function categoryLabel(id: number) {
+  if (id <= 5) return "велосипед"
+  if (id === 6) return "беговая дорожка"
+  if (id === 7) return "эллиптический тренажер"
+  if (id === 8) return "велотренажер"
+  if (id === 9) return "гантели"
+  if (id === 10) return "турник"
+  if (id === 11) return "скакалка"
+  if (id === 12) return "фитнес резинки"
+  if (id === 13) return "йога коврик"
+  return "PlayStation"
+}
+
+const authors = [
+  "Yulduzxon",
+  "Jasur",
+  "Madina",
+  "Dilnоза",
+  "Sardor",
+  "Dilmurod",
+  "Nodira",
+  "Aziz",
+  "Kamola",
+  "Sevinch",
+] as const
+
+const texts = [
+  "Сифати яхши экан. Ходит удобно, ничего лишнего.",
+  "Отлично подошло для моих задач. Рекомендую!",
+  "Работает без проблем. Удобно пользоваться каждый день.",
+  "Хорошее качество и аккуратная сборка. Спасибо!",
+  "В целом всё понравилось, но хотелось бы чуть быстрее доставку.",
+  "Супер вариант для аренды: чисто, аккуратно, приятно.",
+  "Цена соответствует качеству. Буду брать снова.",
+] as const
+
+function makeDescription(id: number) {
+  const cat = categoryLabel(id)
+  const a = authors[id % authors.length]
+  return `Проверенный ${cat} для комфортной аренды. Подходит для ежедневного использования и даёт стабильный результат. Отзывов много, потому что качество всегда на уровне — как отмечает ${a}.`
+}
+
+function makeReview(id: number, index: 1 | 2) {
+  const rating = (((id + index * 2) % 5) + 1) as 1 | 2 | 3 | 4 | 5
+  const author = authors[(id + index) % authors.length]
+  const text = texts[(id + index) % texts.length]
+  // Deterministic date spread
+  const base = new Date(2024, 7, 20) // 20 августa 2024
+  const d = new Date(base)
+  d.setDate(base.getDate() + id + index)
+  return {
+    id: `r-${id}-${index}`,
+    author,
+    rating,
+    text,
+    date: ` ${formatRuDate(d)} `.trim(),
+  } satisfies ProductReview
 }
 
 export function getProductDetails(id: number): ProductDetails {
-  return (
-    productDetailsById[id] ?? {
-      description:
-        "Практичный товар для аренды: надёжный, чистый и готов к использованию. Если нужна помощь с выбором — напишите нам, подберём подходящий вариант.",
-      reviews: [
-        {
-          id: `fallback-${id}`,
-          author: "Команда RentMarket",
-          rating: 5,
-          text: "Товар регулярно обслуживается и проходит проверку перед выдачей.",
-          date: "2026-03-01",
-        },
-      ],
-    }
-  )
+  const reviews: ProductReview[] = [makeReview(id, 1), makeReview(id, 2)]
+
+  return {
+    description: makeDescription(id),
+    reviews,
+  }
 }
 

@@ -1,7 +1,7 @@
 import { headerIcons, headerLinks } from "@/data"
 import { Heart, Phone } from "lucide-react"
 import { useState } from "react"
-import { Link, NavLink } from "react-router-dom"
+import { Link, NavLink, useNavigate } from "react-router-dom"
 import { icons } from "@/assets/icons"
 import LikeModal from "./modals/LikeModal"
 import CardModal from "./modals/CardModal"
@@ -11,12 +11,14 @@ import { useCards } from "@/context/CardsContext"
 const Header = () => {
     const [likeOpen, setLikeOpen] = useState(false)
     const [cardOpen, setCardOpen] = useState(false)
+    const navigate = useNavigate()
     const { likedItems } = useLikes()
     const { CardItems } = useCards()
 
     const handleIconClick = (id: number) => {
         if (id === 1) setLikeOpen(true)
         if (id === 0) setCardOpen(true)
+        if (id === 2) navigate("/profile")
     }
 
     return (

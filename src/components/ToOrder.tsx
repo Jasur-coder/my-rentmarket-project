@@ -19,6 +19,20 @@ interface CheckoutLocationState {
   quantities?: Record<number, number>
 }
 
+interface ProfileOrderItem {
+  id: number
+  title: string
+  quantity: number
+}
+
+interface ProfileOrder {
+  id: string
+  status: "Новый" | "Отменён" | "Завершён"
+  date: string
+  total: number
+  items: ProfileOrderItem[]
+}
+
 const parsePrice = (value: string) => {
   const numeric = value.replace(/[^\d]/g, "")
   return numeric ? Number(numeric) : 0
@@ -94,8 +108,33 @@ const ToOrder = () => {
 
   const handlePlaceOrder = () => {
     if (!formValid) return
+    const order: ProfileOrder = {
+      id: Math.floor(100000 + Math.random() * 900000).toString(),
+      status: "Новый",
+      date: new Date().toLocaleString("ru-RU", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
+      total: grandTotal,
+      items: CardItems.map((item) => ({
+        id: item.id,
+        title: item.title,
+        quantity: state?.quantities?.[item.id] ?? 1,
+      })),
+    }
+    try {
+      const existingRaw = localStorage.getItem("profileOrders")
+      const existing: ProfileOrder[] = existingRaw ? JSON.parse(existingRaw) : []
+      localStorage.setItem("profileOrders", JSON.stringify([order, ...existing]))
+    } catch {
+      // ignore storage issues; user still gets order confirmation
+    }
+
     // Mock order number (no backend yet) - just for a nice confirmation window.
-    const number = Math.floor(100000 + Math.random() * 900000).toString()
+    const number = order.id
     setOrderNumber(number)
     setOrderSuccessOpen(true)
   }

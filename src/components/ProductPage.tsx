@@ -9,13 +9,16 @@ import {
 import { productService } from "@/services/api"
 import { useQuery } from "@tanstack/react-query"
 import { useNavigate, useParams } from "react-router-dom"
-import { useState } from "react"
-import { Heart, Gift } from "lucide-react"
+import { useEffect, useMemo, useState } from "react"
+import { Heart, Gift, Star } from "lucide-react"
 import { useCards } from "@/context/CardsContext"
 import { useLikes } from "@/context/LikesContext"
 import ProductSwiper from "./ProductSwiper"
 import type { ProductCardProps } from "./type"
 import { getProductDetails, type ProductReview } from "../data/productDetails"
+import MiniProductCard from "@/components/MiniProductCard"
+import { Swiper, SwiperSlide } from "swiper/react"
+import { Navigation } from "swiper/modules"
 
 
 const ProductPage = () => {
@@ -25,6 +28,9 @@ const ProductPage = () => {
     const [rentPeriod, setRentPeriod] = useState<"week" | "month">("week")
     const [quantity, setQuantity] = useState(1)
     const [detailsTab, setDetailsTab] = useState<"desc" | "reviews">("desc")
+    const [reviews, setReviews] = useState<ProductReview[]>([])
+    const [myRating, setMyRating] = useState<ProductReview["rating"] | 0>(0)
+    const [myText, setMyText] = useState("")
 
     const { toggleCard, isCard } = useCards()
     const { toggleLike, isLiked } = useLikes()
@@ -35,8 +41,28 @@ const ProductPage = () => {
         enabled: !isNaN(productId)
     })
 
+    const { data: allProducts = [] } = useQuery({
+        queryKey: ["products"],
+        queryFn: () => productService.getAllProducts(),
+    })
+
+    useEffect(() => {
+        if (!product) return
+        const pid = Number(product.id)
+        if (Number.isNaN(pid)) return
+        setReviews(getProductDetails(pid).reviews)
+        setMyRating(0)
+        setMyText("")
+    }, [product?.id])
+
     const isInCart = product ? isCard(Number(product.id)) : false
     const liked = product ? isLiked(Number(product.id)) : false
+
+    const similar = useMemo(() => {
+        if (!product) return []
+        const currentId = Number(product.id)
+        return allProducts.filter((p) => Number(p.id) !== currentId).slice(0, 12)
+    }, [allProducts, product?.id])
 
     const handleAddToCart = () => {
         if (product) {
@@ -89,6 +115,35 @@ const ProductPage = () => {
 
     const formatPrice = (price: string) => price
 
+    const handleSubmitReview = () => {
+        if (!product) return
+        const pid = Number(product.id)
+        if (Number.isNaN(pid)) return
+
+        const trimmed = myText.trim()
+        if (myRating === 0) return
+        if (!trimmed) return
+
+        const now = new Date()
+        const date = now.toLocaleDateString("ru-RU", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+        })
+
+        const newReview: ProductReview = {
+            id: `user-${pid}-${Date.now()}`,
+            author: "Мой отзыв",
+            rating: myRating as ProductReview["rating"],
+            text: trimmed,
+            date,
+        }
+
+        setReviews((prev) => [...prev, newReview])
+        setMyRating(0)
+        setMyText("")
+    }
+
     if (isLoading) {
         return (
             <div className="mt-2">
@@ -110,8 +165,9 @@ const ProductPage = () => {
     }
 
     const details = getProductDetails(Number(product.id))
+    const displayedReviews = reviews.length > 0 ? reviews : details.reviews
 
-   
+
 
     return (
         <div className="mt-2">
@@ -134,7 +190,11 @@ const ProductPage = () => {
                 <div className="flex-1">
                     <ProductSwiper
                         thumbnail={product.thumbnail || product.img}
-                        images={product.pictures && product.pictures.length > 0 ? product.pictures : [product.thumbnail || product.img]}
+                        images={
+                            product.pictures && product.pictures.length > 0
+                                ? product.pictures
+                                : [product.thumbnail || product.img]
+                        }
                     />
                 </div>
 
@@ -158,34 +218,32 @@ const ProductPage = () => {
                     <h1 className="text-2xl font-semibold text-gray-950 leading-tight mb-8">
                         {product.title}
                     </h1>
-                    
+
                     <div className="mb-8">
                         <span className="block text-sm text-gray-700 font-medium mb-3">Срок аренды:</span>
                         <div className="flex gap-3">
                             <button
                                 onClick={() => setRentPeriod('week')}
-                                className={`px-6 py-2.5 rounded-lg text-sm font-medium transition ${
-                                    rentPeriod === 'week'
+                                className={`px-6 py-2.5 rounded-lg text-sm font-medium transition ${rentPeriod === 'week'
                                         ? 'bg-[#3b3b3b] text-white shadow-md'
                                         : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
-                                }`}
+                                    }`}
                             >
                                 Неделя
                             </button>
                             <button
                                 onClick={() => setRentPeriod('month')}
-                                className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium transition ${
-                                    rentPeriod === 'month'
+                                className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium transition ${rentPeriod === 'month'
                                         ? 'bg-[#3b3b3b] text-white shadow-md'
                                         : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
-                                }`}
+                                    }`}
                             >
                                 Месяц
                                 <Gift size={16} className="text-green-500" />
                             </button>
                         </div>
                     </div>
-                    
+
                     <div className="mb-8">
                         <span className="block text-sm text-gray-700 font-medium mb-3">Количество:</span>
                         <div className="inline-flex items-center gap-1 bg-gray-100 rounded-full px-3 py-1.5">
@@ -218,11 +276,10 @@ const ProductPage = () => {
                     <div className="flex flex-col sm:flex-row gap-3 mt-4">
                         <button
                             onClick={handleAddToCart}
-                            className={`flex-1 h-11 rounded-xl border text-sm font-semibold transition ${
-                                isInCart
+                            className={`flex-1 h-11 rounded-xl border text-sm font-semibold transition ${isInCart
                                     ? 'border-[#00D414] bg-[#00D414]/10 text-[#00A90F]'
                                     : 'border-[#00D414] text-gray-900 bg-white hover:bg-[#00D414]/5'
-                            }`}
+                                }`}
                         >
                             {isInCart ? 'В КОРЗИНЕ' : 'В КОРЗИНУ'}
                         </button>
@@ -242,24 +299,22 @@ const ProductPage = () => {
                     <button
                         type="button"
                         onClick={() => setDetailsTab("desc")}
-                        className={`pb-3 text-sm font-medium transition-colors ${
-                            detailsTab === "desc"
+                        className={`pb-3 text-sm font-medium transition-colors ${detailsTab === "desc"
                                 ? "text-[#00A90F] border-b-2 border-[#00D414]"
                                 : "text-gray-500 hover:text-gray-700"
-                        }`}
+                            }`}
                     >
                         Описание товара
                     </button>
                     <button
                         type="button"
                         onClick={() => setDetailsTab("reviews")}
-                        className={`pb-3 text-sm font-medium transition-colors ${
-                            detailsTab === "reviews"
+                        className={`pb-3 text-sm font-medium transition-colors ${detailsTab === "reviews"
                                 ? "text-[#00A90F] border-b-2 border-[#00D414]"
                                 : "text-gray-500 hover:text-gray-700"
-                        }`}
+                            }`}
                     >
-                        Отзывы ({details.reviews.length})
+                        Отзывы ({displayedReviews.length})
                     </button>
                 </div>
 
@@ -269,27 +324,120 @@ const ProductPage = () => {
                             {details.description}
                         </p>
                     ) : (
-                        <div className="space-y-4">
-                            {details.reviews.map((r: ProductReview) => (
-                                <div key={r.id} className="rounded-xl border border-gray-200 p-4">
-                                    <div className="flex items-center justify-between gap-4">
-                                        <div>
-                                            <div className="text-sm font-semibold text-gray-900">
-                                                {r.author}
+                        <div className="space-y-6">
+                            <div className="divide-y divide-gray-200">
+                                {displayedReviews.map((r: ProductReview) => (
+                                    <div key={r.id} className="py-5">
+                                        <div className="flex items-start justify-between gap-4">
+                                            <div className="flex-1">
+                                                <div className="text-sm font-semibold text-gray-900">
+                                                    {r.author}
+                                                </div>
+                                                <div className="mt-3 flex items-center gap-2">
+                                                    <div className="flex items-center gap-1">
+                                                        {Array.from({ length: 5 }).map((_, i) => {
+                                                            const current = i + 1
+                                                            const filled = current <= r.rating
+                                                            return (
+                                                                <Star
+                                                                    key={i}
+                                                                    className="h-4 w-4"
+                                                                    fill={filled ? "#F59E0B" : "none"}
+                                                                    stroke={filled ? "#F59E0B" : "#CBD5E1"}
+                                                                />
+                                                            )
+                                                        })}
+                                                    </div>
+                                                    <div className="text-xs text-gray-500">{r.date}</div>
+                                                </div>
+                                                <div className="mt-3 text-sm text-gray-600">
+                                                    {r.text}
+                                                </div>
                                             </div>
-                                            <div className="text-xs text-gray-500">{r.date}</div>
-                                        </div>
-                                        <div className="text-xs text-gray-500">
-                                            {r.rating}/5
                                         </div>
                                     </div>
-                                    <div className="mt-3 text-sm text-gray-700">{r.text}</div>
+                                ))}
+                            </div>
+
+                            <div className="pt-2">
+                                <div className="text-base font-semibold text-gray-900">Мой отзыв</div>
+
+                                <div className="mt-5">
+                                    <div className="text-sm text-gray-500 font-medium">Общая оценка</div>
+                                    <div className="mt-3 flex items-center gap-1">
+                                        {Array.from({ length: 5 }).map((_, i) => {
+                                            const current = i + 1
+                                            const filled = current <= myRating
+                                            return (
+                                                <button
+                                                    key={i}
+                                                    type="button"
+                                                    onClick={() => setMyRating(current as ProductReview["rating"])}
+                                                    className="rounded-full"
+                                                    aria-label={`rate ${current}`}
+                                                >
+                                                    <Star
+                                                        className="h-5 w-5"
+                                                        fill={filled ? "#F59E0B" : "none"}
+                                                        stroke={filled ? "#F59E0B" : "#CBD5E1"}
+                                                    />
+                                                </button>
+                                            )
+                                        })}
+                                    </div>
                                 </div>
-                            ))}
+
+                                <textarea
+                                    value={myText}
+                                    onChange={(e) => setMyText(e.target.value)}
+                                    placeholder="Напишите отзыв"
+                                    className="mt-5 w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#00D414]"
+                                    rows={4}
+                                />
+
+                                <button
+                                    type="button"
+                                    onClick={handleSubmitReview}
+                                    disabled={myRating === 0 || myText.trim().length === 0}
+                                    className="mt-5 w-full rounded-xl bg-[#3b3b3b] py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
+                                >
+                                    Отправить
+                                </button>
+                            </div>
                         </div>
                     )}
                 </div>
             </div>
+            {similar.length > 0 && (
+                <div className="mt-10">
+                    <h2 className="text-2xl font-semibold text-gray-900">Похожие товары</h2>
+                    <div className="mt-6">
+                        <Swiper
+                            modules={[Navigation]}
+                            navigation
+                            spaceBetween={16}
+                            slidesPerView={2}
+                            breakpoints={{
+                                640: { slidesPerView: 3 },
+                                1024: { slidesPerView: 5 },
+                            }}
+                        >
+                            {similar.map((p) => (
+                                <SwiperSlide key={p.id}>
+                                    <MiniProductCard
+                                        product={p}
+                                        imageSrc={
+                                            (p.pictures && p.pictures.length > 0
+                                                ? p.pictures[0]
+                                                : p.thumbnail || p.img)
+                                        }
+                                    />
+                                </SwiperSlide>
+                            ))}
+                        </Swiper>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
