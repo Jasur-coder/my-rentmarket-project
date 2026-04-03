@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import { productService } from "@/services/api"
 import { useQuery } from "@tanstack/react-query"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useState } from "react"
 import { Heart, Gift } from "lucide-react"
 import { useCards } from "@/context/CardsContext"
@@ -21,6 +21,7 @@ import { getProductDetails, type ProductReview } from "../data/productDetails"
 const ProductPage = () => {
     const { id } = useParams<{ id: string }>()
     const productId = parseInt(id || '0', 10)
+    const navigate = useNavigate()
     const [rentPeriod, setRentPeriod] = useState<"week" | "month">("week")
     const [quantity, setQuantity] = useState(1)
     const [detailsTab, setDetailsTab] = useState<"desc" | "reviews">("desc")
@@ -41,6 +42,35 @@ const ProductPage = () => {
         if (product) {
             toggleCard(product as ProductCardProps)
         }
+    }
+
+    const parsePrice = (value: string) => {
+        const numeric = value.replace(/[^\d]/g, "")
+        return numeric ? Number(numeric) : 0
+    }
+
+    const handleBuyNow = () => {
+        if (!product) return
+
+        // Ensure the item is present in the cart.
+        // `toggleCard` removes the item if it's already there, so we guard with `isInCart`.
+        const item = product as ProductCardProps
+        if (!isInCart) {
+            toggleCard(item)
+        }
+
+        const totalPrice = parsePrice(item.price) * quantity
+        const totalOldPrice = parsePrice(item.deposit) * quantity
+
+        navigate("/checkout", {
+            state: {
+                totalPrice,
+                totalOldPrice,
+                totalSaving: Math.max(0, totalOldPrice - totalPrice),
+                itemCount: 1,
+                quantities: { [item.id]: quantity },
+            },
+        })
     }
 
     const handleLike = () => {
@@ -102,11 +132,11 @@ const ProductPage = () => {
             </Breadcrumb>
             <div className="mt-5 flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
                 <div className="flex-1">
-                    {/* <ProductSwiper
+                    <ProductSwiper
                         thumbnail={product.thumbnail || product.img}
                         images={product.pictures && product.pictures.length > 0 ? product.pictures : [product.thumbnail || product.img]}
                     />
-                </div> */}
+                </div>
 
                 <div className="w-full lg:w-[420px] bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 self-start">
                     <div className="flex justify-between items-start mb-4">
@@ -198,6 +228,8 @@ const ProductPage = () => {
                         </button>
                         <button
                             className="flex-1 h-11 rounded-xl border border-gray-300 bg-white text-sm font-semibold text-gray-900 hover:bg-gray-50 transition"
+                            type="button"
+                            onClick={handleBuyNow}
                         >
                             КУПИТЬ СЕЙЧАС
                         </button>

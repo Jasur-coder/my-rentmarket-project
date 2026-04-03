@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import {
     AlertDialog,
     AlertDialogCancel,
@@ -17,6 +18,7 @@ interface CardModalProps {
 }
 
 const CardModal = ({ open, onOpenChange }: CardModalProps) => {
+    const navigate = useNavigate()
     const { CardItems, toggleCard } = useCards()
 
     const [quantities, setQuantities] = useState<Record<number, number>>({})
@@ -232,8 +234,30 @@ const CardModal = ({ open, onOpenChange }: CardModalProps) => {
                                     </div>
                                 )}
                             </div>
-                            <Button className="mt-4 h-11 w-full rounded-xl bg-[#1F1F1F] text-base font-medium text-white hover:bg-[#00D414]">
-                                Перейти к оформлению
+                            <Button
+                                type="button"
+                                disabled={selectedItems.length === 0}
+                                className="mt-4 h-11 w-full rounded-xl bg-[#1F1F1F] text-base font-medium text-white hover:bg-[#00D414] disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-500 disabled:hover:bg-gray-200"
+                                onClick={() => {
+                                    if (selectedItems.length === 0) return
+                                    onOpenChange(false)
+                                    navigate("/checkout", {
+                                        state: {
+                                            totalPrice,
+                                            totalOldPrice,
+                                            totalSaving,
+                                            itemCount: selectedItems.length,
+                                            quantities: Object.fromEntries(
+                                                selectedItems.map((i) => [
+                                                    i.id,
+                                                    quantities[i.id] ?? 1,
+                                                ])
+                                            ),
+                                        },
+                                    })
+                                }}
+                            >
+                                Перейти к оформлению заказа
                             </Button>
                         </div>
                     </div>

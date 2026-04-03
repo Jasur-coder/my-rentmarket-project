@@ -9,6 +9,7 @@ import { LikesProvider } from "./context/LikesContext";
 import { CardsProvider } from "./context/CardsContext";
 import NotFound from "./pages/NotFound";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ToOrder from "./components/ToOrder";
 
 
 function App() {
@@ -39,13 +40,17 @@ function App() {
           element: <Business />,
         },
         {
-          path: "*",
-          element: <NotFound />,
+          path: "/checkout",
+          element: <ToOrder />,
         },
         {
           path: "/product/:id",
           element: <Apply />,
-        }
+        },
+        {
+          path: "*",
+          element: <NotFound />,
+        },
       ],
     },
   ]);
