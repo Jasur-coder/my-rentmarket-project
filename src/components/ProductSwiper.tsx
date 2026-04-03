@@ -10,6 +10,7 @@ interface ProductSwiperPropsI {
 
 const ProductSwiper = ({ thumbnail, images }: ProductSwiperPropsI) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
+  const slides = images.length > 0 ? images : [thumbnail];
 
   return (
     <div className="mt-10">
@@ -20,17 +21,11 @@ const ProductSwiper = ({ thumbnail, images }: ProductSwiperPropsI) => {
         modules={[FreeMode, Thumbs]}
         className="mySwiper2"
       >
-        {images && images.length > 0 ? (
-          images.map((img, index) => (
-            <SwiperSlide key={index}>
-              <img src={img} />
-            </SwiperSlide>
-          ))
-        ) : (
-          <SwiperSlide>
-            <img src={thumbnail} />
+        {slides.map((img, index) => (
+          <SwiperSlide key={index}>
+            <img src={img} />
           </SwiperSlide>
-        )}
+        ))}
       </Swiper>
       <Swiper
         onSwiper={setThumbsSwiper}
@@ -42,17 +37,11 @@ const ProductSwiper = ({ thumbnail, images }: ProductSwiperPropsI) => {
         modules={[FreeMode, Thumbs]}
         className="mySwiper mt-5"
       >
-        {images && images.length > 0 ? (
-          images.map((img, index) => (
-            <SwiperSlide key={index}>
-              <img src={img} />
-            </SwiperSlide>
-          ))
-        ) : (
-          <SwiperSlide>
-            <img src={images[0]} />
+        {slides.map((img, index) => (
+          <SwiperSlide key={index}>
+            <img src={img} />
           </SwiperSlide>
-        )}
+        ))}
       </Swiper>
     </div>
   );

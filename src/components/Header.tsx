@@ -16,9 +16,19 @@ const Header = () => {
     const { CardItems } = useCards()
 
     const handleIconClick = (id: number) => {
-        if (id === 1) setLikeOpen(true)
-        if (id === 0) setCardOpen(true)
-        if (id === 2) navigate("/profile")
+        switch (id) {
+            case 1:
+                setLikeOpen(true)
+                break
+            case 0:
+                setCardOpen(true)
+                break
+            case 2:
+                navigate("/profile")
+                break
+            default:
+                break
+        }
     }
 
     return (
@@ -63,6 +73,7 @@ const Header = () => {
                                         <button
                                             key={el.id}
                                             className="relative cursor-pointer"
+                                            type="button"
                                             onClick={() => handleIconClick(el.id)}
                                         >
                                             <Heart />
@@ -75,7 +86,7 @@ const Header = () => {
                                     )
                                 }
                                 return (
-                                    <button key={el.id} className="relative cursor-pointer" onClick={() => handleIconClick(el.id)}>
+                                    <button key={el.id} className="relative cursor-pointer" type="button" onClick={() => handleIconClick(el.id)}>
                                         <Icon />
                                         {el.id === 0 && CardItems.length > 0 && (
                                             <span className="absolute -top-2 -right-2 min-w-[1.1rem] h-[1.1rem] flex items-center justify-center bg-green-500 text-white text-[0.6rem] font-bold rounded-full px-[0.2rem] leading-none">

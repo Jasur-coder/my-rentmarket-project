@@ -20,14 +20,44 @@ import MiniProductCard from "@/components/MiniProductCard"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation } from "swiper/modules"
 
+type RentPeriod = "week" | "month"
+type DetailsTab = "desc" | "reviews"
+
+const parsePrice = (value: string) => {
+    const numeric = value.replace(/[^\d]/g, "")
+    return numeric ? Number(numeric) : 0
+}
+
+const getProductImages = (product: ProductCardProps) =>
+    product.pictures && product.pictures.length > 0
+        ? product.pictures
+        : [product.thumbnail || product.img]
+
+const RatingStars = ({ rating, size = 4 }: { rating: number; size?: 4 | 5 }) => (
+    <div className="flex items-center gap-1">
+        {Array.from({ length: 5 }).map((_, i) => {
+            const current = i + 1
+            const filled = current <= rating
+            return (
+                <Star
+                    key={i}
+                    className={size === 5 ? "h-5 w-5" : "h-4 w-4"}
+                    fill={filled ? "#F59E0B" : "none"}
+                    stroke={filled ? "#F59E0B" : "#CBD5E1"}
+                />
+            )
+        })}
+    </div>
+)
+
 
 const ProductPage = () => {
     const { id } = useParams<{ id: string }>()
     const productId = parseInt(id || '0', 10)
     const navigate = useNavigate()
-    const [rentPeriod, setRentPeriod] = useState<"week" | "month">("week")
+    const [rentPeriod, setRentPeriod] = useState<RentPeriod>("week")
     const [quantity, setQuantity] = useState(1)
-    const [detailsTab, setDetailsTab] = useState<"desc" | "reviews">("desc")
+    const [detailsTab, setDetailsTab] = useState<DetailsTab>("desc")
     const [reviews, setReviews] = useState<ProductReview[]>([])
     const [myRating, setMyRating] = useState<ProductReview["rating"] | 0>(0)
     const [myText, setMyText] = useState("")
@@ -70,11 +100,6 @@ const ProductPage = () => {
         }
     }
 
-    const parsePrice = (value: string) => {
-        const numeric = value.replace(/[^\d]/g, "")
-        return numeric ? Number(numeric) : 0
-    }
-
     const handleBuyNow = () => {
         if (!product) return
 
@@ -112,8 +137,6 @@ const ProductPage = () => {
     const handleIncrement = () => {
         setQuantity(prev => prev + 1)
     }
-
-    const formatPrice = (price: string) => price
 
     const handleSubmitReview = () => {
         if (!product) return
@@ -190,11 +213,7 @@ const ProductPage = () => {
                 <div className="flex-1">
                     <ProductSwiper
                         thumbnail={product.thumbnail || product.img}
-                        images={
-                            product.pictures && product.pictures.length > 0
-                                ? product.pictures
-                                : [product.thumbnail || product.img]
-                        }
+                        images={getProductImages(product as ProductCardProps)}
                     />
                 </div>
 
@@ -269,7 +288,7 @@ const ProductPage = () => {
                     <div className="mb-8">
                         <span className="block text-sm text-gray-700 font-medium mb-2">Цена:</span>
                         <p className="text-2xl font-semibold text-gray-950">
-                            {formatPrice(product.price)}
+                            {product.price}
                         </p>
                     </div>
 
@@ -334,20 +353,7 @@ const ProductPage = () => {
                                                     {r.author}
                                                 </div>
                                                 <div className="mt-3 flex items-center gap-2">
-                                                    <div className="flex items-center gap-1">
-                                                        {Array.from({ length: 5 }).map((_, i) => {
-                                                            const current = i + 1
-                                                            const filled = current <= r.rating
-                                                            return (
-                                                                <Star
-                                                                    key={i}
-                                                                    className="h-4 w-4"
-                                                                    fill={filled ? "#F59E0B" : "none"}
-                                                                    stroke={filled ? "#F59E0B" : "#CBD5E1"}
-                                                                />
-                                                            )
-                                                        })}
-                                                    </div>
+                                                    <RatingStars rating={r.rating} />
                                                     <div className="text-xs text-gray-500">{r.date}</div>
                                                 </div>
                                                 <div className="mt-3 text-sm text-gray-600">
@@ -376,11 +382,7 @@ const ProductPage = () => {
                                                     className="rounded-full"
                                                     aria-label={`rate ${current}`}
                                                 >
-                                                    <Star
-                                                        className="h-5 w-5"
-                                                        fill={filled ? "#F59E0B" : "none"}
-                                                        stroke={filled ? "#F59E0B" : "#CBD5E1"}
-                                                    />
+                                                    <Star className="h-5 w-5" fill={filled ? "#F59E0B" : "none"} stroke={filled ? "#F59E0B" : "#CBD5E1"} />
                                                 </button>
                                             )
                                         })}
@@ -427,9 +429,7 @@ const ProductPage = () => {
                                     <MiniProductCard
                                         product={p}
                                         imageSrc={
-                                            (p.pictures && p.pictures.length > 0
-                                                ? p.pictures[0]
-                                                : p.thumbnail || p.img)
+                                            getProductImages(p as ProductCardProps)[0]
                                         }
                                     />
                                 </SwiperSlide>

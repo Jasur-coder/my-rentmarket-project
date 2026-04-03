@@ -54,6 +54,21 @@ type OrdersByAccount = Record<string, StoredOrder[]>
 
 const normalizeAccountKey = (email: string) =>
   email.trim().length > 0 ? email.trim().toLowerCase() : "guest"
+const createEmptySetupForm = () => ({
+  firstName: "",
+  lastName: "",
+  phone: "",
+  email: "",
+})
+
+const parseStoredJson = <T,>(key: string, fallback: T): T => {
+  try {
+    const raw = localStorage.getItem(key)
+    return raw ? (JSON.parse(raw) as T) : fallback
+  } catch {
+    return fallback
+  }
+}
 
 const defaultAccount: ProfileAccount = {
   firstName: "",
@@ -77,76 +92,62 @@ const defaultAddress: ProfileAddress = {
   email: "",
 }
 
+const toProfileAccount = (parsed: Partial<ProfileAccount>): ProfileAccount => ({
+  firstName: parsed.firstName ?? "",
+  lastName: parsed.lastName ?? "",
+  displayName: parsed.displayName ?? "",
+  email: parsed.email ?? "",
+  phone: parsed.phone ?? "",
+})
+
+const toProfileAddress = (parsed: Partial<ProfileAddress>): ProfileAddress => ({
+  firstName: parsed.firstName ?? "",
+  lastName: parsed.lastName ?? "",
+  company: parsed.company ?? "",
+  country: parsed.country ?? "Узбекистан",
+  street: parsed.street ?? "",
+  unit: parsed.unit ?? "",
+  city: parsed.city ?? "",
+  region: parsed.region ?? "",
+  postalCode: parsed.postalCode ?? "",
+  phone: parsed.phone ?? "",
+  email: parsed.email ?? "",
+})
+
 const MyProfile = () => {
   const [activeTab, setActiveTab] = useState<Tab>("profile")
   const [addressEdit, setAddressEdit] = useState(false)
   const [account, setAccount] = useState<ProfileAccount>(defaultAccount)
   const [address, setAddress] = useState<ProfileAddress>(defaultAddress)
   const [orders, setOrders] = useState<StoredOrder[]>([])
-  const [setupForm, setSetupForm] = useState({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    email: "",
-  })
+  const [setupForm, setSetupForm] = useState(createEmptySetupForm)
+
+  const updateAccountField = <K extends keyof ProfileAccount>(key: K, value: ProfileAccount[K]) =>
+    setAccount((prev) => ({ ...prev, [key]: value }))
+
+  const updateAddressField = <K extends keyof ProfileAddress>(key: K, value: ProfileAddress[K]) =>
+    setAddress((prev) => ({ ...prev, [key]: value }))
+
+  const updateSetupField = <K extends keyof typeof setupForm>(key: K, value: string) =>
+    setSetupForm((prev) => ({ ...prev, [key]: value }))
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(ACCOUNT_KEY)
-      if (raw) {
-        const parsed = JSON.parse(raw) as Partial<ProfileAccount>
-        setAccount({
-          firstName: parsed.firstName ?? "",
-          lastName: parsed.lastName ?? "",
-          displayName: parsed.displayName ?? "",
-          email: parsed.email ?? "",
-          phone: parsed.phone ?? "",
-        })
-      }
-    } catch {
-      setAccount(defaultAccount)
-    }
-
-    try {
-      const rawAddress = localStorage.getItem(ADDRESS_KEY)
-      if (rawAddress) {
-        const parsed = JSON.parse(rawAddress) as Partial<ProfileAddress>
-        setAddress({
-          firstName: parsed.firstName ?? "",
-          lastName: parsed.lastName ?? "",
-          company: parsed.company ?? "",
-          country: parsed.country ?? "Узбекистан",
-          street: parsed.street ?? "",
-          unit: parsed.unit ?? "",
-          city: parsed.city ?? "",
-          region: parsed.region ?? "",
-          postalCode: parsed.postalCode ?? "",
-          phone: parsed.phone ?? "",
-          email: parsed.email ?? "",
-        })
-      }
-    } catch {
-      setAddress(defaultAddress)
-    }
+    const parsedAccount = parseStoredJson<Partial<ProfileAccount> | null>(ACCOUNT_KEY, null)
+    const parsedAddress = parseStoredJson<Partial<ProfileAddress> | null>(ADDRESS_KEY, null)
+    setAccount(parsedAccount ? toProfileAccount(parsedAccount) : defaultAccount)
+    setAddress(parsedAddress ? toProfileAddress(parsedAddress) : defaultAddress)
   }, [])
 
   useEffect(() => {
     const accountKey = normalizeAccountKey(account.email)
-    try {
-      const rawOrders = localStorage.getItem(ORDERS_KEY)
-      const parsed: OrdersByAccount = rawOrders ? JSON.parse(rawOrders) : {}
-
-      // Backward compatibility for old single-list key.
-      if (!rawOrders) {
-        const legacyRaw = localStorage.getItem(LEGACY_ORDERS_KEY)
-        const legacyOrders: StoredOrder[] = legacyRaw ? JSON.parse(legacyRaw) : []
-        setOrders(legacyOrders)
-      } else {
-        setOrders(parsed[accountKey] ?? [])
-      }
-    } catch {
-      setOrders([])
+    const scopedOrders = parseStoredJson<OrdersByAccount>(ORDERS_KEY, {})
+    if (Object.keys(scopedOrders).length > 0) {
+      setOrders(scopedOrders[accountKey] ?? [])
+      return
     }
+    // Backward compatibility for old single-list key.
+    const legacyOrders = parseStoredJson<StoredOrder[]>(LEGACY_ORDERS_KEY, [])
+    setOrders(legacyOrders)
   }, [account.email])
 
   const hasAccount = useMemo(
@@ -156,6 +157,10 @@ const MyProfile = () => {
       account.phone.trim().length > 0 &&
       account.email.trim().length > 0,
     [account]
+  )
+  const fullName = useMemo(
+    () => `${account.firstName || ""} ${account.lastName || ""}`.trim(),
+    [account.firstName, account.lastName]
   )
 
   const saveAccount = () => {
@@ -206,12 +211,7 @@ const MyProfile = () => {
     localStorage.removeItem(ADDRESS_KEY)
     setAccount(defaultAccount)
     setAddress(defaultAddress)
-    setSetupForm({
-      firstName: "",
-      lastName: "",
-      phone: "",
-      email: "",
-    })
+    setSetupForm(createEmptySetupForm())
     setActiveTab("profile")
     setAddressEdit(false)
   }
@@ -234,22 +234,22 @@ const MyProfile = () => {
               <EditableField
                 label="Имя*"
                 value={setupForm.firstName}
-                onChange={(v) => setSetupForm((prev) => ({ ...prev, firstName: v }))}
+                onChange={(v) => updateSetupField("firstName", v)}
               />
               <EditableField
                 label="Фамилия*"
                 value={setupForm.lastName}
-                onChange={(v) => setSetupForm((prev) => ({ ...prev, lastName: v }))}
+                onChange={(v) => updateSetupField("lastName", v)}
               />
               <EditableField
                 label="Телефон*"
                 value={setupForm.phone}
-                onChange={(v) => setSetupForm((prev) => ({ ...prev, phone: v }))}
+                onChange={(v) => updateSetupField("phone", v)}
               />
               <EditableField
                 label="Email*"
                 value={setupForm.email}
-                onChange={(v) => setSetupForm((prev) => ({ ...prev, email: v }))}
+                onChange={(v) => updateSetupField("email", v)}
               />
             </div>
 
@@ -276,9 +276,7 @@ const MyProfile = () => {
               </div>
               <div>
                 <div className="text-[26px] font-semibold text-[#2f2f2f]">
-                  {hasAccount
-                    ? `${account.firstName || ""} ${account.lastName || ""}`.trim()
-                    : "Нет аккаунта"}
+                  {hasAccount ? fullName : "Нет аккаунта"}
                 </div>
                 <div className="text-[20px] text-[#707070]">
                   {account.displayName || "Добавьте данные профиля"}
@@ -328,27 +326,27 @@ const MyProfile = () => {
               <EditableField
                 label="Имя*"
                 value={account.firstName}
-                onChange={(v) => setAccount((prev) => ({ ...prev, firstName: v }))}
+                onChange={(v) => updateAccountField("firstName", v)}
               />
               <EditableField
                 label="Фамиля*"
                 value={account.lastName}
-                onChange={(v) => setAccount((prev) => ({ ...prev, lastName: v }))}
+                onChange={(v) => updateAccountField("lastName", v)}
               />
               <EditableField
                 label="Отображаемое имя*"
                 value={account.displayName}
-                onChange={(v) => setAccount((prev) => ({ ...prev, displayName: v }))}
+                onChange={(v) => updateAccountField("displayName", v)}
               />
               <EditableField
                 label="Почта*"
                 value={account.email}
-                onChange={(v) => setAccount((prev) => ({ ...prev, email: v }))}
+                onChange={(v) => updateAccountField("email", v)}
               />
               <EditableField
                 label="Телефон*"
                 value={account.phone}
-                onChange={(v) => setAccount((prev) => ({ ...prev, phone: v }))}
+                onChange={(v) => updateAccountField("phone", v)}
               />
               <div />
             </div>
@@ -459,58 +457,58 @@ const MyProfile = () => {
                   <EditableField
                     label="Имя*"
                     value={address.firstName}
-                    onChange={(v) => setAddress((prev) => ({ ...prev, firstName: v }))}
+                    onChange={(v) => updateAddressField("firstName", v)}
                   />
                   <EditableField
                     label="Фамиля*"
                     value={address.lastName}
-                    onChange={(v) => setAddress((prev) => ({ ...prev, lastName: v }))}
+                    onChange={(v) => updateAddressField("lastName", v)}
                   />
                   <EditableField
                     label="Название компании"
                     value={address.company}
-                    onChange={(v) => setAddress((prev) => ({ ...prev, company: v }))}
+                    onChange={(v) => updateAddressField("company", v)}
                   />
                   <EditableField
                     label="Страна / Регион*"
                     value={address.country}
-                    onChange={(v) => setAddress((prev) => ({ ...prev, country: v }))}
+                    onChange={(v) => updateAddressField("country", v)}
                   />
                   <EditableField
                     label="Адрес*"
                     value={address.street}
-                    onChange={(v) => setAddress((prev) => ({ ...prev, street: v }))}
+                    onChange={(v) => updateAddressField("street", v)}
                   />
                   <EditableField
                     label="Крыло, подъезд, этаж и т.д ( необязательно )"
                     value={address.unit}
-                    onChange={(v) => setAddress((prev) => ({ ...prev, unit: v }))}
+                    onChange={(v) => updateAddressField("unit", v)}
                   />
                   <EditableField
                     label="Населённый пункт*"
                     value={address.city}
-                    onChange={(v) => setAddress((prev) => ({ ...prev, city: v }))}
+                    onChange={(v) => updateAddressField("city", v)}
                   />
                   <EditableField
                     label="Область / Район ( необязательно )"
                     value={address.region}
-                    onChange={(v) => setAddress((prev) => ({ ...prev, region: v }))}
+                    onChange={(v) => updateAddressField("region", v)}
                   />
                   <EditableField
                     label="Почтовый индекс"
                     value={address.postalCode}
-                    onChange={(v) => setAddress((prev) => ({ ...prev, postalCode: v }))}
+                    onChange={(v) => updateAddressField("postalCode", v)}
                   />
                   <div />
                   <EditableField
                     label="Телефон*"
                     value={address.phone}
-                    onChange={(v) => setAddress((prev) => ({ ...prev, phone: v }))}
+                    onChange={(v) => updateAddressField("phone", v)}
                   />
                   <EditableField
                     label="Почта*"
                     value={address.email}
-                    onChange={(v) => setAddress((prev) => ({ ...prev, email: v }))}
+                    onChange={(v) => updateAddressField("email", v)}
                   />
                 </div>
 
