@@ -33,6 +33,21 @@ interface ProfileOrder {
   items: ProfileOrderItem[]
 }
 
+interface ProfileAccount {
+  email?: string
+}
+
+type OrdersByAccount = Record<string, ProfileOrder[]>
+
+const PROFILE_ACCOUNT_KEY = "profileAccount"
+const ORDERS_BY_ACCOUNT_KEY = "profileOrdersByAccount"
+const LEGACY_ORDERS_KEY = "profileOrders"
+
+const normalizeAccountKey = (email?: string) =>
+  email && email.trim().length > 0
+    ? email.trim().toLowerCase()
+    : "guest"
+
 const parsePrice = (value: string) => {
   const numeric = value.replace(/[^\d]/g, "")
   return numeric ? Number(numeric) : 0
@@ -126,9 +141,25 @@ const ToOrder = () => {
       })),
     }
     try {
-      const existingRaw = localStorage.getItem("profileOrders")
-      const existing: ProfileOrder[] = existingRaw ? JSON.parse(existingRaw) : []
-      localStorage.setItem("profileOrders", JSON.stringify([order, ...existing]))
+      const accountRaw = localStorage.getItem(PROFILE_ACCOUNT_KEY)
+      const account: ProfileAccount = accountRaw ? JSON.parse(accountRaw) : {}
+      const accountKey = normalizeAccountKey(account.email)
+
+      const existingRaw = localStorage.getItem(ORDERS_BY_ACCOUNT_KEY)
+      const existingByAccount: OrdersByAccount = existingRaw ? JSON.parse(existingRaw) : {}
+
+      // One-time migration path if old global orders key exists.
+      const legacyRaw = localStorage.getItem(LEGACY_ORDERS_KEY)
+      const legacyOrders: ProfileOrder[] = legacyRaw ? JSON.parse(legacyRaw) : []
+
+      const currentOrders = existingByAccount[accountKey] ?? legacyOrders
+      const nextByAccount: OrdersByAccount = {
+        ...existingByAccount,
+        [accountKey]: [order, ...currentOrders],
+      }
+
+      localStorage.setItem(ORDERS_BY_ACCOUNT_KEY, JSON.stringify(nextByAccount))
+      if (legacyRaw) localStorage.removeItem(LEGACY_ORDERS_KEY)
     } catch {
       // ignore storage issues; user still gets order confirmation
     }

@@ -47,8 +47,13 @@ interface StoredOrder {
 }
 
 const ACCOUNT_KEY = "profileAccount"
-const ORDERS_KEY = "profileOrders"
+const ORDERS_KEY = "profileOrdersByAccount"
+const LEGACY_ORDERS_KEY = "profileOrders"
 const ADDRESS_KEY = "profileAddress"
+type OrdersByAccount = Record<string, StoredOrder[]>
+
+const normalizeAccountKey = (email: string) =>
+  email.trim().length > 0 ? email.trim().toLowerCase() : "guest"
 
 const defaultAccount: ProfileAccount = {
   firstName: "",
@@ -103,14 +108,6 @@ const MyProfile = () => {
     }
 
     try {
-      const rawOrders = localStorage.getItem(ORDERS_KEY)
-      const parsedOrders: StoredOrder[] = rawOrders ? JSON.parse(rawOrders) : []
-      setOrders(parsedOrders)
-    } catch {
-      setOrders([])
-    }
-
-    try {
       const rawAddress = localStorage.getItem(ADDRESS_KEY)
       if (rawAddress) {
         const parsed = JSON.parse(rawAddress) as Partial<ProfileAddress>
@@ -132,6 +129,25 @@ const MyProfile = () => {
       setAddress(defaultAddress)
     }
   }, [])
+
+  useEffect(() => {
+    const accountKey = normalizeAccountKey(account.email)
+    try {
+      const rawOrders = localStorage.getItem(ORDERS_KEY)
+      const parsed: OrdersByAccount = rawOrders ? JSON.parse(rawOrders) : {}
+
+      // Backward compatibility for old single-list key.
+      if (!rawOrders) {
+        const legacyRaw = localStorage.getItem(LEGACY_ORDERS_KEY)
+        const legacyOrders: StoredOrder[] = legacyRaw ? JSON.parse(legacyRaw) : []
+        setOrders(legacyOrders)
+      } else {
+        setOrders(parsed[accountKey] ?? [])
+      }
+    } catch {
+      setOrders([])
+    }
+  }, [account.email])
 
   const hasAccount = useMemo(
     () =>
