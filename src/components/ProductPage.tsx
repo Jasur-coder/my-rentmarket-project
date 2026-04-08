@@ -16,9 +16,10 @@ import { useLikes } from "@/context/LikesContext"
 import ProductSwiper from "./ProductSwiper"
 import type { ProductCardProps } from "./type"
 import { getProductDetails, type ProductReview } from "../data/productDetails"
-import MiniProductCard from "@/components/MiniProductCard"
 import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation } from "swiper/modules"
+import MiniCard from "./MiniCard"
+import BlogSection from "./BlogSection"
 
 type RentPeriod = "week" | "month"
 type DetailsTab = "desc" | "reviews"
@@ -428,7 +429,7 @@ const ProductPage = () => {
                         >
                             {similar.map((p) => (
                                 <SwiperSlide key={p.id} className="swiper-slide-product">
-                                    <MiniProductCard
+                                    <MiniCard
                                         product={p}
                                         imageSrc={
                                             getProductImages(p as ProductCardProps)[0]
@@ -440,6 +441,9 @@ const ProductPage = () => {
                     </div>
                 </div>
             )}
+            <div className="mt-10">
+                <BlogSection title="Полезная информация"/>
+            </div>
         </div>
     )
 }

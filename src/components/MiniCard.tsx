@@ -5,22 +5,22 @@ import { useLikes } from "@/context/LikesContext";
 import type { ProductCardProps } from "./type";
 
 type MiniCardProps = {
-  product: ProductCardProps
-  imageSrc: string
+    product: ProductCardProps
+    imageSrc: string
 }
 
 const MiniCard = ({ product, imageSrc }: MiniCardProps) => {
 
     const { toggleLike, isLiked } = useLikes()
-      const liked = isLiked(product.id)
+    const liked = isLiked(product.id)
 
     return (
-        <div className="max-w-56 bg-transparent px-2 py-2">
-            <div className="flex items-start justify-end">
+        <div className="max-w-56 px-2 py-2 w-full mt-3">
+            <div className="bg-gray-50 rounded-4xl px-3 py-3 relative">
                 <button
                     type="button"
                     onClick={() => toggleLike(product)}
-                    className="text-gray-900 hover:text-red-500 transition-colors"
+                    className="text-gray-900 hover:text-red-500 transition-colors absolute top-3 right-3"
                     aria-label="like"
                 >
                     <Heart
@@ -29,24 +29,22 @@ const MiniCard = ({ product, imageSrc }: MiniCardProps) => {
                         stroke={liked ? "red" : "currentColor"}
                     />
                 </button>
-            </div>
-
-            <Link to={`/product/${product.id}`} className="block">
-                <div className="mt-3 flex h-28 items-center justify-center rounded-xl bg-gray-50">
-                    <img
-                        src={bicycle}
-                        alt={product.title}
-                        className="max-h-20 max-w-[90%] object-contain"
-                    />
-                </div>
-
-                <div className="mt-4">
-                    <div className="truncate text-sm font-medium text-gray-900">
-                        <h2>Lorem, ipsum dolor.</h2>
+                <Link to={`/product/${product.id}`} className="block">
+                    <div className="mt-3 h-36 flex items-center justify-center  ">
+                        <img
+                            src={imageSrc}
+                            alt={product.title}
+                            className="max-h-[200px] max-w-[90%] object-contain"
+                        />
                     </div>
-                    <div className="mt-1 text-xs text-gray-500">1000</div>
+                </Link>
+            </div>
+            <div className="mt-4">
+                <div className="truncate text-sm font-medium text-gray-900">
+                    {product.title}
                 </div>
-            </Link>
+                <div className="mt-1 text-xs text-gray-500">{product.price}</div>
+            </div>
         </div>
     )
 }

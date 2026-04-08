@@ -1,7 +1,9 @@
+import Info from "@/components/Info"
+
 const Business = () => {
     return (
-        <div>
-            <h1>Business</h1>
+        <div className="container">
+            <Info />
         </div>
     )
 }

@@ -71,7 +71,7 @@ const Home = () => {
         <Map />
         <Partners />
         <FAQComponent />
-        <BlogSection />
+        <BlogSection title="Блог" />
       </div>
     </>
   )

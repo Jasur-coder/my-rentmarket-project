@@ -6,12 +6,12 @@ import { posts } from '@/data';
 
 
 
-const BlogSection: React.FC = () => {
+const BlogSection: React.FC<{ title: string }> = ({ title }) => {
   return (
     <section className="max-w-7xl mx-auto px-4 py-12 font-sans">
       {/* Заголовок */}
       <div className="flex items-center justify-between mb-8">
-        <h2 className="text-3xl font-bold text-gray-900">Блог</h2>
+        <h2 className="text-3xl font-bold text-gray-900">{title}</h2>
         <button className="flex items-center gap-2 text-gray-900 font-medium hover:opacity-70 transition-opacity">
           Показать все
           <ArrowRight size={20} />
