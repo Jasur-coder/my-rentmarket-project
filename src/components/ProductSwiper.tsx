@@ -3,6 +3,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Thumbs } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
 
+
+
 interface ProductSwiperPropsI {
   thumbnail: string;
   images: string[];

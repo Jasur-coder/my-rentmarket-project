@@ -1,5 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/free-mode";
+@import "swiper/css/thumbs";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -191,3 +195,8 @@ body {
     object-fit: contain;
 }
 
+
+.swiper-content {
+  max-width: 1200px;
+  width: 100%;
+}

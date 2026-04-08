@@ -1,7 +1,9 @@
+import MiniCard from "@/components/MiniCard"
+
 const Company = () => {
     return (
-        <div>
-            <h1>Company</h1>
+        <div className="container">
+            <MiniCard />
         </div>
     )
 }

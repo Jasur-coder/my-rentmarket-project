@@ -244,8 +244,8 @@ const ProductPage = () => {
                             <button
                                 onClick={() => setRentPeriod('week')}
                                 className={`px-6 py-2.5 rounded-lg text-sm font-medium transition ${rentPeriod === 'week'
-                                        ? 'bg-[#3b3b3b] text-white shadow-md'
-                                        : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
+                                    ? 'bg-[#3b3b3b] text-white shadow-md'
+                                    : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
                                     }`}
                             >
                                 Неделя
@@ -253,8 +253,8 @@ const ProductPage = () => {
                             <button
                                 onClick={() => setRentPeriod('month')}
                                 className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium transition ${rentPeriod === 'month'
-                                        ? 'bg-[#3b3b3b] text-white shadow-md'
-                                        : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
+                                    ? 'bg-[#3b3b3b] text-white shadow-md'
+                                    : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
                                     }`}
                             >
                                 Месяц
@@ -296,8 +296,8 @@ const ProductPage = () => {
                         <button
                             onClick={handleAddToCart}
                             className={`flex-1 h-11 rounded-xl border text-sm font-semibold transition ${isInCart
-                                    ? 'border-[#00D414] bg-[#00D414]/10 text-[#00A90F]'
-                                    : 'border-[#00D414] text-gray-900 bg-white hover:bg-[#00D414]/5'
+                                ? 'border-[#00D414] bg-[#00D414]/10 text-[#00A90F]'
+                                : 'border-[#00D414] text-gray-900 bg-white hover:bg-[#00D414]/5'
                                 }`}
                         >
                             {isInCart ? 'В КОРЗИНЕ' : 'В КОРЗИНУ'}
@@ -319,8 +319,8 @@ const ProductPage = () => {
                         type="button"
                         onClick={() => setDetailsTab("desc")}
                         className={`pb-3 text-sm font-medium transition-colors ${detailsTab === "desc"
-                                ? "text-[#00A90F] border-b-2 border-[#00D414]"
-                                : "text-gray-500 hover:text-gray-700"
+                            ? "text-[#00A90F] border-b-2 border-[#00D414]"
+                            : "text-gray-500 hover:text-gray-700"
                             }`}
                     >
                         Описание товара
@@ -329,8 +329,8 @@ const ProductPage = () => {
                         type="button"
                         onClick={() => setDetailsTab("reviews")}
                         className={`pb-3 text-sm font-medium transition-colors ${detailsTab === "reviews"
-                                ? "text-[#00A90F] border-b-2 border-[#00D414]"
-                                : "text-gray-500 hover:text-gray-700"
+                            ? "text-[#00A90F] border-b-2 border-[#00D414]"
+                            : "text-gray-500 hover:text-gray-700"
                             }`}
                     >
                         Отзывы ({displayedReviews.length})
@@ -422,10 +422,12 @@ const ProductPage = () => {
                             breakpoints={{
                                 640: { slidesPerView: 3 },
                                 1024: { slidesPerView: 5 },
+
                             }}
+                            className="swiper-content"
                         >
                             {similar.map((p) => (
-                                <SwiperSlide key={p.id}>
+                                <SwiperSlide key={p.id} className="swiper-slide-product">
                                     <MiniProductCard
                                         product={p}
                                         imageSrc={

@@ -38,13 +38,13 @@ const MiniProductCard = ({ product, imageSrc }: MiniProductCardProps) => {
           />
         </div>
 
+      </Link>
         <div className="mt-4">
           <div className="truncate text-sm font-medium text-gray-900">
             {product.title}
           </div>
           <div className="mt-1 text-xs text-gray-500">{product.price}</div>
         </div>
-      </Link>
     </div>
   )
 }
