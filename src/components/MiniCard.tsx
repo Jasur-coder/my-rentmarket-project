@@ -1,6 +1,5 @@
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
-import bicycle from "../assets/bicycle.png"
 import { useLikes } from "@/context/LikesContext";
 import type { ProductCardProps } from "./type";
 

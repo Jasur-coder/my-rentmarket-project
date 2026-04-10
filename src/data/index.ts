@@ -28,11 +28,6 @@ export const headerLinks = [
     },
     {
         id: 2,
-        text: "О компании",
-        to: "/aboutthecompany",
-    },
-    {
-        id: 3,
         text: "Для бизнеса",
         to: "/forbusiness",
     },

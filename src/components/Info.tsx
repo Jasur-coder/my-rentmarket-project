@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Send, Facebook, Youtube } from 'lucide-react';
 import { posts } from '@/data';
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { posts } from '@/data';
+import { Link } from 'react-router-dom';
 
 
 
@@ -12,10 +13,10 @@ const BlogSection: React.FC<{ title: string }> = ({ title }) => {
       {/* Заголовок */}
       <div className="flex items-center justify-between mb-8">
         <h2 className="text-3xl font-bold text-gray-900">{title}</h2>
-        <button className="flex items-center gap-2 text-gray-900 font-medium hover:opacity-70 transition-opacity">
+        <Link to="/forbusiness" className="flex items-center gap-2 text-gray-900 font-medium hover:opacity-70 transition-opacity">
           Показать все
           <ArrowRight size={20} />
-        </button>
+        </Link>
       </div>
 
       {/* Сетка карточек */}
