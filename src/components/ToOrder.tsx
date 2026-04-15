@@ -23,6 +23,10 @@ interface ProfileOrderItem {
   id: number
   title: string
   quantity: number
+  img: string
+  price: string
+  deposit: string
+  period?: string
 }
 
 interface ProfileOrder {
@@ -34,7 +38,7 @@ interface ProfileOrder {
 }
 
 interface ProfileAccount {
-  email?: string
+  phone?: string
 }
 
 type OrdersByAccount = Record<string, ProfileOrder[]>
@@ -43,9 +47,9 @@ const PROFILE_ACCOUNT_KEY = "profileAccount"
 const ORDERS_BY_ACCOUNT_KEY = "profileOrdersByAccount"
 const LEGACY_ORDERS_KEY = "profileOrders"
 
-const normalizeAccountKey = (email?: string) =>
-  email && email.trim().length > 0
-    ? email.trim().toLowerCase()
+const normalizeAccountKey = (phone?: string) =>
+  phone && phone.trim().length > 0
+    ? phone.trim().toLowerCase()
     : "guest"
 
 const parsePrice = (value: string) => {
@@ -138,12 +142,16 @@ const ToOrder = () => {
         id: item.id,
         title: item.title,
         quantity: state?.quantities?.[item.id] ?? 1,
+        img: item.img,
+        price: item.price,
+        deposit: item.deposit,
+        period: item.period,
       })),
     }
     try {
       const accountRaw = localStorage.getItem(PROFILE_ACCOUNT_KEY)
       const account: ProfileAccount = accountRaw ? JSON.parse(accountRaw) : {}
-      const accountKey = normalizeAccountKey(account.email)
+      const accountKey = normalizeAccountKey(account.phone)
 
       const existingRaw = localStorage.getItem(ORDERS_BY_ACCOUNT_KEY)
       const existingByAccount: OrdersByAccount = existingRaw ? JSON.parse(existingRaw) : {}

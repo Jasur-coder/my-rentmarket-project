@@ -8,6 +8,7 @@ import { LikesProvider } from "./context/LikesContext";
 import { CardsProvider } from "./context/CardsContext";
 import NotFound from "./pages/NotFound";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "sonner";
 import ToOrder from "./components/ToOrder";
 import MyProfile from "./components/MyProfile";
 
@@ -60,6 +61,7 @@ function App() {
     <LikesProvider>
         <CardsProvider>
           <RouterProvider router={routes} />
+          <Toaster richColors position="top-right" />
         </CardsProvider>
       </LikesProvider>
     </QueryClientProvider>

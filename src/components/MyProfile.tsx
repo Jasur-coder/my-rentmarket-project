@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 import { CircleUserRound, CircleArrowOutUpRight, PackageX, Pencil } from "lucide-react"
+import { InputMask } from "@react-input/mask";
 
 type Tab = "profile" | "orders" | "uploads" | "address"
 
@@ -14,7 +15,6 @@ interface ProfileAccount {
   firstName: string
   lastName: string
   displayName: string
-  email: string
   phone: string
 }
 
@@ -29,13 +29,16 @@ interface ProfileAddress {
   region: string
   postalCode: string
   phone: string
-  email: string
 }
 
 interface StoredOrderItem {
   id: number
   title: string
   quantity: number
+  img?: string
+  price?: string
+  deposit?: string
+  period?: string
 }
 
 interface StoredOrder {
@@ -52,13 +55,12 @@ const LEGACY_ORDERS_KEY = "profileOrders"
 const ADDRESS_KEY = "profileAddress"
 type OrdersByAccount = Record<string, StoredOrder[]>
 
-const normalizeAccountKey = (email: string) =>
-  email.trim().length > 0 ? email.trim().toLowerCase() : "guest"
+const normalizeAccountKey = (phone: string) =>
+  phone.trim().length > 0 ? phone.trim().toLowerCase() : "guest"
 const createEmptySetupForm = () => ({
   firstName: "",
   lastName: "",
   phone: "",
-  email: "",
 })
 
 const parseStoredJson = <T,>(key: string, fallback: T): T => {
@@ -74,7 +76,6 @@ const defaultAccount: ProfileAccount = {
   firstName: "",
   lastName: "",
   displayName: "",
-  email: "",
   phone: "",
 }
 
@@ -89,14 +90,12 @@ const defaultAddress: ProfileAddress = {
   region: "",
   postalCode: "",
   phone: "",
-  email: "",
 }
 
 const toProfileAccount = (parsed: Partial<ProfileAccount>): ProfileAccount => ({
   firstName: parsed.firstName ?? "",
   lastName: parsed.lastName ?? "",
   displayName: parsed.displayName ?? "",
-  email: parsed.email ?? "",
   phone: parsed.phone ?? "",
 })
 
@@ -111,7 +110,6 @@ const toProfileAddress = (parsed: Partial<ProfileAddress>): ProfileAddress => ({
   region: parsed.region ?? "",
   postalCode: parsed.postalCode ?? "",
   phone: parsed.phone ?? "",
-  email: parsed.email ?? "",
 })
 
 const MyProfile = () => {
@@ -139,7 +137,7 @@ const MyProfile = () => {
   }, [])
 
   useEffect(() => {
-    const accountKey = normalizeAccountKey(account.email)
+    const accountKey = normalizeAccountKey(account.phone)
     const scopedOrders = parseStoredJson<OrdersByAccount>(ORDERS_KEY, {})
     if (Object.keys(scopedOrders).length > 0) {
       setOrders(scopedOrders[accountKey] ?? [])
@@ -148,14 +146,13 @@ const MyProfile = () => {
     // Backward compatibility for old single-list key.
     const legacyOrders = parseStoredJson<StoredOrder[]>(LEGACY_ORDERS_KEY, [])
     setOrders(legacyOrders)
-  }, [account.email])
+  }, [account.phone])
 
   const hasAccount = useMemo(
     () =>
       account.firstName.trim().length > 0 &&
       account.lastName.trim().length > 0 &&
-      account.phone.trim().length > 0 &&
-      account.email.trim().length > 0,
+      account.phone.trim().length > 0,
     [account]
   )
   const fullName = useMemo(
@@ -178,8 +175,7 @@ const MyProfile = () => {
   const setupValid =
     setupForm.firstName.trim().length > 0 &&
     setupForm.lastName.trim().length > 0 &&
-    setupForm.phone.trim().length > 0 &&
-    setupForm.email.trim().length > 0
+    setupForm.phone.trim().length > 0
 
   const handleCreateProfile = () => {
     if (!setupValid) return
@@ -187,7 +183,6 @@ const MyProfile = () => {
       firstName: setupForm.firstName.trim(),
       lastName: setupForm.lastName.trim(),
       phone: setupForm.phone.trim(),
-      email: setupForm.email.trim(),
       displayName: `${setupForm.firstName.trim()} ${setupForm.lastName.trim()}`.trim(),
     }
     setAccount(created)
@@ -197,7 +192,6 @@ const MyProfile = () => {
       firstName: created.firstName,
       lastName: created.lastName,
       phone: created.phone,
-      email: created.email,
     }))
   }
 
@@ -227,7 +221,7 @@ const MyProfile = () => {
               Создайте профиль
             </h2>
             <p className="mt-2 text-[20px] text-[#6a6a6a]">
-              Для первого входа заполните: имя, фамилию, телефон и email.
+              Для первого входа заполните: имя, фамилию и телефон.
             </p>
 
             <div className="mt-5 grid gap-6 md:grid-cols-2">
@@ -241,16 +235,16 @@ const MyProfile = () => {
                 value={setupForm.lastName}
                 onChange={(v) => updateSetupField("lastName", v)}
               />
-              <EditableField
-                label="Телефон*"
-                value={setupForm.phone}
-                onChange={(v) => updateSetupField("phone", v)}
-              />
-              <EditableField
-                label="Email*"
-                value={setupForm.email}
-                onChange={(v) => updateSetupField("email", v)}
-              />
+              <div>
+                <label className="mb-2 block text-[24px] font-medium text-[#555]">Телефон*</label>
+                <InputMask
+                  mask="+998 __ ___ __ __"
+                  replacement={{ _: /\d/ }}
+                  value={setupForm.phone}
+                  onChange={(e) => updateSetupField("phone", e.target.value)}
+                  className="h-14 w-full rounded-xl border border-[#d9d9d9] bg-white px-3 text-[22px] text-[#333] outline-none"
+                />
+              </div>
             </div>
 
             <div className="mt-6 flex justify-end">
@@ -339,11 +333,6 @@ const MyProfile = () => {
                 onChange={(v) => updateAccountField("displayName", v)}
               />
               <EditableField
-                label="Почта*"
-                value={account.email}
-                onChange={(v) => updateAccountField("email", v)}
-              />
-              <EditableField
                 label="Телефон*"
                 value={account.phone}
                 onChange={(v) => updateAccountField("phone", v)}
@@ -351,26 +340,7 @@ const MyProfile = () => {
               <div />
             </div>
 
-            <h2 className="mt-7 text-[28px] font-semibold text-[#3a3a3a]">Смена пароля</h2>
 
-            <div className="mt-4 grid gap-6 md:grid-cols-2">
-              <Field
-                label="Отображаемое имя*"
-                value="Действующий пароль (не заполняйте, чтобы оставить прежний)"
-                muted
-              />
-              <div />
-              <Field
-                label="Отображаемое имя*"
-                value="Действующий пароль (не заполняйте, чтобы оставить прежний)"
-                muted
-              />
-              <Field
-                label="Отображаемое имя*"
-                value="Действующий пароль (не заполняйте, чтобы оставить прежний)"
-                muted
-              />
-            </div>
 
             <div className="mt-7 border-t border-[#ddd] pt-4">
               <div className="flex justify-end">
@@ -399,17 +369,55 @@ const MyProfile = () => {
               <div className="mt-4 space-y-4">
                 {orders.map((order) => (
                   <div key={order.id} className="rounded-xl bg-[#efefef] p-5">
-                    <OrderRow
-                      label="Заказ:"
-                      value={order.items[0]?.title || `Заказ №${order.id}`}
-                      link
-                    />
-                    <OrderRow label="Статус:" value={order.status} badge={order.status === "Отменён"} />
-                    <OrderRow label="Дата:" value={order.date} />
-                    <OrderRow
-                      label="Итого:"
-                      value={`${new Intl.NumberFormat("ru-RU").format(order.total)} сум`}
-                    />
+                    <div className="mb-4">
+                      <OrderRow label="Заказ:" value={`№${order.id}`} />
+                      <OrderRow label="Статус:" value={order.status} badge={order.status === "Отменён"} />
+                      <OrderRow label="Дата:" value={order.date} />
+                      <OrderRow
+                        label="Итого:"
+                        value={`${new Intl.NumberFormat("ru-RU").format(order.total)} сум`}
+                      />
+                    </div>
+                    
+                    <div className="space-y-3 pt-3 border-t border-[#d7d7d7]">
+                      {order.items.map((item) => {
+                        const priceNum = item.price ? Number(item.price.replace(/[^\d]/g, "")) : 0
+                        const oldPriceNum = item.deposit ? Number(item.deposit.replace(/[^\d]/g, "")) : 0
+                        return (
+                          <div key={item.id} className="flex items-center justify-between rounded-2xl bg-[#F5F5F5] border border-[#d9d9d9] p-3">
+                            <div className="flex items-center gap-4">
+                              {item.img && (
+                                <img
+                                  src={item.img}
+                                  alt={item.title}
+                                  className="h-16 w-16 md:h-20 md:w-20 rounded-2xl object-cover bg-white shrink-0"
+                                />
+                              )}
+                              <div>
+                                <p className="text-lg md:text-xl font-semibold text-[#2f2f2f]">
+                                  {item.title}
+                                </p>
+                                {item.period && (
+                                  <p className="mt-1 text-sm md:text-[16px] text-[#707070]">
+                                    {item.period} · {item.quantity} шт.
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                            <div className="text-right shrink-0">
+                               <div className="text-lg md:text-xl font-semibold text-[#2f2f2f]">
+                                 {priceNum > 0 ? `${new Intl.NumberFormat("ru-RU").format(priceNum)} сум` : ""}
+                               </div>
+                               {oldPriceNum > priceNum && (
+                                 <div className="text-sm md:text-[16px] text-[#a0a0a0] line-through">
+                                   {`${new Intl.NumberFormat("ru-RU").format(oldPriceNum)} сум`}
+                                 </div>
+                               )}
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -504,11 +512,6 @@ const MyProfile = () => {
                     label="Телефон*"
                     value={address.phone}
                     onChange={(v) => updateAddressField("phone", v)}
-                  />
-                  <EditableField
-                    label="Почта*"
-                    value={address.email}
-                    onChange={(v) => updateAddressField("email", v)}
                   />
                 </div>
 

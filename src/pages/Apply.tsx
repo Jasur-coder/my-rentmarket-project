@@ -1,7 +1,7 @@
 import { baseUrl, getData } from "@/api/https";
 import ProductPage from "@/components/ProductPage";
 import type { ProductCardProps } from "@/components/type";
-import { QueryEndpoints } from "@/utils/endpoints";
+import { endpoints } from "@/utils/endpoints";
 import { QueryKeys } from "@/utils/keys";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
@@ -12,7 +12,7 @@ const Apply = () => {
 
     useQuery<ProductCardProps>({
         queryKey: [QueryKeys.products, id],
-        queryFn: () => getData(`${baseUrl}${QueryEndpoints.products}/${id}`),
+        queryFn: () => getData(`${baseUrl}${endpoints.products}/${id}`),
     });
 
     return (
