@@ -145,7 +145,11 @@ const MyProfile = () => {
     }
     // Backward compatibility for old single-list key.
     const legacyOrders = parseStoredJson<StoredOrder[]>(LEGACY_ORDERS_KEY, [])
-    setOrders(legacyOrders)
+    if (accountKey === "guest") {
+      setOrders(legacyOrders)
+    } else {
+      setOrders([])
+    }
   }, [account.phone])
 
   const hasAccount = useMemo(

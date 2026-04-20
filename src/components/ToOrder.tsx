@@ -151,7 +151,7 @@ const ToOrder = () => {
     try {
       const accountRaw = localStorage.getItem(PROFILE_ACCOUNT_KEY)
       const account: ProfileAccount = accountRaw ? JSON.parse(accountRaw) : {}
-      const accountKey = normalizeAccountKey(account.phone)
+      const accountKey = normalizeAccountKey(account.phone || phone)
 
       const existingRaw = localStorage.getItem(ORDERS_BY_ACCOUNT_KEY)
       const existingByAccount: OrdersByAccount = existingRaw ? JSON.parse(existingRaw) : {}
@@ -160,7 +160,12 @@ const ToOrder = () => {
       const legacyRaw = localStorage.getItem(LEGACY_ORDERS_KEY)
       const legacyOrders: ProfileOrder[] = legacyRaw ? JSON.parse(legacyRaw) : []
 
-      const currentOrders = existingByAccount[accountKey] ?? legacyOrders
+      // If existingByAccount is completely empty and this is a guest, it's safe to pull in legacy orders.
+      // Otherwise, a new logged-in account should start with an empty order history.
+      const currentOrders =
+        existingByAccount[accountKey] ??
+        (Object.keys(existingByAccount).length === 0 && accountKey === "guest" ? legacyOrders : [])
+
       const nextByAccount: OrdersByAccount = {
         ...existingByAccount,
         [accountKey]: [order, ...currentOrders],
