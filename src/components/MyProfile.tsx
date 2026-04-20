@@ -541,19 +541,6 @@ const MyProfile = () => {
   )
 }
 
-const Field = ({ label, value, muted = false }: { label: string; value: string; muted?: boolean }) => (
-  <div>
-    <label className="mb-2 block text-[24px] font-medium text-[#555]">{label}</label>
-    <input
-      readOnly
-      value={value}
-      className={`h-14 w-full rounded-xl border border-[#d9d9d9] bg-[#f2f2f2] px-3 text-[22px] outline-none ${
-        muted ? "text-[#b0b0b0]" : "text-[#333]"
-      }`}
-    />
-  </div>
-)
-
 const EditableField = ({
   label,
   value,
