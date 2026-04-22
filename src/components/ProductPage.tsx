@@ -20,6 +20,7 @@ import { Swiper, SwiperSlide } from "swiper/react"
 import { Navigation } from "swiper/modules"
 import MiniCard from "./MiniCard"
 import BlogSection from "./BlogSection"
+import { Skeleton } from "./ui/skeleton"
 
 type RentPeriod = "week" | "month"
 type DetailsTab = "desc" | "reviews"
@@ -170,11 +171,22 @@ const ProductPage = () => {
 
     if (isLoading) {
         return (
-            <div className="mt-2">
-                <div className="flex justify-center items-center py-20">
-                    <div className="text-gray-500">Загрузка...</div>
+            <div className="mt-14 mb-14">
+        <div className="flex justify-between items-center">
+            <div>
+                <Skeleton className="w-lg h-96" />
+                <div className="flex justify-start gap-13 items-center mt-6">
+                    <Skeleton className="w-16 h-16" />
+                    <Skeleton className="w-16 h-16" />
+                    <Skeleton className="w-16 h-16" />
                 </div>
             </div>
+            <div>
+                <Skeleton className="w-[420px] h-[500px]" />
+            </div>
+        </div>
+        <Skeleton className="w-full h-36 mt-16" />
+    </div>
         )
     }
 

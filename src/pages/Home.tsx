@@ -10,6 +10,7 @@ import Partners from "@/components/Partners"
 import FAQComponent from "@/components/FAQComponent"
 import BlogSection from "@/components/BlogSection"
 import { useQuery } from "@tanstack/react-query"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const Home = () => {
   const { data: allProducts = [], isLoading, error } = useQuery({
@@ -18,16 +19,16 @@ const Home = () => {
   })
 
   // Filter products by category
-  const bicycles = allProducts.filter(product => 
+  const bicycles = allProducts.filter(product =>
     product.title.toLowerCase().includes('велосипед')
   )
-  const sportEquipment = allProducts.filter(product => 
-    product.title.toLowerCase().includes('беговая дорожка') || 
+  const sportEquipment = allProducts.filter(product =>
+    product.title.toLowerCase().includes('беговая дорожка') ||
     product.title.toLowerCase().includes('тренажер')
   )
-  const gadgets = allProducts.filter(product => 
-    !product.title.toLowerCase().includes('велосипед') && 
-    !product.title.toLowerCase().includes('беговая дорожка') && 
+  const gadgets = allProducts.filter(product =>
+    !product.title.toLowerCase().includes('велосипед') &&
+    !product.title.toLowerCase().includes('беговая дорожка') &&
     !product.title.toLowerCase().includes('тренажер')
   )
 
@@ -36,8 +37,11 @@ const Home = () => {
       <>
         <Banner />
         <div className="container">
-          <div className="flex justify-center items-center py-20">
-            <div className="text-gray-500">Загрузка...</div>
+          <Skeleton className="w-52 h-10 mt-8" />
+          <div className="grid grid-cols-3 gap-8 mt-4 mb-20">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <Skeleton key={i} className="h-[552px] rounded-3xl" />
+            ))}
           </div>
         </div>
       </>

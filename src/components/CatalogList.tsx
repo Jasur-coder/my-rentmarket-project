@@ -3,13 +3,14 @@ import { ListFilter } from 'lucide-react';
 import ProductCard from './ProductCard';
 import { productService } from '@/services/api';
 import { useQuery } from '@tanstack/react-query';
+import { Skeleton } from './ui/skeleton';
 
 type SortOption = 'popular' | 'new' | 'cheap' | 'expensive'
 
 const SORT_LABELS: Record<SortOption, string> = {
-  popular:   'Популярные',
-  new:       'Новинки',
-  cheap:     'Сначала дешевые',
+  popular: 'Популярные',
+  new: 'Новинки',
+  cheap: 'Сначала дешевые',
   expensive: 'Сначала дорогие',
 }
 
@@ -76,12 +77,15 @@ const CatalogList: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full flex flex-col gap-4 p-4 pb-44">
-        <div className="bg-white rounded-[40px] overflow-hidden">
-          <div className="flex flex-col items-center justify-center py-8 bg-white">
-            <h1 className="text-3xl font-bold text-[#1a1a1a] mb-1">Каталог</h1>
-            <span className="text-[#6b7280] text-lg">Загрузка...</span>
-          </div>
+      <div className="container">
+        <div className="flex justify-between items-center mt-20">
+          <Skeleton className="h-12 w-28" />
+          <Skeleton className="h-12 w-36" />
+        </div>
+        <div className="grid grid-cols-3 gap-8 mt-4 mb-20">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <Skeleton key={i} className="h-[552px]" />
+          ))}
         </div>
       </div>
     )
@@ -134,9 +138,9 @@ const CatalogList: React.FC = () => {
   })
 
   const sortedItems = [...filteredItems].sort((a, b) => {
-    if (sort === 'cheap')     return parsePrice(a.price) - parsePrice(b.price)
+    if (sort === 'cheap') return parsePrice(a.price) - parsePrice(b.price)
     if (sort === 'expensive') return parsePrice(b.price) - parsePrice(a.price)
-    if (sort === 'new')       return b.id - a.id
+    if (sort === 'new') return b.id - a.id
     return 0
   })
 

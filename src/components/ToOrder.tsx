@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { CheckCircle2, MapPin, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { InputMask } from "@react-input/mask"
 
 const COURIER_FEE = 30_000
 
@@ -77,7 +78,6 @@ const ToOrder = () => {
   const [firstName, setFirstName] = useState("")
   const [lastName, setLastName] = useState("")
   const [phone, setPhone] = useState("")
-  const [telegram, setTelegram] = useState("")
   const [newsletter, setNewsletter] = useState(false)
   const [promoOpen, setPromoOpen] = useState(false)
   const [orderSuccessOpen, setOrderSuccessOpen] = useState(false)
@@ -122,8 +122,7 @@ const ToOrder = () => {
   const formValid =
     firstName.trim().length > 0 &&
     lastName.trim().length > 0 &&
-    phone.trim().length > 0 &&
-    telegram.trim().length > 0
+    phone.trim().length > 0
 
   const handlePlaceOrder = () => {
     if (!formValid) return
@@ -373,21 +372,13 @@ const ToOrder = () => {
                   <label className="text-sm font-medium text-gray-700">
                     Номер телефона<span className="text-red-500">*</span>
                   </label>
-                  <input
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 text-base outline-none focus:border-[#00D414]"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-700">
-                    Телеграмм<span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    value={telegram}
-                    onChange={(e) => setTelegram(e.target.value)}
-                    className="mt-2 w-full rounded-xl border border-gray-200 px-4 py-3 text-base outline-none focus:border-[#00D414]"
-                  />
+                  <InputMask
+                  mask="+998 __ ___ __ __"
+                  replacement={{ _: /\d/ }}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="h-14 w-full rounded-xl border border-[#d9d9d9] bg-white px-3 text-[22px] text-[#333] outline-none"
+                />
                 </div>
               </div>
               <label className="mt-6 flex cursor-pointer items-center gap-3 text-sm text-gray-700">
