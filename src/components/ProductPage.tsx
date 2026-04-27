@@ -62,6 +62,7 @@ const ProductPage = () => {
     const [detailsTab, setDetailsTab] = useState<DetailsTab>("desc")
     const [myRating, setMyRating] = useState<ProductReview["rating"] | 0>(0)
     const [myText, setMyText] = useState("")
+    const [userReviews, setUserReviews] = useState<ProductReview[]>([])
 
     const { toggleCard, isCard } = useCards()
     const { toggleLike, isLiked } = useLikes()
@@ -76,8 +77,8 @@ const ProductPage = () => {
         if (!product) return []
         const pid = Number(product.id)
         if (Number.isNaN(pid)) return []
-        return getProductDetails(pid).reviews
-    }, [product])
+        return [...getProductDetails(pid).reviews, ...userReviews]
+    }, [product, userReviews])
 
     const { data: allProducts = [] } = useQuery({
         queryKey: ["products"],
@@ -170,7 +171,7 @@ const ProductPage = () => {
             date,
         }
 
-        setReviews((prev) => [...prev, newReview])
+        setUserReviews((prev) => [...prev, newReview])
         setMyRating(0)
         setMyText("")
     }
