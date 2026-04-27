@@ -372,13 +372,18 @@ const ToOrder = () => {
                   <label className="text-sm font-medium text-gray-700">
                     Номер телефона<span className="text-red-500">*</span>
                   </label>
-                  <InputMask
-                  mask="+998 __ ___ __ __"
-                  replacement={{ _: /\d/ }}
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="h-14 w-full rounded-xl border border-[#d9d9d9] bg-white px-3 text-[22px] text-[#333] outline-none"
-                />
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className="border border-[#d9d9d9] bg-white px-3 pt-2 text-[22px] rounded-xl text-[#333] h-12 text-center">
+                      +998
+                    </span>
+                    <InputMask
+                      mask="__ ___ __ __"
+                      replacement={{ _: /\d/ }}
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      className="h-12 w-42 rounded-xl border border-[#d9d9d9] bg-white px-3 text-[22px] text-[#333] outline-none"
+                    />
+                  </div>
                 </div>
               </div>
               <label className="mt-6 flex cursor-pointer items-center gap-3 text-sm text-gray-700">

@@ -60,7 +60,6 @@ const ProductPage = () => {
     const [rentPeriod, setRentPeriod] = useState<RentPeriod>("week")
     const [quantity, setQuantity] = useState(1)
     const [detailsTab, setDetailsTab] = useState<DetailsTab>("desc")
-    const [reviews, setReviews] = useState<ProductReview[]>([])
     const [myRating, setMyRating] = useState<ProductReview["rating"] | 0>(0)
     const [myText, setMyText] = useState("")
 
@@ -73,6 +72,13 @@ const ProductPage = () => {
         enabled: !isNaN(productId)
     })
 
+    const reviews = useMemo(() => {
+        if (!product) return []
+        const pid = Number(product.id)
+        if (Number.isNaN(pid)) return []
+        return getProductDetails(pid).reviews
+    }, [product])
+
     const { data: allProducts = [] } = useQuery({
         queryKey: ["products"],
         queryFn: () => productService.getAllProducts(),
@@ -82,10 +88,10 @@ const ProductPage = () => {
         if (!product) return
         const pid = Number(product.id)
         if (Number.isNaN(pid)) return
-        setReviews(getProductDetails(pid).reviews)
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMyRating(0)
         setMyText("")
-    }, [product?.id])
+    }, [product])
 
     const isInCart = product ? isCard(Number(product.id)) : false
     const liked = product ? isLiked(Number(product.id)) : false
@@ -94,7 +100,7 @@ const ProductPage = () => {
         if (!product) return []
         const currentId = Number(product.id)
         return allProducts.filter((p) => Number(p.id) !== currentId).slice(0, 12)
-    }, [allProducts, product?.id])
+    }, [allProducts, product])
 
     const handleAddToCart = () => {
         if (product) {
@@ -182,7 +188,7 @@ const ProductPage = () => {
                 </div>
             </div>
             <div>
-                <Skeleton className="w-[420px] h-[500px]" />
+                <Skeleton className="w-105 h-125" />
             </div>
         </div>
         <Skeleton className="w-full h-36 mt-16" />
@@ -230,7 +236,7 @@ const ProductPage = () => {
                     />
                 </div>
 
-                <div className="w-full lg:w-[420px] bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 self-start">
+                <div className="w-full lg:w-105 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 self-start">
                     <div className="flex justify-between items-start mb-4">
                         <span className="text-sm text-gray-600 font-medium">Более 70 заказов</span>
                         <button
