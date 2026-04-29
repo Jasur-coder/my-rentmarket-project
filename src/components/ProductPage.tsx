@@ -21,6 +21,9 @@ import { Navigation } from "swiper/modules"
 import MiniCard from "./MiniCard"
 import BlogSection from "./BlogSection"
 import { Skeleton } from "./ui/skeleton"
+import bicycle from "@/assets/bicycle.png"
+import bikepath from "@/assets/bikepath.png"
+import ps from "@/assets/PS.png"
 
 type RentPeriod = "week" | "month"
 type DetailsTab = "desc" | "reviews"
@@ -30,10 +33,27 @@ const parsePrice = (value: string) => {
     return numeric ? Number(numeric) : 0
 }
 
-const getProductImages = (product: ProductCardProps) =>
-    product.pictures && product.pictures.length > 0
+const resolveImagePath = (imgPath: string) => {
+    if (!imgPath.startsWith('/src/')) {
+        return imgPath;
+    }
+    if (imgPath.includes('bicycle.png')) {
+        return bicycle;
+    } else if (imgPath.includes('PS.png')) {
+        return ps;
+    } else if (imgPath.includes('bikepath.png')) {
+        return bikepath;
+    }
+    return bicycle;
+};
+
+const getProductImages = (product: ProductCardProps) => {
+    const images = product.pictures && product.pictures.length > 0
         ? product.pictures
-        : [product.thumbnail || product.img]
+        : [product.thumbnail || product.img];
+    
+    return images.map(resolveImagePath);
+}
 
 const RatingStars = ({ rating, size = 4 }: { rating: number; size?: 4 | 5 }) => (
     <div className="flex items-center gap-1">

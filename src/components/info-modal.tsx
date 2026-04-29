@@ -1,10 +1,8 @@
 import { X } from "lucide-react";
 import { Button } from "./ui/button";
+import type { InfoModalProps } from "./type";
 
-interface InfoModalProps {
-  open: boolean;
-  handleOpen: () => void;
-}
+
 
 const InfoModal = ({ open, handleOpen }: InfoModalProps) => {
   if (!open) return null;

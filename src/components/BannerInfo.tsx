@@ -1,10 +1,8 @@
 import React from 'react';
 import { Battery, Bike, Gauge, Sofa } from 'lucide-react';
+import type { FeatureItem } from './type';
 
-interface FeatureItem {
-  icon: React.ReactNode;
-  text: string;
-}
+
 
 const features: FeatureItem[] = [
   {

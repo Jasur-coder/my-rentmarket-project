@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react"
 import { CircleUserRound, CircleArrowOutUpRight, PackageX, Pencil } from "lucide-react"
 import { InputMask } from "@react-input/mask";
+import type { StoredOrder, ProfileAccount, ProfileAddress } from "./type";
 
 type Tab = "profile" | "orders" | "uploads" | "address"
 
@@ -11,43 +12,7 @@ const tabs: { key: Tab; label: string }[] = [
   { key: "address", label: "Адреса" },
 ]
 
-interface ProfileAccount {
-  firstName: string
-  lastName: string
-  displayName: string
-  phone: string
-}
 
-interface ProfileAddress {
-  firstName: string
-  lastName: string
-  company: string
-  country: string
-  street: string
-  unit: string
-  city: string
-  region: string
-  postalCode: string
-  phone: string
-}
-
-interface StoredOrderItem {
-  id: number
-  title: string
-  quantity: number
-  img?: string
-  price?: string
-  deposit?: string
-  period?: string
-}
-
-interface StoredOrder {
-  id: string
-  status: "Новый" | "Отменён" | "Завершён"
-  date: string
-  total: number
-  items: StoredOrderItem[]
-}
 
 const ACCOUNT_KEY = "profileAccount"
 const ORDERS_KEY = "profileOrdersByAccount"
@@ -55,8 +20,8 @@ const LEGACY_ORDERS_KEY = "profileOrders"
 const ADDRESS_KEY = "profileAddress"
 type OrdersByAccount = Record<string, StoredOrder[]>
 
-const normalizeAccountKey = (phone: string) =>
-  phone.trim().length > 0 ? phone.trim().toLowerCase() : "guest"
+const normalizeAccountKey = (phone: string | undefined) =>
+  phone && phone.trim().length > 0 ? phone.trim().toLowerCase() : "guest"
 const createEmptySetupForm = () => ({
   firstName: "",
   lastName: "",
@@ -153,7 +118,7 @@ const MyProfile = () => {
     () =>
       account.firstName.trim().length > 0 &&
       account.lastName.trim().length > 0 &&
-      account.phone.trim().length > 0,
+      (account.phone && account.phone.trim().length > 0),
     [account]
   )
   const fullName = useMemo(
@@ -192,7 +157,7 @@ const MyProfile = () => {
       ...prev,
       firstName: created.firstName,
       lastName: created.lastName,
-      phone: created.phone,
+      phone: created.phone || "",
     }))
   }
 
@@ -339,7 +304,7 @@ const MyProfile = () => {
                   />
                   <EditableField
                     label="Телефон*"
-                    value={account.phone}
+                    value={account.phone || ""}
                     onChange={(v) => updateAccountField("phone", v)}
                   />
                   <div />

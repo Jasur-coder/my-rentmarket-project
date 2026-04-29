@@ -6,41 +6,14 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { CheckCircle2, MapPin, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { InputMask } from "@react-input/mask"
+import type { CheckoutLocationState, ProfileOrder } from "./type"
 
 const COURIER_FEE = 30_000
 
 type DeliveryMethod = "pickup" | "courier"
 type PaymentMethod = "card" | "cash"
 
-interface CheckoutLocationState {
-  totalPrice?: number
-  totalOldPrice?: number
-  totalSaving?: number
-  itemCount?: number
-  quantities?: Record<number, number>
-}
 
-interface ProfileOrderItem {
-  id: number
-  title: string
-  quantity: number
-  img: string
-  price: string
-  deposit: string
-  period?: string
-}
-
-interface ProfileOrder {
-  id: string
-  status: "Новый" | "Отменён" | "Завершён"
-  date: string
-  total: number
-  items: ProfileOrderItem[]
-}
-
-interface ProfileAccount {
-  phone?: string
-}
 
 type OrdersByAccount = Record<string, ProfileOrder[]>
 
