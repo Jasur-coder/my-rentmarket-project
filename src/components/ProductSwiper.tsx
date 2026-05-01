@@ -31,11 +31,12 @@ const ProductSwiper = ({ thumbnail, images }: ProductSwiperPropsI) => {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
   const slides = images.length > 0 ? images : [thumbnail];
   const resolvedSlides = slides.map(resolveImagePath);
+  const canLoop = resolvedSlides.length > 1;
 
   return (
     <div className="mt-10">
       <Swiper
-        loop={true}
+        loop={canLoop}
         spaceBetween={10}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Thumbs]}
@@ -53,9 +54,9 @@ const ProductSwiper = ({ thumbnail, images }: ProductSwiperPropsI) => {
       </Swiper>
       <Swiper
         onSwiper={setThumbsSwiper}
-        loop={true}
+        loop={resolvedSlides.length > 4}
         spaceBetween={10}
-        slidesPerView={4}
+        slidesPerView={Math.min(4, resolvedSlides.length)}
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Thumbs]}
