@@ -11,6 +11,60 @@ import {
 import { useCards } from "@/context/CardsContext"
 import { Button } from "@/components/ui/button"
 import { Trash2 } from "lucide-react"
+import bicycle from "@/assets/bicycle.png"
+import bikepath from "@/assets/bikepath.png"
+import ps from "@/assets/PS.png"
+import BG from "@/assets/BG.png"
+import Express from "@/assets/Express.png"
+import bicyclegift from "@/assets/bicyclegift.png"
+import express24 from "@/assets/partners/express24.png"
+import utezkor from "@/assets/partners/Utezkor.png"
+import yandex from "@/assets/partners/yandex.png"
+import ona from "@/assets/partners/ona.png"
+import payme from "@/assets/partners/Payme.png"
+import uzumNasiya from "@/assets/partners/UzumNasiya.png"
+import solfy from "@/assets/partners/Solfy.png"
+import zoodpay from "@/assets/partners/ZoodPay.png"
+
+const resolveImagePath = (imgPath: string) => {
+    if (!imgPath.startsWith('/src/')) {
+        return imgPath;
+    }
+    
+    // Map all possible image paths to imported modules
+    if (imgPath.includes('bicycle.png')) {
+        return bicycle;
+    } else if (imgPath.includes('PS.png')) {
+        return ps;
+    } else if (imgPath.includes('bikepath.png')) {
+        return bikepath;
+    } else if (imgPath.includes('BG.png')) {
+        return BG;
+    } else if (imgPath.includes('Express.png')) {
+        return Express;
+    } else if (imgPath.includes('bicyclegift.png')) {
+        return bicyclegift;
+    } else if (imgPath.includes('express24.png')) {
+        return express24;
+    } else if (imgPath.includes('Utezkor.png')) {
+        return utezkor;
+    } else if (imgPath.includes('yandex.png')) {
+        return yandex;
+    } else if (imgPath.includes('ona.png')) {
+        return ona;
+    } else if (imgPath.includes('Payme.png')) {
+        return payme;
+    } else if (imgPath.includes('UzumNasiya.png')) {
+        return uzumNasiya;
+    } else if (imgPath.includes('Solfy.png')) {
+        return solfy;
+    } else if (imgPath.includes('ZoodPay.png')) {
+        return zoodpay;
+    }
+    
+    // Fallback to bicycle.png if no match found
+    return bicycle;
+};
 
 interface CardModalProps {
     open: boolean
@@ -158,7 +212,7 @@ const CardModal = ({ open, onOpenChange }: CardModalProps) => {
                                                 </span>
                                             </button>
                                             <img
-                                                src={item.img}
+                                                src={resolveImagePath(item.img)}
                                                 alt={item.title}
                                                 className="h-20 w-20 rounded-2xl object-cover bg-white"
                                             />
