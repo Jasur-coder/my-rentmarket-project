@@ -6,7 +6,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { CheckCircle2, MapPin, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { InputMask } from "@react-input/mask"
-import type { CheckoutLocationState, ProfileOrder } from "./type"
+import type { CheckoutLocationState, ProfileOrder, ProfileAccount } from "./type"
 
 const COURIER_FEE = 30_000
 
