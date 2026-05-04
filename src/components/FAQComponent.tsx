@@ -2,13 +2,6 @@ import React, { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
 import { faqData } from '@/data';
 
-// Типизация данных
-
-
-
-
-
-
 const FAQComponent: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("Аренда");
   const [openIndex, setOpenIndex] = useState<number | null>(null);

@@ -45,43 +45,27 @@ const parsePrice = (value: string) => {
 }
 
 const resolveImagePath = (imgPath: string) => {
-    if (!imgPath.startsWith('/src/')) {
-        return imgPath;
-    }
+    if (!imgPath.startsWith('/src/')) return imgPath;
     
-    // Map all possible image paths to imported modules
-    if (imgPath.includes('bicycle.png')) {
-        return bicycle;
-    } else if (imgPath.includes('PS.png')) {
-        return ps;
-    } else if (imgPath.includes('bikepath.png')) {
-        return bikepath;
-    } else if (imgPath.includes('BG.png')) {
-        return BG;
-    } else if (imgPath.includes('Express.png')) {
-        return Express;
-    } else if (imgPath.includes('bicyclegift.png')) {
-        return bicyclegift;
-    } else if (imgPath.includes('express24.png')) {
-        return express24;
-    } else if (imgPath.includes('Utezkor.png')) {
-        return utezkor;
-    } else if (imgPath.includes('yandex.png')) {
-        return yandex;
-    } else if (imgPath.includes('ona.png')) {
-        return ona;
-    } else if (imgPath.includes('Payme.png')) {
-        return payme;
-    } else if (imgPath.includes('UzumNasiya.png')) {
-        return uzumNasiya;
-    } else if (imgPath.includes('Solfy.png')) {
-        return solfy;
-    } else if (imgPath.includes('ZoodPay.png')) {
-        return zoodpay;
-    }
+    const imageMap = {
+        'bicycle.png': bicycle,
+        'PS.png': ps,
+        'bikepath.png': bikepath,
+        'BG.png': BG,
+        'Express.png': Express,
+        'bicyclegift.png': bicyclegift,
+        'express24.png': express24,
+        'Utezkor.png': utezkor,
+        'yandex.png': yandex,
+        'ona.png': ona,
+        'Payme.png': payme,
+        'UzumNasiya.png': uzumNasiya,
+        'Solfy.png': solfy,
+        'ZoodPay.png': zoodpay,
+    };
     
-    // Fallback to bicycle.png if no match found
-    return bicycle;
+    const match = Object.keys(imageMap).find(key => imgPath.includes(key));
+    return match ? imageMap[match as keyof typeof imageMap] : bicycle;
 };
 
 const getProductImages = (product: ProductCardProps) => {
@@ -114,12 +98,19 @@ const ProductPage = () => {
     const { id } = useParams<{ id: string }>()
     const productId = parseInt(id || '0', 10)
     const navigate = useNavigate()
-    const [rentPeriod, setRentPeriod] = useState<RentPeriod>("week")
-    const [quantity, setQuantity] = useState(1)
-    const [detailsTab, setDetailsTab] = useState<DetailsTab>("desc")
-    const [myRating, setMyRating] = useState<ProductReview["rating"] | 0>(0)
-    const [myText, setMyText] = useState("")
+    const [state, setState] = useState({
+        rentPeriod: 'week' as RentPeriod,
+        quantity: 1,
+        detailsTab: 'desc' as DetailsTab,
+        myRating: 0 as ProductReview["rating"] | 0,
+        myText: ''
+    })
     const [userReviews, setUserReviews] = useState<ProductReview[]>([])
+
+    const periods = [
+        { key: 'week' as RentPeriod, label: 'Неделя' },
+        { key: 'month' as RentPeriod, label: 'Месяц', icon: <Gift size={16} className="text-green-500" /> }
+    ]
 
     const { toggleCard, isCard } = useCards()
     const { toggleLike, isLiked } = useLikes()
@@ -137,6 +128,11 @@ const ProductPage = () => {
         return [...getProductDetails(pid).reviews, ...userReviews]
     }, [product, userReviews])
 
+    const tabs = [
+        { key: 'desc' as DetailsTab, label: 'Описание товара' },
+        { key: 'reviews' as DetailsTab, label: `Отзывы (${reviews.length})` }
+    ]
+
     const { data: allProducts = [] } = useQuery({
         queryKey: ["products"],
         queryFn: () => productService.getAllProducts(),
@@ -147,8 +143,7 @@ const ProductPage = () => {
         const pid = Number(product.id)
         if (Number.isNaN(pid)) return
         // eslint-disable-next-line react-hooks/set-state-in-effect
-        setMyRating(0)
-        setMyText("")
+        setState(prev => ({ ...prev, myRating: 0, myText: '' }))
     }, [product])
 
     const isInCart = product ? isCard(Number(product.id)) : false
@@ -176,8 +171,8 @@ const ProductPage = () => {
             toggleCard(item)
         }
 
-        const totalPrice = parsePrice(item.price) * quantity
-        const totalOldPrice = parsePrice(item.deposit) * quantity
+        const totalPrice = parsePrice(item.price) * state.quantity
+        const totalOldPrice = parsePrice(item.deposit) * state.quantity
 
         navigate("/checkout", {
             state: {
@@ -185,7 +180,7 @@ const ProductPage = () => {
                 totalOldPrice,
                 totalSaving: Math.max(0, totalOldPrice - totalPrice),
                 itemCount: 1,
-                quantities: { [item.id]: quantity },
+                quantities: { [item.id]: state.quantity },
             },
         })
     }
@@ -194,43 +189,6 @@ const ProductPage = () => {
         if (product) {
             toggleLike(product as ProductCardProps)
         }
-    }
-
-    const handleDecrement = () => {
-        if (quantity > 1) setQuantity(prev => prev - 1)
-    }
-
-    const handleIncrement = () => {
-        setQuantity(prev => prev + 1)
-    }
-
-    const handleSubmitReview = () => {
-        if (!product) return
-        const pid = Number(product.id)
-        if (Number.isNaN(pid)) return
-
-        const trimmed = myText.trim()
-        if (myRating === 0) return
-        if (!trimmed) return
-
-        const now = new Date()
-        const date = now.toLocaleDateString("ru-RU", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-        })
-
-        const newReview: ProductReview = {
-            id: `user-${pid}-${Date.now()}`,
-            author: "Мой отзыв",
-            rating: myRating as ProductReview["rating"],
-            text: trimmed,
-            date,
-        }
-
-        setUserReviews((prev) => [...prev, newReview])
-        setMyRating(0)
-        setMyText("")
     }
 
     if (isLoading) {
@@ -265,7 +223,6 @@ const ProductPage = () => {
     }
 
     const details = getProductDetails(Number(product.id))
-    const displayedReviews = reviews.length > 0 ? reviews : details.reviews
 
 
 
@@ -318,25 +275,19 @@ const ProductPage = () => {
                     <div className="mb-8">
                         <span className="block text-sm text-gray-700 font-medium mb-3">Срок аренды:</span>
                         <div className="flex gap-3">
-                            <button
-                                onClick={() => setRentPeriod('week')}
-                                className={`px-6 py-2.5 rounded-lg text-sm font-medium transition ${rentPeriod === 'week'
-                                    ? 'bg-[#3b3b3b] text-white shadow-md'
-                                    : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
-                                    }`}
-                            >
-                                Неделя
-                            </button>
-                            <button
-                                onClick={() => setRentPeriod('month')}
-                                className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium transition ${rentPeriod === 'month'
-                                    ? 'bg-[#3b3b3b] text-white shadow-md'
-                                    : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
-                                    }`}
-                            >
-                                Месяц
-                                <Gift size={16} className="text-green-500" />
-                            </button>
+                            {periods.map(({ key, label, icon }) => (
+                                <button
+                                    key={key}
+                                    onClick={() => setState(prev => ({ ...prev, rentPeriod: key }))}
+                                    className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium transition ${state.rentPeriod === key
+                                        ? 'bg-[#3b3b3b] text-white shadow-md'
+                                        : 'bg-white border border-gray-200 text-gray-700 hover:bg-gray-50'
+                                        }`}
+                                >
+                                    {label}
+                                    {icon}
+                                </button>
+                            ))}
                         </div>
                     </div>
 
@@ -344,17 +295,17 @@ const ProductPage = () => {
                         <span className="block text-sm text-gray-700 font-medium mb-3">Количество:</span>
                         <div className="inline-flex items-center gap-1 bg-gray-100 rounded-full px-3 py-1.5">
                             <button
-                                onClick={handleDecrement}
-                                disabled={quantity === 1}
+                                onClick={() => setState(prev => ({ ...prev, quantity: Math.max(1, prev.quantity - 1) }))}
+                                disabled={state.quantity === 1}
                                 className="w-8 h-8 flex items-center justify-center rounded-full text-lg text-gray-700 disabled:opacity-40 disabled:cursor-default hover:bg-gray-200 transition"
                             >
                                 –
                             </button>
                             <span className="w-8 text-center text-sm font-medium text-gray-900">
-                                {quantity}
+                                {state.quantity}
                             </span>
                             <button
-                                onClick={handleIncrement}
+                                onClick={() => setState(prev => ({ ...prev, quantity: prev.quantity + 1 }))}
                                 className="w-8 h-8 flex items-center justify-center rounded-full text-lg text-gray-700 hover:bg-gray-200 transition"
                             >
                                 +
@@ -392,37 +343,30 @@ const ProductPage = () => {
 
             <div className="mt-10 rounded-2xl bg-white">
                 <div className="flex items-center gap-8 border-b border-gray-200 px-6 pt-5">
-                    <button
-                        type="button"
-                        onClick={() => setDetailsTab("desc")}
-                        className={`pb-3 text-sm font-medium transition-colors ${detailsTab === "desc"
-                            ? "text-[#00A90F] border-b-2 border-[#00D414]"
-                            : "text-gray-500 hover:text-gray-700"
-                            }`}
-                    >
-                        Описание товара
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => setDetailsTab("reviews")}
-                        className={`pb-3 text-sm font-medium transition-colors ${detailsTab === "reviews"
-                            ? "text-[#00A90F] border-b-2 border-[#00D414]"
-                            : "text-gray-500 hover:text-gray-700"
-                            }`}
-                    >
-                        Отзывы ({displayedReviews.length})
-                    </button>
+                    {tabs.map(({ key, label }) => (
+                        <button
+                            key={key}
+                            type="button"
+                            onClick={() => setState(prev => ({ ...prev, detailsTab: key }))}
+                            className={`pb-3 text-sm font-medium transition-colors ${state.detailsTab === key
+                                ? "text-[#00A90F] border-b-2 border-[#00D414]"
+                                : "text-gray-500 hover:text-gray-700"
+                                }`}
+                        >
+                            {label}
+                        </button>
+                    ))}
                 </div>
 
                 <div className="px-6 pb-6 pt-5">
-                    {detailsTab === "desc" ? (
+                    {state.detailsTab === "desc" ? (
                         <p className="text-sm leading-6 text-gray-700">
                             {details.description}
                         </p>
                     ) : (
                         <div className="space-y-6">
                             <div className="divide-y divide-gray-200">
-                                {displayedReviews.map((r: ProductReview) => (
+                                {reviews.map((r: ProductReview) => (
                                     <div key={r.id} className="py-5">
                                         <div className="flex items-start justify-between gap-4">
                                             <div className="flex-1">
@@ -450,12 +394,12 @@ const ProductPage = () => {
                                     <div className="mt-3 flex items-center gap-1">
                                         {Array.from({ length: 5 }).map((_, i) => {
                                             const current = i + 1
-                                            const filled = current <= myRating
+                                            const filled = current <= state.myRating
                                             return (
                                                 <button
                                                     key={i}
                                                     type="button"
-                                                    onClick={() => setMyRating(current as ProductReview["rating"])}
+                                                    onClick={() => setState(prev => ({ ...prev, myRating: current as ProductReview["rating"] }))}
                                                     className="rounded-full"
                                                     aria-label={`rate ${current}`}
                                                 >
@@ -467,8 +411,8 @@ const ProductPage = () => {
                                 </div>
 
                                 <textarea
-                                    value={myText}
-                                    onChange={(e) => setMyText(e.target.value)}
+                                    value={state.myText}
+                                    onChange={(e) => setState(prev => ({ ...prev, myText: e.target.value }))}
                                     placeholder="Напишите отзыв"
                                     className="mt-5 w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-[#00D414]"
                                     rows={4}
@@ -476,8 +420,29 @@ const ProductPage = () => {
 
                                 <button
                                     type="button"
-                                    onClick={handleSubmitReview}
-                                    disabled={myRating === 0 || myText.trim().length === 0}
+                                    onClick={() => {
+                                        const trimmed = state.myText.trim()
+                                        if (state.myRating === 0 || !trimmed) return
+
+                                        const now = new Date()
+                                        const date = now.toLocaleDateString("ru-RU", {
+                                            day: "numeric",
+                                            month: "long",
+                                            year: "numeric",
+                                        })
+
+                                        const newReview: ProductReview = {
+                                            id: `user-${product.id}-${Date.now()}`,
+                                            author: "Мой отзыв",
+                                            rating: state.myRating as ProductReview["rating"],
+                                            text: trimmed,
+                                            date,
+                                        }
+
+                                        setUserReviews((prev) => [...prev, newReview])
+                                        setState(prev => ({ ...prev, myRating: 0, myText: '' }))
+                                    }}
+                                    disabled={state.myRating === 0 || state.myText.trim().length === 0}
                                     className="mt-5 w-full rounded-xl bg-[#3b3b3b] py-3 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60"
                                 >
                                     Отправить

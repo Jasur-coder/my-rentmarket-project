@@ -1,81 +1,13 @@
 import { useMemo, useState } from "react"
-import { CircleUserRound, CircleArrowOutUpRight, PackageX, Pencil } from "lucide-react"
-import { InputMask } from "@react-input/mask";
-import type { StoredOrder, ProfileAccount, ProfileAddress } from "./type";
-import bicycle from "@/assets/bicycle.png"
-import bikepath from "@/assets/bikepath.png"
-import ps from "@/assets/PS.png"
-import BG from "@/assets/BG.png"
-import Express from "@/assets/Express.png"
-import bicyclegift from "@/assets/bicyclegift.png"
-import express24 from "@/assets/partners/express24.png"
-import utezkor from "@/assets/partners/Utezkor.png"
-import yandex from "@/assets/partners/yandex.png"
-import ona from "@/assets/partners/ona.png"
-import payme from "@/assets/partners/Payme.png"
-import uzumNasiya from "@/assets/partners/UzumNasiya.png"
-import solfy from "@/assets/partners/Solfy.png"
-import zoodpay from "@/assets/partners/ZoodPay.png"
+import { CircleUserRound, CircleArrowOutUpRight } from "lucide-react"
+import type {  ProfileAccount, ProfileAddress } from "./type";
+import ProfileTab from "./ProfileTab";
+import OrdersTab from "./OrdersTab";
+import UploadsTab from "./UploadsTab";
+import AddressTab from "./AddressTab";
+import { defaultAccount, defaultAddress, tabs, type Tab } from "@/data";
+import LogIn from "./LogIn";
 
-const resolveImagePath = (imgPath: string) => {
-    if (!imgPath.startsWith('/src/')) {
-        return imgPath;
-    }
-    
-    // Map all possible image paths to imported modules
-    if (imgPath.includes('bicycle.png')) {
-        return bicycle;
-    } else if (imgPath.includes('PS.png')) {
-        return ps;
-    } else if (imgPath.includes('bikepath.png')) {
-        return bikepath;
-    } else if (imgPath.includes('BG.png')) {
-        return BG;
-    } else if (imgPath.includes('Express.png')) {
-        return Express;
-    } else if (imgPath.includes('bicyclegift.png')) {
-        return bicyclegift;
-    } else if (imgPath.includes('express24.png')) {
-        return express24;
-    } else if (imgPath.includes('Utezkor.png')) {
-        return utezkor;
-    } else if (imgPath.includes('yandex.png')) {
-        return yandex;
-    } else if (imgPath.includes('ona.png')) {
-        return ona;
-    } else if (imgPath.includes('Payme.png')) {
-        return payme;
-    } else if (imgPath.includes('UzumNasiya.png')) {
-        return uzumNasiya;
-    } else if (imgPath.includes('Solfy.png')) {
-        return solfy;
-    } else if (imgPath.includes('ZoodPay.png')) {
-        return zoodpay;
-    }
-    
-    // Fallback to bicycle.png if no match found
-    return bicycle;
-};
-
-type Tab = "profile" | "orders" | "uploads" | "address"
-
-const tabs: { key: Tab; label: string }[] = [
-  { key: "profile", label: "Профиль" },
-  { key: "orders", label: "Заказы" },
-  { key: "uploads", label: "Загрузки" },
-  { key: "address", label: "Адреса" },
-]
-
-
-
-const ACCOUNT_KEY = "profileAccount"
-const ORDERS_KEY = "profileOrdersByAccount"
-const LEGACY_ORDERS_KEY = "profileOrders"
-const ADDRESS_KEY = "profileAddress"
-type OrdersByAccount = Record<string, StoredOrder[]>
-
-const normalizeAccountKey = (phone: string | undefined) =>
-  phone && phone.trim().length > 0 ? phone.trim().toLowerCase() : "guest"
 const createEmptySetupForm = () => ({
   firstName: "",
   lastName: "",
@@ -89,26 +21,6 @@ const parseStoredJson = <T,>(key: string, fallback: T): T => {
   } catch {
     return fallback
   }
-}
-
-const defaultAccount: ProfileAccount = {
-  firstName: "",
-  lastName: "",
-  displayName: "",
-  phone: "",
-}
-
-const defaultAddress: ProfileAddress = {
-  firstName: "",
-  lastName: "",
-  company: "",
-  country: "Узбекистан",
-  street: "",
-  unit: "",
-  city: "",
-  region: "",
-  postalCode: "",
-  phone: "",
 }
 
 const toProfileAccount = (parsed: Partial<ProfileAccount>): ProfileAccount => ({
@@ -133,7 +45,9 @@ const toProfileAddress = (parsed: Partial<ProfileAddress>): ProfileAddress => ({
 
 const MyProfile = () => {
   const [activeTab, setActiveTab] = useState<Tab>("profile")
-  const [addressEdit, setAddressEdit] = useState(false)
+  const ACCOUNT_KEY = import.meta.env.ACCOUNT_KEY
+  const ADDRESS_KEY = import.meta.env.ADDRESS_KEY
+
   const [account, setAccount] = useState<ProfileAccount>(() => {
     const parsedAccount = parseStoredJson<Partial<ProfileAccount> | null>(ACCOUNT_KEY, null)
     return parsedAccount ? toProfileAccount(parsedAccount) : defaultAccount
@@ -142,28 +56,12 @@ const MyProfile = () => {
     const parsedAddress = parseStoredJson<Partial<ProfileAddress> | null>(ADDRESS_KEY, null)
     return parsedAddress ? toProfileAddress(parsedAddress) : defaultAddress
   })
-  const [setupForm, setSetupForm] = useState(createEmptySetupForm)
 
-  const orders = useMemo(() => {
-    const accountKey = normalizeAccountKey(account.phone)
-    const scopedOrders = parseStoredJson<OrdersByAccount>(ORDERS_KEY, {})
-    if (Object.keys(scopedOrders).length > 0) {
-      return scopedOrders[accountKey] ?? []
-    }
-    // Backward compatibility for old single-list key.
-    const legacyOrders = parseStoredJson<StoredOrder[]>(LEGACY_ORDERS_KEY, [])
-    if (accountKey === "guest") {
-      return legacyOrders
-    } else {
-      return []
-    }
-  }, [account.phone])
+  const [setupForm, setSetupForm] = useState(createEmptySetupForm)
+  const [addressEdit, setAddressEdit] = useState(false)
 
   const updateAccountField = <K extends keyof ProfileAccount>(key: K, value: ProfileAccount[K]) =>
     setAccount((prev) => ({ ...prev, [key]: value }))
-
-  const updateAddressField = <K extends keyof ProfileAddress>(key: K, value: ProfileAddress[K]) =>
-    setAddress((prev) => ({ ...prev, [key]: value }))
 
   const updateSetupField = <K extends keyof typeof setupForm>(key: K, value: string) =>
     setSetupForm((prev) => ({ ...prev, [key]: value }))
@@ -215,11 +113,6 @@ const MyProfile = () => {
     }))
   }
 
-  const saveAddress = () => {
-    localStorage.setItem(ADDRESS_KEY, JSON.stringify(address))
-    setAddressEdit(false)
-  }
-
   const handleLogout = () => {
     localStorage.removeItem(ACCOUNT_KEY)
     localStorage.removeItem(ADDRESS_KEY)
@@ -236,53 +129,12 @@ const MyProfile = () => {
         <h1 className="text-[30px] font-semibold text-[#2f2f2f]">Мой аккаунт</h1>
 
         {!hasAccount && (
-          <div className="mt-6 rounded-xl bg-white p-6 md:p-8 border border-[#dfdfdf]">
-            <h2 className="text-[28px] font-semibold text-[#2f2f2f]">
-              Создайте профиль
-            </h2>
-            <p className="mt-2 text-[20px] text-[#6a6a6a]">
-              Для первого входа заполните: имя, фамилию и телефон.
-            </p>
-
-            <div className="mt-5 grid gap-6 md:grid-cols-2">
-              <EditableField
-                label="Имя*"
-                value={setupForm.firstName}
-                onChange={(v) => updateSetupField("firstName", v)}
-              />
-              <EditableField
-                label="Фамилия*"
-                value={setupForm.lastName}
-                onChange={(v) => updateSetupField("lastName", v)}
-              />
-              <div>
-                <label className="mb-2 block text-[24px] font-medium text-[#555]">Телефон*</label>
-                <div className="flex items-center gap-2">
-                  <span className="border border-[#d9d9d9] bg-white px-3 pt-2 text-[22px] rounded-xl text-[#333] h-14 text-center">
-                    +998
-                  </span>
-                  <InputMask
-                    mask=" __ ___ __ __"
-                    replacement={{ _: /\d/ }}
-                    value={setupForm.phone}
-                    onChange={(e) => updateSetupField("phone", e.target.value)}
-                    className="h-14 w-full rounded-xl border border-[#d9d9d9] bg-white px-3 text-[22px] text-[#333] outline-none"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-6 flex justify-end">
-              <button
-                type="button"
-                onClick={handleCreateProfile}
-                disabled={!setupValid}
-                className="h-12 rounded-xl border border-[#d7d7d7] bg-[#ececec] px-8 text-[28px] font-semibold text-[#6a6a6a] disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Создать профиль
-              </button>
-            </div>
-          </div>
+          <LogIn
+            setupForm={setupForm}
+            updateSetupField={updateSetupField}
+            handleCreateProfile={handleCreateProfile}
+            setupValid={setupValid}
+          />
         )}
 
         {hasAccount && (
@@ -323,8 +175,8 @@ const MyProfile = () => {
                       if (tab.key !== "address") setAddressEdit(false)
                     }}
                     className={`pb-3 text-[26px] font-medium transition-colors ${activeTab === tab.key
-                        ? "border-b-2 border-[#00c950] text-[#00b848]"
-                        : "text-[#555] hover:text-[#222]"
+                      ? "border-b-2 border-[#00c950] text-[#00b848]"
+                      : "text-[#555] hover:text-[#222]"
                       }`}
                   >
                     {tab.label}
@@ -334,225 +186,28 @@ const MyProfile = () => {
             </div>
 
             {activeTab === "profile" && (
-              <div className="mt-6 rounded-xl bg-[#f7f7f7]">
-                {!hasAccount && (
-                  <div className="mb-4 rounded-xl border border-[#d9d9d9] bg-white p-4 text-[20px] text-[#4b4b4b]">
-                    У вас нет аккаунта. Заполните поля ниже и нажмите "Сохранить".
-                  </div>
-                )}
-                <div className="grid gap-6 md:grid-cols-2">
-                  <EditableField
-                    label="Имя*"
-                    value={account.firstName}
-                    onChange={(v) => updateAccountField("firstName", v)}
-                  />
-                  <EditableField
-                    label="Фамиля*"
-                    value={account.lastName}
-                    onChange={(v) => updateAccountField("lastName", v)}
-                  />
-                  <EditableField
-                    label="Отображаемое имя*"
-                    value={account.displayName}
-                    onChange={(v) => updateAccountField("displayName", v)}
-                  />
-                  <EditableField
-                    label="Телефон*"
-                    value={account.phone || ""}
-                    onChange={(v) => updateAccountField("phone", v)}
-                  />
-                  <div />
-                </div>
-
-
-
-                <div className="mt-7 border-t border-[#ddd] pt-4">
-                  <div className="flex justify-end">
-                    <button
-                      type="button"
-                      onClick={saveAccount}
-                      className="h-12 rounded-xl border border-[#d7d7d7] bg-[#ececec] px-8 text-[32px] font-semibold text-[#9a9a9a]"
-                    >
-                      Сохранить
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <ProfileTab
+                hasAccount={hasAccount}
+                account={account}
+                updateAccountField={updateAccountField}
+                saveAccount={saveAccount}
+              />
             )}
 
             {activeTab === "orders" && (
-              <div className="mt-6">
-                <h2 className="text-[34px] font-semibold text-[#3a3a3a]">
-                  Количество заказов ({orders.length})
-                </h2>
-                {orders.length === 0 ? (
-                  <div className="mt-4 rounded-xl bg-[#efefef] p-5 text-[22px] text-[#777]">
-                    Пока нет заказов. Оформите заказ, и он появится здесь.
-                  </div>
-                ) : (
-                  <div className="mt-4 space-y-4">
-                    {orders.map((order) => (
-                      <div key={order.id} className="rounded-xl bg-[#efefef] p-5">
-                        <div className="mb-4">
-                          <OrderRow label="Заказ:" value={`№${order.id}`} />
-                          <OrderRow label="Статус:" value={order.status} badge={order.status === "Отменён"} />
-                          <OrderRow label="Дата:" value={order.date} />
-                          <OrderRow
-                            label="Итого:"
-                            value={`${new Intl.NumberFormat("ru-RU").format(order.total)} сум`}
-                          />
-                        </div>
-
-                        <div className="space-y-3 pt-3 border-t border-[#d7d7d7]">
-                          {order.items.map((item) => {
-                            const priceNum = item.price ? Number(item.price.replace(/[^\d]/g, "")) : 0
-                            const oldPriceNum = item.deposit ? Number(item.deposit.replace(/[^\d]/g, "")) : 0
-                            return (
-                              <div key={item.id} className="flex items-center justify-between rounded-2xl bg-[#F5F5F5] border border-[#d9d9d9] p-3">
-                                <div className="flex items-center gap-4">
-                                  {item.img && (
-                                    <img
-                                      src={resolveImagePath(item.img)}
-                                      alt={item.title}
-                                      className="h-16 w-16 md:h-20 md:w-20 rounded-2xl object-cover bg-white shrink-0"
-                                    />
-                                  )}
-                                  <div>
-                                    <p className="text-lg md:text-xl font-semibold text-[#2f2f2f]">
-                                      {item.title}
-                                    </p>
-                                    {item.period && (
-                                      <p className="mt-1 text-sm md:text-[16px] text-[#707070]">
-                                        {item.period} · {item.quantity} шт.
-                                      </p>
-                                    )}
-                                  </div>
-                                </div>
-                                <div className="text-right shrink-0">
-                                  <div className="text-lg md:text-xl font-semibold text-[#2f2f2f]">
-                                    {priceNum > 0 ? `${new Intl.NumberFormat("ru-RU").format(priceNum)} сум` : ""}
-                                  </div>
-                                  {oldPriceNum > priceNum && (
-                                    <div className="text-sm md:text-[16px] text-[#a0a0a0] line-through">
-                                      {`${new Intl.NumberFormat("ru-RU").format(oldPriceNum)} сум`}
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            )
-                          })}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <OrdersTab orders={[]} />
             )}
 
             {activeTab === "uploads" && (
-              <div className="mt-6 rounded-xl bg-[#f5f5f5] px-4 py-14">
-                <div className="mx-auto flex h-36 w-36 items-center justify-center rounded-full bg-[#ececec]">
-                  <PackageX className="h-16 w-16 text-[#444]" />
-                </div>
-                <h3 className="mt-8 text-center text-[44px] font-semibold text-[#1f1f1f]">Нет загрузок</h3>
-                <p className="mx-auto mt-4 max-w-140 text-center text-[24px] text-[#777]">
-                  Пока что здесь пусто. Как только вы начнете загружать файлы, они появятся в этом разделе.
-                </p>
-              </div>
+              <UploadsTab />
             )}
 
             {activeTab === "address" && (
-              <div className="mt-6">
-                {!addressEdit ? (
-                  <div className="rounded-xl bg-[#efefef] p-5">
-                    <h2 className="text-[34px] font-semibold text-[#3a3a3a]">Платёжный адрес</h2>
-                    <div className="mt-4 flex items-start justify-between">
-                      <div className="space-y-4 text-[24px]">
-                        <AddressRow label="Адрес:" value={address.street || "—"} />
-                        <AddressRow label="Населённый пункт:" value={address.city || "—"} />
-                        <AddressRow label="Область:" value={address.region || "—"} />
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setAddressEdit(true)}
-                        className="rounded-full border border-[#d4d4d4] bg-white p-3"
-                      >
-                        <Pencil className="h-5 w-5 text-[#4b4b4b]" />
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="rounded-xl bg-[#f7f7f7]">
-                    <h2 className="text-[34px] font-semibold text-[#3a3a3a]">Платёжный адрес</h2>
-
-                    <div className="mt-4 grid gap-6 md:grid-cols-2">
-                      <EditableField
-                        label="Имя*"
-                        value={address.firstName}
-                        onChange={(v) => updateAddressField("firstName", v)}
-                      />
-                      <EditableField
-                        label="Фамиля*"
-                        value={address.lastName}
-                        onChange={(v) => updateAddressField("lastName", v)}
-                      />
-                      <EditableField
-                        label="Название компании"
-                        value={address.company}
-                        onChange={(v) => updateAddressField("company", v)}
-                      />
-                      <EditableField
-                        label="Страна / Регион*"
-                        value={address.country}
-                        onChange={(v) => updateAddressField("country", v)}
-                      />
-                      <EditableField
-                        label="Адрес*"
-                        value={address.street}
-                        onChange={(v) => updateAddressField("street", v)}
-                      />
-                      <EditableField
-                        label="Крыло, подъезд, этаж и т.д ( необязательно )"
-                        value={address.unit}
-                        onChange={(v) => updateAddressField("unit", v)}
-                      />
-                      <EditableField
-                        label="Населённый пункт*"
-                        value={address.city}
-                        onChange={(v) => updateAddressField("city", v)}
-                      />
-                      <EditableField
-                        label="Область / Район ( необязательно )"
-                        value={address.region}
-                        onChange={(v) => updateAddressField("region", v)}
-                      />
-                      <EditableField
-                        label="Почтовый индекс"
-                        value={address.postalCode}
-                        onChange={(v) => updateAddressField("postalCode", v)}
-                      />
-                      <div />
-                      <EditableField
-                        label="Телефон*"
-                        value={address.phone}
-                        onChange={(v) => updateAddressField("phone", v)}
-                      />
-                    </div>
-
-                    <div className="mt-7 border-t border-[#ddd] pt-4">
-                      <div className="flex justify-end">
-                        <button
-                          type="button"
-                          onClick={saveAddress}
-                          className="h-12 rounded-xl border border-[#d7d7d7] bg-[#ececec] px-8 text-[32px] font-semibold text-[#9a9a9a]"
-                        >
-                          Сохранить
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
+              <AddressTab
+                address={address}
+                addressEdit={addressEdit}
+                setAddressEdit={setAddressEdit}
+              />
             )}
           </>
         )}
@@ -561,7 +216,7 @@ const MyProfile = () => {
   )
 }
 
-const EditableField = ({
+export const EditableField = ({
   label,
   value,
   onChange,
@@ -577,38 +232,6 @@ const EditableField = ({
       onChange={(e) => onChange(e.target.value)}
       className="h-14 w-full rounded-xl border border-[#d9d9d9] bg-white px-3 text-[22px] text-[#333] outline-none"
     />
-  </div>
-)
-
-const OrderRow = ({
-  label,
-  value,
-  link = false,
-  badge = false,
-}: {
-  label: string
-  value: string
-  link?: boolean
-  badge?: boolean
-}) => (
-  <div className="mb-3 flex items-center gap-4 text-[23px]">
-    <span className="min-w-20 text-[#777]">{label}</span>
-    {link ? (
-      <a href="#" className="text-[#1e40ff] underline">
-        {value}
-      </a>
-    ) : badge ? (
-      <span className="rounded-md bg-[#ffd9d9] px-3 py-0.5 text-[#da1b1b]">{value}</span>
-    ) : (
-      <span className="text-[#333]">{value}</span>
-    )}
-  </div>
-)
-
-const AddressRow = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex items-center gap-4">
-    <span className="min-w-40 text-[#777]">{label}</span>
-    <span className="text-[#222]">{value}</span>
   </div>
 )
 

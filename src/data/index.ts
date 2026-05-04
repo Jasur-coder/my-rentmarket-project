@@ -1,6 +1,6 @@
 import { ShoppingBag, Heart, User } from "lucide-react"
 import { z } from "zod"
-import type { FAQData, Post, RentDataProps } from "@/components/type"
+import type { FAQData, Post, ProfileAccount, ProfileAddress, RentDataProps } from "@/components/type"
 import express24 from "../assets/partners/express24.png"
 import tezkor from "../assets/partners/Utezkor.png"
 import yandex from "../assets/partners/yandex.png"
@@ -215,3 +215,32 @@ export const contactFormSchema = z.object({
         })
         .max(1000),
 });
+
+export const defaultAccount: ProfileAccount = {
+  firstName: "",
+  lastName: "",
+  displayName: "",
+  phone: "",
+}
+
+export const defaultAddress: ProfileAddress = {
+  firstName: "",
+  lastName: "",
+  company: "",
+  country: "Узбекистан",
+  street: "",
+  unit: "",
+  city: "",
+  region: "",
+  postalCode: "",
+  phone: "",
+}
+
+export  type Tab = "profile" | "orders" | "uploads" | "address"
+
+export const tabs: { key: Tab; label: string }[] = [
+  { key: "profile", label: "Профиль" },
+  { key: "orders", label: "Заказы" },
+  { key: "uploads", label: "Загрузки" },
+  { key: "address", label: "Адреса" },
+]

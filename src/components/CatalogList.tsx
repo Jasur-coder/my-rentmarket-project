@@ -37,13 +37,17 @@ const CatalogList: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [filterOpen, setFilterOpen] = useState(false)
 
-  const [minPrice, setMinPrice] = useState('')
-  const [maxPrice, setMaxPrice] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('Все')
+  const [filters, setFilters] = useState({
+    minPrice: '',
+    maxPrice: '',
+    selectedCategory: 'Все'
+  })
 
-  const [appliedMin, setAppliedMin] = useState('')
-  const [appliedMax, setAppliedMax] = useState('')
-  const [appliedCategory, setAppliedCategory] = useState('Все')
+  const [appliedFilters, setAppliedFilters] = useState({
+    minPrice: '',
+    maxPrice: '',
+    selectedCategory: 'Все'
+  })
 
   const dropdownRef = useRef<HTMLDivElement>(null)
   const filterRef = useRef<HTMLDivElement>(null)
@@ -60,19 +64,13 @@ const CatalogList: React.FC = () => {
   }, [])
 
   const handleSave = () => {
-    setAppliedMin(minPrice)
-    setAppliedMax(maxPrice)
-    setAppliedCategory(selectedCategory)
+    setAppliedFilters(filters)
     setFilterOpen(false)
   }
 
   const handleReset = () => {
-    setMinPrice('')
-    setMaxPrice('')
-    setSelectedCategory('Все')
-    setAppliedMin('')
-    setAppliedMax('')
-    setAppliedCategory('Все')
+    setFilters({ minPrice: '', maxPrice: '', selectedCategory: 'Все' })
+    setAppliedFilters({ minPrice: '', maxPrice: '', selectedCategory: 'Все' })
   }
 
   if (isLoading) {
@@ -106,28 +104,28 @@ const CatalogList: React.FC = () => {
 
   const filteredItems = allProducts.filter((item) => {
     const price = parsePrice(item.price)
-    const min = appliedMin ? parseInt(appliedMin, 10) : null
-    const max = appliedMax ? parseInt(appliedMax, 10) : null
+    const min = appliedFilters.minPrice ? parseInt(appliedFilters.minPrice, 10) : null
+    const max = appliedFilters.maxPrice ? parseInt(appliedFilters.maxPrice, 10) : null
 
     if (min !== null && price < min) return false
     if (max !== null && price > max) return false
 
     const title = item.title.toLowerCase()
 
-    if (appliedCategory === 'Велосипеды') {
+    if (appliedFilters.selectedCategory === 'Велосипеды') {
       // Only bicycle products
       return title.includes('велосипед')
     }
 
-    if (appliedCategory === 'Гаджеты') {
+    if (appliedFilters.selectedCategory === 'Гаджеты') {
       // All products except bicycles
       return !title.includes('велосипед')
     }
 
     if (
-      appliedCategory === 'Беговая дорожка' ||
-      appliedCategory === 'Велотренажер' ||
-      appliedCategory === 'Тренажерное оборудование'
+      appliedFilters.selectedCategory === 'Беговая дорожка' ||
+      appliedFilters.selectedCategory === 'Велотренажер' ||
+      appliedFilters.selectedCategory === 'Тренажерное оборудование'
     ) {
       // Only treadmills
       return title.includes('беговая дорожка')
@@ -174,8 +172,8 @@ const CatalogList: React.FC = () => {
                     <label className="text-xs text-gray-500 mb-1 block">Минимальная цена</label>
                     <input
                       type="number"
-                      value={minPrice}
-                      onChange={(e) => setMinPrice(e.target.value)}
+                      value={filters.minPrice}
+                      onChange={(e) => setFilters(prev => ({ ...prev, minPrice: e.target.value }))}
                       placeholder="0"
                       className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-gray-400"
                     />
@@ -184,8 +182,8 @@ const CatalogList: React.FC = () => {
                     <label className="text-xs text-gray-500 mb-1 block">Максимальная цена</label>
                     <input
                       type="number"
-                      value={maxPrice}
-                      onChange={(e) => setMaxPrice(e.target.value)}
+                      value={filters.maxPrice}
+                      onChange={(e) => setFilters(prev => ({ ...prev, maxPrice: e.target.value }))}
                       placeholder="0"
                       className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-gray-400"
                     />
@@ -200,13 +198,13 @@ const CatalogList: React.FC = () => {
                   {CATEGORIES.map((cat) => (
                     <button
                       key={cat}
-                      onClick={() => setSelectedCategory(cat)}
+                      onClick={() => setFilters(prev => ({ ...prev, selectedCategory: cat }))}
                       className="flex items-center justify-between py-2.5 text-sm border-b border-gray-100 last:border-0 hover:bg-gray-50 px-1 rounded transition-colors"
                     >
-                      <span className={selectedCategory === cat ? 'font-semibold text-gray-900' : 'text-gray-400'}>
+                      <span className={filters.selectedCategory === cat ? 'font-semibold text-gray-900' : 'text-gray-400'}>
                         {cat}
                       </span>
-                      {selectedCategory === cat && <span className="text-gray-900">✓</span>}
+                      {filters.selectedCategory === cat && <span className="text-gray-900">✓</span>}
                     </button>
                   ))}
                 </div>

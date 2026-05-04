@@ -110,3 +110,50 @@ export interface StoredOrder {
   total: number
   items: StoredOrderItem[]
 }
+
+export interface OrderItem {
+  id: string | number
+  title: string
+  img?: string
+  period?: string
+  quantity: number
+  price: string
+  deposit?: string
+}
+
+export interface Order {
+  id: string | number
+  status: string
+  date: string
+  total: number
+  items: OrderItem[]
+}
+
+export interface OrdersTabProps {
+  orders: Order[]
+}
+
+export interface AddressTabProps {
+  address: ProfileAddress
+  addressEdit: boolean
+  setAddressEdit: (value: boolean) => void
+}
+
+export interface ProfileAccount {
+  firstName: string
+  lastName: string
+  displayName: string
+  phone: string
+}
+
+export interface ProfileTabProps {
+  hasAccount: boolean
+  account: ProfileAccount
+  updateAccountField: <K extends keyof ProfileAccount>(key: K, value: ProfileAccount[K]) => void
+  saveAccount: () => void
+}
+
+export interface ProductSwiperPropsI {
+  thumbnail: string;
+  images: string[];
+}
