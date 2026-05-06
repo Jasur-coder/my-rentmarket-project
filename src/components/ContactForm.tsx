@@ -11,7 +11,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
 import { Textarea } from "./ui/textarea";
 import { contactFormSchema } from "@/utils/schema";
 import { contactFormDefaultValues } from "@/utils/dafault-values";
@@ -23,8 +22,6 @@ import { Loader2 } from "lucide-react";
 import useModal from "@/hooks/useModal";
 import InfoModal from "./info-modal";
 
-
-
 type MutationParams = {
   url: string;
   data: {
@@ -34,8 +31,6 @@ type MutationParams = {
   };
 };
 const ContactForm = () => {
-
- 
 
   const { open, handleOpen } = useModal();
 

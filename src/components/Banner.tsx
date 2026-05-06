@@ -1,7 +1,5 @@
 import BannerRecom from "./BannerRecom"
 
-
-
 const Banner = () => {
     return (
         <section>

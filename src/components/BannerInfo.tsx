@@ -1,27 +1,5 @@
 import React from 'react';
-import { Battery, Bike, Gauge, Sofa } from 'lucide-react';
-import type { FeatureItem } from './type';
-
-
-
-const features: FeatureItem[] = [
-  {
-    icon: <Battery className="w-6 h-6" />,
-    text: 'Заряда батареи хватает на 75км'
-  },
-  {
-    icon: <Gauge className="w-6 h-6" />,
-    text: 'Высокая скорость до 50 км/час'
-  },
-  {
-    icon: <Sofa className="w-6 h-6" />,
-    text: 'Удобное эргономичное сиденье'
-  },
-  {
-    icon: <Bike className="w-6 h-6" />,
-    text: 'Усиленная рама для любых дорог'
-  }
-];
+import { features } from '@/data';
 
 const BannerInfo: React.FC<{ img: string; reverse?: boolean }> = (props) => {
 
@@ -40,7 +18,7 @@ const BannerInfo: React.FC<{ img: string; reverse?: boolean }> = (props) => {
           {features.map((feature, index) => (
             <div key={index} className="flex flex-col gap-4 group">
               <div className="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center transition-colors group-hover:bg-white/10">
-                {feature.icon}
+                <feature.icon className="w-6 h-6" />
               </div>
               <p className="text-[1rem] font-semibold ">
                 {feature.text}

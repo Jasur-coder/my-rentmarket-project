@@ -2,8 +2,6 @@ import { X } from "lucide-react";
 import { Button } from "./ui/button";
 import type { InfoModalProps } from "./type";
 
-
-
 const InfoModal = ({ open, handleOpen }: InfoModalProps) => {
   if (!open) return null;
 

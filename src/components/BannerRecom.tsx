@@ -1,4 +1,5 @@
 import { icons } from "@/assets/icons"
+
 const BannerRecom = () => {
     return (
         <div className="flex  justify-between bg-white rounded-3xl mt-9 px-8 py-5">

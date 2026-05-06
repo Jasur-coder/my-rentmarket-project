@@ -3,10 +3,6 @@ import { ArrowRight } from 'lucide-react';
 import { posts } from '@/data';
 import { Link } from 'react-router-dom';
 
-
-
-
-
 const BlogSection: React.FC<{ title: string }> = ({ title }) => {
   return (
     <section className="max-w-7xl mx-auto px-4 py-12 font-sans">

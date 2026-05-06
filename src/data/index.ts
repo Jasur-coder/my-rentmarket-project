@@ -1,6 +1,6 @@
-import { ShoppingBag, Heart, User } from "lucide-react"
+import { ShoppingBag, Heart, User, Battery, Gauge, Sofa, Bike } from "lucide-react"
 import { z } from "zod"
-import type { FAQData, Post, ProfileAccount, ProfileAddress, RentDataProps } from "@/components/type"
+import type { FAQData, FeatureItem, Post, ProfileAccount, ProfileAddress, RentDataProps } from "@/components/type"
 import express24 from "../assets/partners/express24.png"
 import tezkor from "../assets/partners/Utezkor.png"
 import yandex from "../assets/partners/yandex.png"
@@ -13,8 +13,15 @@ import blog1 from "../assets/blog1.png"
 import blog2 from "../assets/blog2.png"
 import blog3 from "../assets/blog3.png"
 import yellowBicycle from "../assets/yellow-bike.png"
-
-
+import bikepath from "@/assets/bikepath.png"
+import ps from "@/assets/PS.png"
+import BG from "@/assets/BG.png"
+import Express from "@/assets/Express.png"
+import bicyclegift from "@/assets/bicyclegift.png"
+import utezkor from "@/assets/partners/Utezkor.png"
+import ona from "@/assets/partners/ona.png"
+import uzumNasiya from "@/assets/partners/UzumNasiya.png"
+import bicycle from "@/assets/bicycle.png"
 
 export const headerLinks = [
     {
@@ -244,3 +251,39 @@ export const tabs: { key: Tab; label: string }[] = [
   { key: "uploads", label: "Загрузки" },
   { key: "address", label: "Адреса" },
 ]
+
+export const features: FeatureItem[] = [
+    {
+      icon: Battery,
+      text: 'Заряда батареи хватает на 75км'
+    },
+    {
+      icon: Gauge,
+      text: 'Высокая скорость до 50 км/час'
+    },
+    {
+      icon: Sofa,
+      text: 'Удобное эргономичное сиденье'
+    },
+    {
+      icon: Bike,
+      text: 'Усиленная рама для любых дорог'
+    }
+  ];
+
+  export const imageMap = {
+    'bicycle.png': bicycle,
+    'PS.png': ps,
+    'bikepath.png': bikepath,
+    'BG.png': BG,
+    'Express.png': Express,
+    'bicyclegift.png': bicyclegift,
+    'express24.png': express24,
+    'Utezkor.png': utezkor,
+    'yandex.png': yandex,
+    'ona.png': ona,
+    'Payme.png': payme,
+    'UzumNasiya.png': uzumNasiya,
+    'Solfy.png': solfy,
+    'ZoodPay.png': zoodpay,
+};

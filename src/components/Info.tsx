@@ -1,4 +1,3 @@
-
 import { Send, Facebook, Youtube } from 'lucide-react';
 import { posts } from '@/data';
 

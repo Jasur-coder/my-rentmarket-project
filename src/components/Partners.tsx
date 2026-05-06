@@ -1,26 +1,19 @@
 import React from 'react';
 import { partners } from '@/data';
 
-// Массив с данными партнеров (замени пути к изображениям на свои)
-
-
 const Partners: React.FC = () => {
   return (
     <section className="w-full py-10">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Заголовок секции */}
         <h2 className="text-[32px] font-bold text-[#1A1A1A] mb-8">
           Наши партнеры
         </h2>
-
-        {/* Сетка логотипов */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {partners.map((partner) => (
             <div
               key={partner.id}
               className="bg-white rounded-[24px] h-[160px] flex items-center justify-center p-6 shadow-sm hover:shadow-md transition-shadow duration-300"
             >
-              {/* Если логотипов пока нет, отображается текст, иначе раскомментируй <img> */}
               <img 
                 src={partner.logo} 
                 alt={partner.name} 

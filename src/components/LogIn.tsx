@@ -21,7 +21,6 @@ const LogIn = ({
   setupValid,
 }: LogInProps) => {
 
-    
     return (
         <div className="mt-6 rounded-xl bg-white p-6 md:p-8 border border-[#dfdfdf]">
             <h2 className="text-[28px] font-semibold text-[#2f2f2f]">

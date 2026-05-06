@@ -8,11 +8,8 @@ import {
 } from "@/components/ui/alert-dialog"
 import { useLikes } from "@/context/LikesContext"
 import ProductCard from "@/components/ProductCard"
+import type { LikeModalProps } from "../type"
 
-interface LikeModalProps {
-    open: boolean
-    onOpenChange: (open: boolean) => void
-}
 
 const LikeModal = ({ open, onOpenChange }: LikeModalProps) => {
     const { likedItems } = useLikes()

@@ -1,7 +1,5 @@
 import type { AddressTabProps } from './type'
 
-
-
 const AddressRow = ({ label, value }: { label: string; value: string }) => (
   <div className="flex items-center gap-4">
     <span className="min-w-40 text-[#777]">{label}</span>

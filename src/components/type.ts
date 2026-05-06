@@ -1,3 +1,6 @@
+import type { LucideIcon } from "lucide-react"
+import type { ReactNode } from "react"
+
 export interface ProductCardProps {
     id: number;
     title: string;
@@ -84,7 +87,7 @@ export interface ProfileAddress {
 }
 
 export interface FeatureItem {
-  icon: React.ReactNode;
+  icon: LucideIcon;
   text: string;
 }
 
@@ -156,4 +159,37 @@ export interface ProfileTabProps {
 export interface ProductSwiperPropsI {
   thumbnail: string;
   images: string[];
+}
+
+export interface CardModalProps {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}
+
+export interface LikeModalProps {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}
+
+export type RentPeriod = "week" | "month"
+
+export interface PeriodOption {
+  key: RentPeriod
+  label: string
+  icon?: ReactNode
+}
+
+export interface ProductPageInfoProps {
+  product: ProductCardProps
+  liked: boolean
+  isInCart: boolean
+  periods: PeriodOption[]
+  rentPeriod: RentPeriod
+  quantity: number
+  onSelectPeriod: (period: RentPeriod) => void
+  onDecreaseQuantity: () => void
+  onIncreaseQuantity: () => void
+  handleLike: () => void
+  handleAddToCart: () => void
+  handleBuyNow: () => void
 }
