@@ -1,6 +1,6 @@
 import { ShoppingBag, Heart, User, Battery, Gauge, Sofa, Bike, Gift } from "lucide-react"
 import { z } from "zod"
-import type { DetailsTab, FAQData, FeatureItem, Post, ProfileAccount, ProfileAddress, RentDataProps, RentPeriod } from "@/components/type"
+import type { DetailsTab, FAQData, FeatureItem, Post, ProfileAccount, ProfileAddress, RentDataProps, RentPeriod, SortOption } from "@/components/type"
 import express24 from "../assets/partners/express24.png"
 import tezkor from "../assets/partners/Utezkor.png"
 import yandex from "../assets/partners/yandex.png"
@@ -224,54 +224,54 @@ export const contactFormSchema = z.object({
 });
 
 export const defaultAccount: ProfileAccount = {
-  firstName: "",
-  lastName: "",
-  displayName: "",
-  phone: "",
+    firstName: "",
+    lastName: "",
+    displayName: "",
+    phone: "",
 }
 
 export const defaultAddress: ProfileAddress = {
-  firstName: "",
-  lastName: "",
-  company: "",
-  country: "Узбекистан",
-  street: "",
-  unit: "",
-  city: "",
-  region: "",
-  postalCode: "",
-  phone: "",
+    firstName: "",
+    lastName: "",
+    company: "",
+    country: "Узбекистан",
+    street: "",
+    unit: "",
+    city: "",
+    region: "",
+    postalCode: "",
+    phone: "",
 }
 
-export  type Tab = "profile" | "orders" | "uploads" | "address"
+export type Tab = "profile" | "orders" | "uploads" | "address"
 
 export const tabs: { key: Tab; label: string }[] = [
-  { key: "profile", label: "Профиль" },
-  { key: "orders", label: "Заказы" },
-  { key: "uploads", label: "Загрузки" },
-  { key: "address", label: "Адреса" },
+    { key: "profile", label: "Профиль" },
+    { key: "orders", label: "Заказы" },
+    { key: "uploads", label: "Загрузки" },
+    { key: "address", label: "Адреса" },
 ]
 
 export const features: FeatureItem[] = [
     {
-      icon: Battery,
-      text: 'Заряда батареи хватает на 75км'
+        icon: Battery,
+        text: 'Заряда батареи хватает на 75км'
     },
     {
-      icon: Gauge,
-      text: 'Высокая скорость до 50 км/час'
+        icon: Gauge,
+        text: 'Высокая скорость до 50 км/час'
     },
     {
-      icon: Sofa,
-      text: 'Удобное эргономичное сиденье'
+        icon: Sofa,
+        text: 'Удобное эргономичное сиденье'
     },
     {
-      icon: Bike,
-      text: 'Усиленная рама для любых дорог'
+        icon: Bike,
+        text: 'Усиленная рама для любых дорог'
     }
-  ];
+];
 
-  export const imageMap = {
+export const imageMap = {
     'bicycle.png': bicycle,
     'PS.png': ps,
     'bikepath.png': bikepath,
@@ -296,4 +296,21 @@ export const periods = [
 export const productTabs = [
     { key: 'desc' as DetailsTab, label: 'Описание товара' },
     { key: 'reviews' as DetailsTab, label: "Отзывы" }
+]
+
+export const SORT_LABELS: Record<SortOption, string> = {
+    popular: 'Популярные',
+    new: 'Новинки',
+    cheap: 'Сначала дешевые',
+    expensive: 'Сначала дорогие',
+}
+
+export const CATEGORIES = [
+    'Все',
+    'Чистящее оборудование',
+    'Велосипеды',
+    'Гаджеты',
+    'Беговая дорожка',
+    'Велотренажер',
+    'Тренажерное оборудование',
 ]

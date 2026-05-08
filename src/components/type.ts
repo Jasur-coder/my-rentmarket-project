@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react"
+import type { Dispatch, SetStateAction } from "react"
 
 export interface ProductCardProps {
     id: number;
@@ -216,4 +217,19 @@ export interface CardModalProductsProps {
   onRemove: (id: number) => void
   resolveImagePath: (imgPath?: string | null) => string
   formatPrice: (value: number) => string
+}
+
+export type SortOption = 'popular' | 'new' | 'cheap' | 'expensive'
+
+export interface FiltersState {
+  minPrice: string
+  maxPrice: string
+  selectedCategory: string
+}
+
+export interface CatalogFilterProps {
+  filters: FiltersState
+  setFilters: Dispatch<SetStateAction<FiltersState>>
+  handleReset: () => void
+  handleSave: () => void
 }
