@@ -2,26 +2,20 @@ import { productService } from "@/services/api"
 import { useQuery } from "@tanstack/react-query"
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useMemo, useState } from "react"
-import { Gift } from "lucide-react"
 import { useCards } from "@/context/CardsContext"
 import { useLikes } from "@/context/LikesContext"
 import ProductSwiper from "./ProductSwiper"
-import type { ProductCardProps } from "./type"
+import type { DetailsTab, ProductCardProps, RentPeriod } from "./type"
 import { getProductDetails, type ProductReview } from "../data/productDetails"
-import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation as SwiperNavigation } from "swiper/modules"
-import MiniCard from "./MiniCard"
 import BlogSection from "./BlogSection"
 import Navigation from "./Navigation"
 import bicycle from "@/assets/bicycle.png"
-import { imageMap } from "@/data"
+import { imageMap, periods, productTabs } from "@/data"
 import Loading from "./Loading"
 import Error from "./Error"
 import ProductPageInfo from "./ProductPageInfo"
 import Review from "./Review"
-
-type RentPeriod = "week" | "month"
-type DetailsTab = "desc" | "reviews"
+import SimilarProducts from "./SimilarProducts"
 
 const parsePrice = (value: string) => {
     const numeric = value.replace(/[^\d]/g, "")
@@ -54,13 +48,8 @@ const ProductPage = () => {
         myRating: 0 as ProductReview["rating"] | 0,
         myText: ''
     })
+
     const [userReviews, setUserReviews] = useState<ProductReview[]>([])
-
-    const periods = [
-        { key: 'week' as RentPeriod, label: 'Неделя' },
-        { key: 'month' as RentPeriod, label: 'Месяц', icon: <Gift size={16} className="text-green-500" /> }
-    ]
-
     const { toggleCard, isCard } = useCards()
     const { toggleLike, isLiked } = useLikes()
 
@@ -77,11 +66,6 @@ const ProductPage = () => {
         return [...getProductDetails(pid).reviews, ...userReviews]
     }, [product, userReviews])
 
-    const tabs = [
-        { key: 'desc' as DetailsTab, label: 'Описание товара' },
-        { key: 'reviews' as DetailsTab, label: `Отзывы (${reviews.length})` }
-    ]
-
     const { data: allProducts = [] } = useQuery({
         queryKey: ["products"],
         queryFn: () => productService.getAllProducts(),
@@ -91,7 +75,6 @@ const ProductPage = () => {
         if (!product) return
         const pid = Number(product.id)
         if (Number.isNaN(pid)) return
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         setState(prev => ({ ...prev, myRating: 0, myText: '' }))
     }, [product])
 
@@ -183,7 +166,7 @@ const ProductPage = () => {
 
             <div className="mt-10 rounded-2xl bg-white">
                 <div className="flex items-center gap-8 border-b border-gray-200 px-6 pt-5">
-                    {tabs.map(({ key, label }) => (
+                    {productTabs.map(({ key, label }) => (
                         <button
                             key={key}
                             type="button"
@@ -241,34 +224,7 @@ const ProductPage = () => {
                 </div>
             </div>
             {similar.length > 0 && (
-                <div className="mt-10">
-                    <h2 className="text-2xl font-semibold text-gray-900">Похожие товары</h2>
-                    <div className="mt-6">
-                        <Swiper
-                            modules={[SwiperNavigation]}
-                            navigation
-                            spaceBetween={16}
-                            slidesPerView={2}
-                            breakpoints={{
-                                640: { slidesPerView: 3 },
-                                1024: { slidesPerView: 5 },
-
-                            }}
-                            className="swiper-content"
-                        >
-                            {similar.map((p) => (
-                                <SwiperSlide key={p.id} className="swiper-slide-product">
-                                    <MiniCard
-                                        product={p}
-                                        imageSrc={
-                                            getProductImages(p as ProductCardProps)[0]
-                                        }
-                                    />
-                                </SwiperSlide>
-                            ))}
-                        </Swiper>
-                    </div>
-                </div>
+                <SimilarProducts similar={similar as ProductCardProps[]} />
             )}
             <div className="mt-10">
                 <BlogSection title="Полезная информация"/>

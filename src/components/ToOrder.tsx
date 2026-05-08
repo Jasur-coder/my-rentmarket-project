@@ -13,8 +13,6 @@ const COURIER_FEE = 30_000
 type DeliveryMethod = "pickup" | "courier"
 type PaymentMethod = "card" | "cash"
 
-
-
 type OrdersByAccount = Record<string, ProfileOrder[]>
 
 const PROFILE_ACCOUNT_KEY = "profileAccount"

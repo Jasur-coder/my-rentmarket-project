@@ -1,5 +1,4 @@
 import type { LucideIcon } from "lucide-react"
-import type { ReactNode } from "react"
 
 export interface ProductCardProps {
     id: number;
@@ -176,7 +175,7 @@ export type RentPeriod = "week" | "month"
 export interface PeriodOption {
   key: RentPeriod
   label: string
-  icon?: ReactNode
+  icon?: LucideIcon
 }
 
 export interface ProductPageInfoProps {
@@ -192,4 +191,29 @@ export interface ProductPageInfoProps {
   handleLike: () => void
   handleAddToCart: () => void
   handleBuyNow: () => void
+}
+
+export type DetailsTab = "desc" | "reviews"
+
+export interface CardModalInfoProps {
+  itemCount: number
+  totalPrice: number
+  totalOldPrice: number
+  totalSaving: number
+  canCheckout: boolean
+  onCheckout: () => void
+  formatPrice: (value: number) => string
+}
+
+export interface CardModalProductsProps {
+  item: ProductCardProps
+  qty: number
+  price: number
+  oldPrice: number
+  isSelected: boolean
+  onToggleOne: (id: number) => void
+  onQuantityChange: (id: number, delta: number) => void
+  onRemove: (id: number) => void
+  resolveImagePath: (imgPath?: string | null) => string
+  formatPrice: (value: number) => string
 }

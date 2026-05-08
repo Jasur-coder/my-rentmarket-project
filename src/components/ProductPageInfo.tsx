@@ -40,7 +40,7 @@ const ProductPageInfo = ({
                     <div className="mb-8">
                         <span className="block text-sm text-gray-700 font-medium mb-3">Срок аренды:</span>
                         <div className="flex gap-3">
-                            {periods.map(({ key, label, icon }) => (
+                            {periods.map(({ key, label, icon: Icon }) => (
                                 <button
                                     key={key}
                                     onClick={() => onSelectPeriod(key)}
@@ -50,7 +50,7 @@ const ProductPageInfo = ({
                                         }`}
                                 >
                                     {label}
-                                    {icon}
+                                    {Icon && <Icon size={16} className="text-green-500" />}
                                 </button>
                             ))}
                         </div>

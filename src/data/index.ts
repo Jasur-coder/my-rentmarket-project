@@ -1,6 +1,6 @@
-import { ShoppingBag, Heart, User, Battery, Gauge, Sofa, Bike } from "lucide-react"
+import { ShoppingBag, Heart, User, Battery, Gauge, Sofa, Bike, Gift } from "lucide-react"
 import { z } from "zod"
-import type { FAQData, FeatureItem, Post, ProfileAccount, ProfileAddress, RentDataProps } from "@/components/type"
+import type { DetailsTab, FAQData, FeatureItem, Post, ProfileAccount, ProfileAddress, RentDataProps, RentPeriod } from "@/components/type"
 import express24 from "../assets/partners/express24.png"
 import tezkor from "../assets/partners/Utezkor.png"
 import yandex from "../assets/partners/yandex.png"
@@ -287,3 +287,13 @@ export const features: FeatureItem[] = [
     'Solfy.png': solfy,
     'ZoodPay.png': zoodpay,
 };
+
+export const periods = [
+    { key: 'week' as RentPeriod, label: 'Неделя' },
+    { key: 'month' as RentPeriod, label: 'Месяц', icon: Gift }
+]
+
+export const productTabs = [
+    { key: 'desc' as DetailsTab, label: 'Описание товара' },
+    { key: 'reviews' as DetailsTab, label: "Отзывы" }
+]

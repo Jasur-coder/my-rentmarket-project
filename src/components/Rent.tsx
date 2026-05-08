@@ -1,6 +1,5 @@
 import { rentData } from "@/data"
 
-
 const Rent =  () => {
     
     return (
