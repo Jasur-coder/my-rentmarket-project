@@ -20,10 +20,15 @@ const MiniCard = ({ product, imageSrc }: MiniCardProps) => {
                     type="button"
                     onClick={() => toggleLike(product)}
                     className="text-gray-900 hover:text-red-500 transition-colors absolute top-3 right-3"
-                    aria-label="like"
+                    aria-label={
+                        liked
+                            ? `Убрать «${product.title}» из избранного`
+                            : `Добавить «${product.title}» в избранное`
+                    }
                 >
                     <Heart
                         size={18}
+                        aria-hidden
                         fill={liked ? "red" : "none"}
                         stroke={liked ? "red" : "currentColor"}
                     />
@@ -33,6 +38,10 @@ const MiniCard = ({ product, imageSrc }: MiniCardProps) => {
                         <img
                             src={imageSrc}
                             alt={product.title}
+                            loading="lazy"
+                            decoding="async"
+                            width={200}
+                            height={200}
                             className="max-h-[200px] max-w-[90%] object-contain"
                         />
                     </div>
@@ -42,7 +51,7 @@ const MiniCard = ({ product, imageSrc }: MiniCardProps) => {
                 <div className="truncate text-sm font-medium text-gray-900">
                     {product.title}
                 </div>
-                <div className="mt-1 text-xs text-gray-500">{product.price}</div>
+                <div className="mt-1 text-xs text-gray-700">{product.price}</div>
             </div>
         </div>
     )

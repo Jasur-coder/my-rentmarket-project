@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import { posts } from '@/data';
+import { posts } from "@/data/blog-posts"
 import { Link } from 'react-router-dom';
 
 const BlogSection: React.FC<{ title: string }> = ({ title }) => {
@@ -23,9 +23,13 @@ const BlogSection: React.FC<{ title: string }> = ({ title }) => {
             className="group relative h-[450px] rounded-[32px] overflow-hidden cursor-pointer shadow-lg"
           >
             {/* Изображение */}
-            <img 
-              src={post.imageUrl} 
-              alt={post.title} 
+            <img
+              src={post.imageUrl}
+              alt={post.title}
+              loading="lazy"
+              decoding="async"
+              width={600}
+              height={450}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
             

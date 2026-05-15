@@ -1,16 +1,18 @@
+import { lazy, Suspense } from "react"
 import Banner from "@/components/Banner"
 import ProductList from "@/components/ProductList"
 import BannerInfo from "@/components/BannerInfo"
-import express from "@/assets/Express.png"
-import bicycleGift from "@/assets/bicyclegift.png"
+import express from "@/assets/Express.webp"
+import bicycleGift from "@/assets/bicyclegift.webp"
 import { productService } from "@/services/api"
-import Rent from "@/components/Rent"
-import Map from "@/components/Map"
-import Partners from "@/components/Partners"
-import FAQComponent from "@/components/FAQComponent"
-import BlogSection from "@/components/BlogSection"
 import { useQuery } from "@tanstack/react-query"
 import { Skeleton } from "@/components/ui/skeleton"
+
+const Rent = lazy(() => import("@/components/Rent"))
+const Map = lazy(() => import("@/components/Map"))
+const Partners = lazy(() => import("@/components/Partners"))
+const FAQComponent = lazy(() => import("@/components/FAQComponent"))
+const BlogSection = lazy(() => import("@/components/BlogSection"))
 
 const Home = () => {
   const { data: allProducts = [], isLoading, error } = useQuery({
@@ -71,11 +73,13 @@ const Home = () => {
         <BannerInfo img={bicycleGift} reverse />
         <ProductList title="Гаджеты и другие" productData={gadgets} />
         <BannerInfo img={express} />
-        <Rent />
-        <Map />
-        <Partners />
-        <FAQComponent />
-        <BlogSection title="Блог" />
+        <Suspense fallback={null}>
+          <Rent />
+          <Map />
+          <Partners />
+          <FAQComponent />
+          <BlogSection title="Блог" />
+        </Suspense>
       </div>
     </>
   )

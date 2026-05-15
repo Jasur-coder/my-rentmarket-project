@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react"
 import type {  ProfileAccount, ProfileAddress } from "./type";
-import { defaultAccount, defaultAddress, type Tab } from "@/data";
+import { defaultAccount, defaultAddress, type Tab } from "@/data/profile-defaults"
 import LogIn from "./LogIn";
 import ProfileInfo from "./ProfileInfo";
 

@@ -2,20 +2,20 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
 import { useCards } from "@/context/CardsContext"
-import bicycle from "@/assets/bicycle.png"
-import bikepath from "@/assets/bikepath.png"
-import ps from "@/assets/PS.png"
-import BG from "@/assets/BG.png"
-import Express from "@/assets/Express.png"
-import bicyclegift from "@/assets/bicyclegift.png"
-import express24 from "@/assets/partners/express24.png"
-import utezkor from "@/assets/partners/Utezkor.png"
-import yandex from "@/assets/partners/yandex.png"
-import ona from "@/assets/partners/ona.png"
-import payme from "@/assets/partners/Payme.png"
-import uzumNasiya from "@/assets/partners/UzumNasiya.png"
-import solfy from "@/assets/partners/Solfy.png"
-import zoodpay from "@/assets/partners/ZoodPay.png"
+import bicycle from "@/assets/bicycle.webp"
+import bikepath from "@/assets/bikepath.webp"
+import ps from "@/assets/PS.webp"
+import BG from "@/assets/BG.webp"
+import Express from "@/assets/Express.webp"
+import bicyclegift from "@/assets/bicyclegift.webp"
+import express24 from "@/assets/partners/express24.webp"
+import utezkor from "@/assets/partners/Utezkor.webp"
+import yandex from "@/assets/partners/yandex.webp"
+import ona from "@/assets/partners/ona.webp"
+import payme from "@/assets/partners/Payme.webp"
+import uzumNasiya from "@/assets/partners/UzumNasiya.webp"
+import solfy from "@/assets/partners/Solfy.webp"
+import zoodpay from "@/assets/partners/ZoodPay.webp"
 import type { CardModalProps } from "../type"
 import CardModalInfo from "../CardModalInfo"
 import CardModalProducts from "../CardModalProducts"
@@ -121,6 +121,9 @@ const CardModal = ({ open, onOpenChange }: CardModalProps) => {
 
     const totalSaving = Math.max(0, totalOldPrice - totalPrice)
 
+    const allItemsSelected =
+        CardItems.length > 0 && CardItems.every((item) => selected[item.id])
+
     return (
         <AlertDialog open={open} onOpenChange={onOpenChange}>
             <AlertDialogContent className="container">
@@ -137,12 +140,18 @@ const CardModal = ({ open, onOpenChange }: CardModalProps) => {
                                     type="button"
                                     onClick={handleToggleAll}
                                     className="flex items-center gap-2"
+                                    aria-pressed={allItemsSelected}
+                                    aria-label={
+                                        allItemsSelected
+                                            ? "Снять выбор со всех товаров в корзине"
+                                            : "Выбрать все товары в корзине"
+                                    }
                                 >
                                     <span
-                                        className={`flex h-5 w-5 items-center justify-center rounded border ${CardItems.length > 0 && CardItems.every((item) => selected[item.id]) ? "bg-[#00D414] border-[#00D414]" : "border-gray-300 bg-white"
+                                        className={`flex h-5 w-5 items-center justify-center rounded border ${allItemsSelected ? "bg-[#00D414] border-[#00D414]" : "border-gray-300 bg-white"
                                             }`}
                                     >
-                                        {CardItems.length > 0 && CardItems.every((item) => selected[item.id]) && (
+                                        {allItemsSelected && (
                                             <span className="h-3 w-3 rounded-sm bg-white" />
                                         )}
                                     </span>

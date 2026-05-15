@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
-import { faqData } from '@/data';
+import { faqData } from "@/data/faq"
 
 const FAQComponent: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("Аренда");
@@ -20,6 +20,7 @@ const FAQComponent: React.FC = () => {
           {Object.keys(faqData).map((tab) => (
             <button
               key={tab}
+              type="button"
               onClick={() => {
                 setActiveTab(tab);
                 setOpenIndex(null); // Закрываем аккордеон при смене таба
@@ -41,23 +42,30 @@ const FAQComponent: React.FC = () => {
           {faqData[activeTab].map((item, index) => (
             <div key={index} className="py-4">
               <button
+                type="button"
                 onClick={() => toggleAccordion(index)}
                 className="w-full flex items-center justify-between text-left group"
+                aria-expanded={openIndex === index}
+                aria-controls={`faq-answer-${activeTab}-${index}`}
+                id={`faq-question-${activeTab}-${index}`}
               >
                 <span className="text-gray-800 font-medium pr-4 leading-snug">
                   {item.question}
                 </span>
                 <div className={`flex-shrink-0 w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center transition-colors group-hover:bg-gray-100 ${openIndex === index ? 'bg-gray-100' : ''}`}>
                   {openIndex === index ? (
-                    <Minus className="w-5 h-5 text-gray-600" />
+                    <Minus className="w-5 h-5 text-gray-600" aria-hidden />
                   ) : (
-                    <Plus className="w-5 h-5 text-gray-600" />
+                    <Plus className="w-5 h-5 text-gray-600" aria-hidden />
                   )}
                 </div>
               </button>
               
               {/* Контент (Ответ) */}
               <div
+                id={`faq-answer-${activeTab}-${index}`}
+                role="region"
+                aria-labelledby={`faq-question-${activeTab}-${index}`}
                 className={`overflow-hidden transition-all duration-300 ease-in-out ${
                   openIndex === index ? "max-h-40 opacity-100 mt-4" : "max-h-0 opacity-0"
                 }`}

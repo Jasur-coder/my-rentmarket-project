@@ -2,20 +2,20 @@ import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Thumbs } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
-import bicycle from "@/assets/bicycle.png";
-import bikepath from "@/assets/bikepath.png";
-import ps from "@/assets/PS.png";
-import BG from "@/assets/BG.png";
-import Express from "@/assets/Express.png";
-import bicyclegift from "@/assets/bicyclegift.png";
-import express24 from "@/assets/partners/express24.png";
-import utezkor from "@/assets/partners/Utezkor.png";
-import yandex from "@/assets/partners/yandex.png";
-import ona from "@/assets/partners/ona.png";
-import payme from "@/assets/partners/Payme.png";
-import uzumNasiya from "@/assets/partners/UzumNasiya.png";
-import solfy from "@/assets/partners/Solfy.png";
-import zoodpay from "@/assets/partners/ZoodPay.png";
+import bicycle from "@/assets/bicycle.webp";
+import bikepath from "@/assets/bikepath.webp";
+import ps from "@/assets/PS.webp";
+import BG from "@/assets/BG.webp";
+import Express from "@/assets/Express.webp";
+import bicyclegift from "@/assets/bicyclegift.webp";
+import express24 from "@/assets/partners/express24.webp";
+import utezkor from "@/assets/partners/Utezkor.webp";
+import yandex from "@/assets/partners/yandex.webp";
+import ona from "@/assets/partners/ona.webp";
+import payme from "@/assets/partners/Payme.webp";
+import uzumNasiya from "@/assets/partners/UzumNasiya.webp";
+import solfy from "@/assets/partners/Solfy.webp";
+import zoodpay from "@/assets/partners/ZoodPay.webp";
 import type { ProductSwiperPropsI } from "./type";
 
 const resolveImagePath = (imgPath: string) => {
@@ -59,9 +59,14 @@ const ProductSwiper = ({ thumbnail, images }: ProductSwiperPropsI) => {
       >
         {resolvedSlides.map((img, index) => (
           <SwiperSlide key={index}>
-            <img 
-              src={img} 
+            <img
+              src={img}
               alt={`Product image ${index + 1}`}
+              fetchPriority={index === 0 ? "high" : "low"}
+              loading={index === 0 ? "eager" : "lazy"}
+              decoding="async"
+              width={500}
+              height={384}
               className="w-full h-96 object-cover rounded-lg"
             />
           </SwiperSlide>
@@ -79,9 +84,13 @@ const ProductSwiper = ({ thumbnail, images }: ProductSwiperPropsI) => {
       >
         {resolvedSlides.map((img, index) => (
           <SwiperSlide key={index}>
-            <img 
-              src={img} 
+            <img
+              src={img}
               alt={`Thumbnail ${index + 1}`}
+              loading="lazy"
+              decoding="async"
+              width={120}
+              height={80}
               className="w-full h-20 object-cover rounded cursor-pointer"
             />
           </SwiperSlide>

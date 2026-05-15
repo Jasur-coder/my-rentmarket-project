@@ -1,0 +1,31 @@
+﻿import type { AddressTabProps } from './type'
+import React from 'react';
+import React from 'react';
+import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { ListFilter } from 'lucide-react';
+import ProductCard from './ProductCard';
+import { productService } from '@/services/api';
+import { useQuery } from '@tanstack/react-query';
+import { Skeleton } from './ui/skeleton';
+import type { SortOption } from './type';
+import CatalogFilter from './CatalogFilter';
+import React, { useState } from 'react';
+import { Plus, Minus } from 'lucide-react';
+import React from 'react';
+import { linksLeft, linksRight } from '@/data/footer-links';
+import { Link } from 'react-router-dom';
+import { Send, Facebook, Youtube } from 'lucide-react';
+import React from 'react';
+import React from 'react'
+import type { OrdersTabProps } from './type'
+import React from 'react';
+import { EditableField } from './MyProfile'
+import type { ProfileTabProps } from './type'
+import { PackageX } from 'lucide-react';
+import type { ProductCardProps } from '@/components/type'
+  import { InputHTMLAttributes } from 'react';
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import App from './App.tsx'

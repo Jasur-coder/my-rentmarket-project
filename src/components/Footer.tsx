@@ -1,8 +1,8 @@
 import React from 'react';
-import { linksLeft, linksRight } from '@/data';
+import { linksLeft, linksRight } from '@/data/footer-links';
 import { Link } from 'react-router-dom';
-import footerLogo from "../assets/footer-logo.png"
-import { icons } from "@/assets/icons"
+import footerLogo from "../assets/footer-logo.webp"
+import { Facebook, Instagram, MessageCircle, Send, Youtube, Apple, Play } from "lucide-react"
 
 const Footer: React.FC = () => {
 
@@ -13,7 +13,14 @@ const Footer: React.FC = () => {
         {/* Логотип */}
         <div className="mb-14">
           <Link to="/">
-            <img src={footerLogo} alt="" />
+            <img
+              src={footerLogo}
+              alt="RentMarket"
+              loading="lazy"
+              decoding="async"
+              width={140}
+              height={40}
+            />
           </Link>
         </div>
 
@@ -57,34 +64,43 @@ const Footer: React.FC = () => {
             {/* Иконки соцсетей */}
             <div className="flex gap-3">
               {[
-                { icon: <icons.telegram />, label: 'TG' },
-                { icon: <icons.whatsapp />, label: 'WA' },
-                { icon: <icons.facebook />, label: 'FB' },
-                { icon: <icons.instagram />, label: 'IG' },
-                { icon: <icons.youtube />, label: 'YT' },
-              ].map((social, idx) => (
+                { icon: Send, label: "Telegram" },
+                { icon: MessageCircle, label: "WhatsApp" },
+                { icon: Facebook, label: "Facebook" },
+                { icon: Instagram, label: "Instagram" },
+                { icon: Youtube, label: "YouTube" },
+              ].map(({ icon: Icon, label }) => (
                 <a
-                  key={idx}
+                  key={label}
                   href="#"
+                  aria-label={`RentMarket в ${label}`}
                   className="w-10 h-10 bg-[#00FF00] rounded-full flex items-center justify-center text-black hover:scale-110 transition-transform"
                 >
-                  {social.icon}
+                  <Icon size={18} aria-hidden />
                 </a>
               ))}
             </div>
 
             {/* Кнопки магазинов */}
             <div className="flex flex-wrap gap-3">
-              <button className="flex items-center gap-2 border border-gray-700 rounded-xl px-4 py-2 hover:bg-white/5 transition-colors min-w-[140px]">
-              <icons.googlePlay />
+              <button
+                type="button"
+                className="flex items-center gap-2 border border-gray-700 rounded-xl px-4 py-2 hover:bg-white/5 transition-colors min-w-[140px]"
+                aria-label="Скачать приложение в Google Play"
+              >
+              <Play size={18} aria-hidden />
                 <div className="text-left">
                   <span className="block text-[9px] uppercase text-gray-400">Get it on</span>
                   <span className="block text-sm font-semibold">Google Play</span>
                 </div>
               </button>
 
-              <button className="flex items-center gap-2 border border-gray-700 rounded-xl px-4 py-2 hover:bg-white/5 transition-colors min-w-[140px]">
-              <icons.apple />
+              <button
+                type="button"
+                className="flex items-center gap-2 border border-gray-700 rounded-xl px-4 py-2 hover:bg-white/5 transition-colors min-w-[140px]"
+                aria-label="Скачать приложение в App Store"
+              >
+              <Apple size={18} aria-hidden />
                 <div className="text-left">
                   <span className="block text-[9px] uppercase text-gray-400">Download on the</span>
                   <span className="block text-sm font-semibold">App Store</span>

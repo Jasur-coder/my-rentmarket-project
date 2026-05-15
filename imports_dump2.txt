@@ -1,0 +1,279 @@
+﻿import { Battery, Gauge, Armchair, CircleStop } from "lucide-react";
+import type { SVGProps } from "react";
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
+import { useCards } from "@/context/CardsContext"
+import bicycle from "@/assets/bicycle.webp"
+import bikepath from "@/assets/bikepath.webp"
+import ps from "@/assets/PS.webp"
+import BG from "@/assets/BG.webp"
+import Express from "@/assets/Express.webp"
+import bicyclegift from "@/assets/bicyclegift.webp"
+import express24 from "@/assets/partners/express24.webp"
+import utezkor from "@/assets/partners/Utezkor.webp"
+import yandex from "@/assets/partners/yandex.webp"
+import ona from "@/assets/partners/ona.webp"
+import payme from "@/assets/partners/Payme.webp"
+import uzumNasiya from "@/assets/partners/UzumNasiya.webp"
+import solfy from "@/assets/partners/Solfy.webp"
+import zoodpay from "@/assets/partners/ZoodPay.webp"
+import type { CardModalProps } from "../type"
+import CardModalInfo from "../CardModalInfo"
+import CardModalProducts from "../CardModalProducts"
+import CardModalEmpty from "../CardModalEmpty"
+} from "@/components/ui/alert-dialog"
+import { useLikes } from "@/context/LikesContext"
+import ProductCard from "@/components/ProductCard"
+import type { LikeModalProps } from "../type"
+import * as React from "react"
+import { AlertDialog as AlertDialogPrimitive } from "radix-ui"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import * as React from "react"
+import { ChevronRight } from "lucide-react"
+import { cn } from "@/lib/utils"
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+import { Slot } from "radix-ui"
+import { cn } from "@/lib/utils"
+import * as React from "react"
+import * as LabelPrimitive from "@radix-ui/react-label"
+import { Slot } from "radix-ui"
+} from "react-hook-form"
+import { cn } from "@/lib/utils"
+import { Label } from "@/components/ui/label"
+import * as React from "react"
+import { cn } from "@/lib/utils"
+import * as React from "react"
+import * as LabelPrimitive from "@radix-ui/react-label"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils"
+import * as React from "react"
+import { cn } from "@/lib/utils"
+import BannerRecom from "./BannerRecom"
+import { features } from "@/data/features"
+import { posts } from "@/data/blog-posts"
+import { Button } from "@/components/ui/button"
+import type { CardModalInfoProps } from "./type"
+import { Trash2 } from "lucide-react"
+import type { CardModalProductsProps } from "./type"
+import { CATEGORIES } from "@/data/categories"
+import type { CatalogFilterProps } from "./type"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, type ControllerRenderProps } from "react-hook-form";
+import { z } from "zod";
+import { InputMask } from "@react-input/mask";
+import { Button } from "@/components/ui/button";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "./ui/textarea";
+import { contactFormSchema } from "@/utils/schema";
+import { contactFormDefaultValues } from "@/utils/dafault-values";
+import { useMutation } from "@tanstack/react-query";
+import { postData } from "@/utils/https";
+import { toast } from "sonner";
+import { endpoints } from "@/utils/endpoints";
+import { Loader2 } from "lucide-react";
+import useModal from "@/hooks/useModal";
+import InfoModal from "./info-modal";
+import { faqData } from "@/data/faq"
+import footerLogo from "../assets/footer-logo.webp"
+import { Facebook, Instagram, MessageCircle, Send, Youtube, Apple, Play } from "lucide-react"
+import { headerIcons, headerLinks } from "@/data/header"
+import { Heart, Phone } from "lucide-react"
+import { lazy, Suspense, useState } from "react"
+import { Link, NavLink, useNavigate } from "react-router-dom"
+import { useLikes } from "@/context/LikesContext"
+import { useCards } from "@/context/CardsContext"
+import headerLogo from "../assets/headerLogo.webp"
+import { X } from "lucide-react";
+import { Button } from "./ui/button";
+import type { InfoModalProps } from "./type";
+import { posts } from "@/data/blog-posts"
+import { Skeleton } from "./ui/skeleton";
+import { InputMask } from "@react-input/mask"
+import { EditableField } from "./MyProfile"
+import { Heart } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useLikes } from "@/context/LikesContext";
+import type { ProductCardProps } from "./type";
+import { useMemo, useState } from "react"
+import type {  ProfileAccount, ProfileAddress } from "./type";
+import { defaultAccount, defaultAddress, type Tab } from "@/data/profile-defaults"
+import LogIn from "./LogIn";
+import ProfileInfo from "./ProfileInfo";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "./ui/breadcrumb";
+import { partners } from "@/data/partners-data"
+import { Heart } from "lucide-react"
+import { Gauge, Armchair, CircleStop } from "lucide-react"
+import type { ProductCardProps } from "./type"
+import { useLikes } from "@/context/LikesContext"
+import { useCards } from "@/context/CardsContext"
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import bicycle from "@/assets/bicycle.webp"
+import bikepath from "@/assets/bikepath.webp"
+import ps from "@/assets/PS.webp"
+import BG from "@/assets/BG.webp"
+import Express from "@/assets/Express.webp"
+import bicyclegift from "@/assets/bicyclegift.webp"
+import express24 from "@/assets/partners/express24.webp"
+import utezkor from "@/assets/partners/Utezkor.webp"
+import yandex from "@/assets/partners/yandex.webp"
+import ona from "@/assets/partners/ona.webp"
+import payme from "@/assets/partners/Payme.webp"
+import uzumNasiya from "@/assets/partners/UzumNasiya.webp"
+import solfy from "@/assets/partners/Solfy.webp"
+import zoodpay from "@/assets/partners/ZoodPay.webp"
+import ProductCard from "./ProductCard"
+import type { ProductCardProps } from "./type"
+import { productService } from "@/services/api"
+import { useQuery } from "@tanstack/react-query"
+import { useNavigate, useParams } from "react-router-dom"
+import { useEffect, useMemo, useState } from "react"
+import { useCards } from "@/context/CardsContext"
+import { useLikes } from "@/context/LikesContext"
+import ProductSwiper from "./ProductSwiper"
+import type { DetailsTab, ProductCardProps, RentPeriod } from "./type"
+import { getProductDetails, type ProductReview } from "../data/productDetails"
+import BlogSection from "./BlogSection"
+import Navigation from "./Navigation"
+import bicycle from "@/assets/bicycle.webp"
+import { imageMap, periods, productTabs } from "@/data/product-page-assets"
+import Loading from "./Loading"
+import Error from "./Error"
+import ProductPageInfo from "./ProductPageInfo"
+import Review from "./Review"
+import SimilarProducts from "./SimilarProducts"
+import { Heart } from "lucide-react"
+import type { ProductPageInfoProps } from "./type"
+import { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode, Thumbs } from "swiper/modules";
+import type { Swiper as SwiperType } from "swiper";
+import bicycle from "@/assets/bicycle.webp";
+import bikepath from "@/assets/bikepath.webp";
+import ps from "@/assets/PS.webp";
+import BG from "@/assets/BG.webp";
+import Express from "@/assets/Express.webp";
+import bicyclegift from "@/assets/bicyclegift.webp";
+import express24 from "@/assets/partners/express24.webp";
+import utezkor from "@/assets/partners/Utezkor.webp";
+import yandex from "@/assets/partners/yandex.webp";
+import ona from "@/assets/partners/ona.webp";
+import payme from "@/assets/partners/Payme.webp";
+import uzumNasiya from "@/assets/partners/UzumNasiya.webp";
+import solfy from "@/assets/partners/Solfy.webp";
+import zoodpay from "@/assets/partners/ZoodPay.webp";
+import type { ProductSwiperPropsI } from "./type";
+import { CircleArrowOutUpRight, CircleUserRound } from "lucide-react"
+import ProfileTab from "./ProfileTab"
+import OrdersTab from "./OrdersTab"
+import UploadsTab from "./UploadsTab"
+import AddressTab from "./AddressTab"
+import type { ProfileAccount, ProfileAddress } from "./type"
+import { tabs, type Tab } from "@/data/profile-defaults"
+import { rentData } from "@/data/rent"
+import { Star } from "lucide-react"
+import type { ProductReview } from "@/data/productDetails"
+import { Swiper, SwiperSlide } from "swiper/react";
+import MiniCard from "./MiniCard";
+import { Navigation as SwiperNavigation } from "swiper/modules";
+import type { ProductCardProps } from "./type";
+import { useMemo, useState } from "react"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { useCards } from "@/context/CardsContext"
+import { Button } from "@/components/ui/button"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
+import { CheckCircle2, MapPin, ChevronDown } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { InputMask } from "@react-input/mask"
+import type { CheckoutLocationState, ProfileOrder, ProfileAccount } from "./type"
+import type { LucideIcon } from "lucide-react"
+import type { Dispatch, SetStateAction } from "react"
+import { createContext, useContext, useState, useEffect } from "react"
+import type { ReactNode } from "react"
+import type { ProductCardProps } from "@/components/type"
+import { createContext, useContext, useState, useEffect } from "react"
+import type { ReactNode } from "react"
+import type { ProductCardProps } from "@/components/type"
+import type { Post } from "@/components/type"
+import blog1 from "../assets/blog1.webp"
+import blog2 from "../assets/blog2.webp"
+import blog3 from "../assets/blog3.webp"
+import type { FAQData } from "@/components/type"
+import { Battery, Gauge, Sofa, Bike } from "lucide-react"
+import type { FeatureItem } from "@/components/type"
+import { ShoppingBag, Heart, User } from "lucide-react"
+export { rentData } from "./rent"
+export { partners } from "./partners-data"
+export { posts } from "./blog-posts"
+export { faqData } from "./faq"
+export { similarProducts } from "./similar-products"
+} from "./profile-defaults"
+export { features } from "./features"
+export { imageMap, periods, productTabs } from "./product-page-assets"
+export { SORT_LABELS } from "./sort-labels"
+import express24 from "../assets/partners/express24.webp"
+import tezkor from "../assets/partners/Utezkor.webp"
+import yandex from "../assets/partners/yandex.webp"
+import eku from "../assets/partners/ona.webp"
+import payme from "../assets/partners/Payme.webp"
+import uzum from "../assets/partners/UzumNasiya.webp"
+import solfy from "../assets/partners/Solfy.webp"
+import zoodpay from "../assets/partners/ZoodPay.webp"
+import { Gift } from "lucide-react"
+import type { DetailsTab, RentPeriod } from "@/components/type"
+import express24 from "../assets/partners/express24.webp"
+import utezkor from "../assets/partners/Utezkor.webp"
+import yandex from "../assets/partners/yandex.webp"
+import ona from "../assets/partners/ona.webp"
+import payme from "../assets/partners/Payme.webp"
+import uzumNasiya from "../assets/partners/UzumNasiya.webp"
+import solfy from "../assets/partners/Solfy.webp"
+import zoodpay from "../assets/partners/ZoodPay.webp"
+import bicycle from "@/assets/bicycle.webp"
+import bikepath from "@/assets/bikepath.webp"
+import ps from "@/assets/PS.webp"
+import BG from "@/assets/BG.webp"
+import Express from "@/assets/Express.webp"
+import bicyclegift from "@/assets/bicyclegift.webp"
+import type { ProfileAccount, ProfileAddress } from "@/components/type"
+import type { RentDataProps } from "@/components/type"
+import yellowBicycle from "../assets/yellow-bike.webp"
+import type { SortOption } from "@/components/type"
+import { useState } from "react";
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+import { baseUrl, getData } from "@/api/https";
+import ProductPage from "@/components/ProductPage";
+import type { ProductCardProps } from "@/components/type";
+import { endpoints } from "@/utils/endpoints";
+import { QueryKeys } from "@/utils/keys";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import Info from "@/components/Info"
+import CatalogList from "@/components/CatalogList"
+import { lazy, Suspense } from "react"
+import Banner from "@/components/Banner"
+import ProductList from "@/components/ProductList"
+import BannerInfo from "@/components/BannerInfo"
+import express from "@/assets/Express.webp"
+import bicycleGift from "@/assets/bicyclegift.webp"
+import { productService } from "@/services/api"
+import { useQuery } from "@tanstack/react-query"
+import { Skeleton } from "@/components/ui/skeleton"
+import Header from "@/components/Header"
+import Footer from "@/components/Footer"
+import { Outlet } from "react-router-dom"
+import { Link } from "react-router-dom"
+import { z } from "zod"
+import { lazy, Suspense } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { LikesProvider } from "./context/LikesContext";
+import { CardsProvider } from "./context/CardsContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "sonner";
+import Loading from "./components/Loading";

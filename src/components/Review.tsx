@@ -73,9 +73,9 @@ const Review = ({
                                                     type="button"
                                                     onClick={() => onChangeRating(current as ProductReview["rating"])}
                                                     className="rounded-full"
-                                                    aria-label={`rate ${current}`}
+                                                    aria-label={`Оценка ${current} из 5`}
                                                 >
-                                                    <Star className="h-5 w-5" fill={filled ? "#F59E0B" : "none"} stroke={filled ? "#F59E0B" : "#CBD5E1"} />
+                                                    <Star className="h-5 w-5" aria-hidden fill={filled ? "#F59E0B" : "none"} stroke={filled ? "#F59E0B" : "#CBD5E1"} />
                                                 </button>
                                             )
                                         })}

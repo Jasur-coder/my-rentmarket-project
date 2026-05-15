@@ -1,5 +1,5 @@
 import { Send, Facebook, Youtube } from 'lucide-react';
-import { posts } from '@/data';
+import { posts } from "@/data/blog-posts"
 
 const Info = () => {
   // Дублируем посты для создания сетки, как на макете
@@ -10,9 +10,13 @@ const Info = () => {
   const PostCard = ({ post }: { post: typeof posts[0] }) => (
     <div className="group relative h-[450px] rounded-[32px] overflow-hidden cursor-pointer shadow-lg">
       {/* Изображение */}
-      <img 
-        src={post.imageUrl} 
-        alt={post.title} 
+      <img
+        src={post.imageUrl}
+        alt={post.title}
+        loading="lazy"
+        decoding="async"
+        width={600}
+        height={450}
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
       />
       

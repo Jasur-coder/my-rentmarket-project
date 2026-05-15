@@ -4,7 +4,7 @@ import OrdersTab from "./OrdersTab"
 import UploadsTab from "./UploadsTab"
 import AddressTab from "./AddressTab"
 import type { ProfileAccount, ProfileAddress } from "./type"
-import { tabs, type Tab } from "@/data"
+import { tabs, type Tab } from "@/data/profile-defaults"
 
 interface ProfileInfoProps {
   hasAccount: boolean
@@ -56,7 +56,7 @@ const ProfileInfo = ({
                   onClick={handleLogout}
                   className="inline-flex h-11 items-center gap-2 rounded-xl border border-[#d4d4d4] bg-white px-5 text-[22px] font-medium text-[#666]"
                 >
-                  <CircleArrowOutUpRight className="h-5 w-5" />
+                  <CircleArrowOutUpRight className="h-5 w-5" aria-hidden />
                   Выйти
                 </button>
               </div>

@@ -1,4 +1,4 @@
-import { CATEGORIES } from "@/data"
+import { CATEGORIES } from "@/data/categories"
 import type { CatalogFilterProps } from "./type"
 
 
@@ -46,6 +46,7 @@ const CatalogFilter = ({
                     {CATEGORIES.map((cat) => (
                         <button
                             key={cat}
+                            type="button"
                             onClick={() => setFilters((prev) => ({ ...prev, selectedCategory: cat }))}
                             className="flex items-center justify-between rounded px-1 py-2.5 text-sm transition-colors hover:bg-gray-50 border-b border-gray-100 last:border-0"
                         >
@@ -68,12 +69,14 @@ const CatalogFilter = ({
 
             <div className="mt-1 flex gap-3">
                 <button
+                    type="button"
                     onClick={handleReset}
                     className="flex-1 rounded-xl border border-gray-200 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
                 >
                     Сброс
                 </button>
                 <button
+                    type="button"
                     onClick={handleSave}
                     className="flex-1 rounded-xl bg-[#1F1F1F] py-2.5 text-sm font-medium text-white transition-colors hover:bg-black"
                 >

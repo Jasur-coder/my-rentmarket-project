@@ -131,10 +131,14 @@ const CatalogList: React.FC = () => {
         {/* Filter button */}
         <div className="relative" ref={filterRef}>
           <button
+            type="button"
             onClick={() => setFilterOpen((o) => !o)}
             className="flex items-center gap-2 bg-white px-4 py-2.5 rounded-xl shadow-sm hover:bg-gray-50 transition-colors"
+            aria-expanded={filterOpen}
+            aria-haspopup="true"
+            aria-label={filterOpen ? "Закрыть фильтр каталога" : "Открыть фильтр каталога"}
           >
-            <ListFilter size={20} className="text-gray-700" />
+            <ListFilter size={20} className="text-gray-700" aria-hidden />
             <span className="text-sm font-medium text-gray-900">Фильтр</span>
           </button>
 

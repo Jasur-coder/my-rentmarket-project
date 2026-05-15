@@ -20,6 +20,12 @@ const CardModalProducts = ({
                     type="button"
                     onClick={() => onToggleOne(item.id)}
                     className="flex items-center justify-center"
+                    aria-pressed={isSelected}
+                    aria-label={
+                        isSelected
+                            ? `Снять выбор с «${item.title}»`
+                            : `Выбрать «${item.title}» для оформления`
+                    }
                 >
                     <span
                         className={`flex h-5 w-5 items-center justify-center rounded border ${isSelected ? "bg-[#00D414] border-[#00D414]" : "border-gray-300 bg-white"
@@ -31,11 +37,15 @@ const CardModalProducts = ({
                 <img
                     src={resolveImagePath(item.img)}
                     alt={item.title}
+                    loading="lazy"
+                    decoding="async"
+                    width={80}
+                    height={80}
                     className="h-20 w-20 rounded-2xl object-cover bg-white"
                 />
                 <div className="space-y-2">
                     <p className="text-base font-semibold text-gray-900">{item.title}</p>
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <div className="flex items-center gap-2 text-sm text-gray-700">
                         <span>{item.period}</span>
                     </div>
                 </div>
@@ -47,7 +57,7 @@ const CardModalProducts = ({
                         {formatPrice(price * qty)}
                     </div>
                     {oldPrice > price && (
-                        <div className="text-xs text-gray-400 line-through">
+                        <div className="text-xs text-gray-500 line-through">
                             {formatPrice(oldPrice * qty)}
                         </div>
                     )}
@@ -58,6 +68,7 @@ const CardModalProducts = ({
                             type="button"
                             onClick={() => onQuantityChange(item.id, -1)}
                             className="px-2 text-lg leading-none text-gray-600"
+                            aria-label={`Уменьшить количество «${item.title}»`}
                         >
                             –
                         </button>
@@ -66,6 +77,7 @@ const CardModalProducts = ({
                             type="button"
                             onClick={() => onQuantityChange(item.id, 1)}
                             className="px-2 text-lg leading-none text-gray-600"
+                            aria-label={`Увеличить количество «${item.title}»`}
                         >
                             +
                         </button>
@@ -74,8 +86,9 @@ const CardModalProducts = ({
                         type="button"
                         onClick={() => onRemove(item.id)}
                         className="text-gray-400 hover:text-red-500"
+                        aria-label={`Удалить «${item.title}» из корзины`}
                     >
-                        <Trash2 className="h-5 w-5" />
+                        <Trash2 className="h-5 w-5" aria-hidden />
                     </button>
                 </div>
             </div>

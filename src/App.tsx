@@ -1,56 +1,96 @@
+import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./pages/Home"
-import Layout from "./pages/Layout"
-import Catalog from "./pages/Catalog";
-import Apply from "./pages/Apply";
-import Business from "./pages/Business";
 import { LikesProvider } from "./context/LikesContext";
 import { CardsProvider } from "./context/CardsContext";
-import NotFound from "./pages/NotFound";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "sonner";
-import ToOrder from "./components/ToOrder";
-import MyProfile from "./components/MyProfile";
+import Loading from "./components/Loading";
+
+const Home = lazy(() => import("./pages/Home"));
+const Layout = lazy(() => import("./pages/Layout"));
+const Catalog = lazy(() => import("./pages/Catalog"));
+const Apply = lazy(() => import("./pages/Apply"));
+const Business = lazy(() => import("./pages/Business"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const ToOrder = lazy(() => import("./components/ToOrder"));
+const MyProfile = lazy(() => import("./components/MyProfile"));
+
+const queryClient = new QueryClient();
 
 
 function App() {
-  const queryClient = new QueryClient();
  const routes = createBrowserRouter([
     {
       path: "/",
-      element: <Layout />,
+      element: (
+        <Suspense fallback={<Loading />}>
+          <Layout />
+        </Suspense>
+      ),
       children: [
         {
           index: true,
-          element: <Home />,
+          element: (
+            <Suspense fallback={<Loading />}>
+              <Home />
+            </Suspense>
+          ),
         },
         {
           path: "/catalog",
-          element: <Catalog />,
+          element: (
+            <Suspense fallback={<Loading />}>
+              <Catalog />
+            </Suspense>
+          ),
         },
         {
           path: "/howtoapply",
-          element: <Apply />,
+          element: (
+            <Suspense fallback={<Loading />}>
+              <Apply />
+            </Suspense>
+          ),
         },
         {
           path: "/forbusiness",
-          element: <Business />,
+          element: (
+            <Suspense fallback={<Loading />}>
+              <Business />
+            </Suspense>
+          ),
         },
         {
           path: "/checkout",
-          element: <ToOrder />,
+          element: (
+            <Suspense fallback={<Loading />}>
+              <ToOrder />
+            </Suspense>
+          ),
         },
         {
           path: "/profile",
-          element: <MyProfile />,
+          element: (
+            <Suspense fallback={<Loading />}>
+              <MyProfile />
+            </Suspense>
+          ),
         },
         {
           path: "/product/:id",
-          element: <Apply />,
+          element: (
+            <Suspense fallback={<Loading />}>
+              <Apply />
+            </Suspense>
+          ),
         },
         {
           path: "*",
-          element: <NotFound />,
+          element: (
+            <Suspense fallback={<Loading />}>
+              <NotFound />
+            </Suspense>
+          ),
         },
       ],
     },

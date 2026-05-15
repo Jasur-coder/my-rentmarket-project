@@ -1,4 +1,4 @@
-import { rentData } from "@/data"
+import { rentData } from "@/data/rent"
 
 const Rent =  () => {
     

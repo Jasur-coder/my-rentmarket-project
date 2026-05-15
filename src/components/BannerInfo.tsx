@@ -1,5 +1,5 @@
 import React from 'react';
-import { features } from '@/data';
+import { features } from "@/data/features"
 
 const BannerInfo: React.FC<{ img: string; reverse?: boolean }> = (props) => {
 
@@ -33,6 +33,10 @@ const BannerInfo: React.FC<{ img: string; reverse?: boolean }> = (props) => {
         <img
           src={img}
           alt="Курьер Express24"
+          loading="lazy"
+          decoding="async"
+          width={480}
+          height={350}
           className="w-full h-full object-cover md:absolute md:inset-0 select-none pointer-events-none"
         />
       </div>

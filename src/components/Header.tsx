@@ -1,12 +1,19 @@
-import { headerIcons, headerLinks } from "@/data"
+import { headerIcons, headerLinks } from "@/data/header"
 import { Heart, Phone } from "lucide-react"
-import { useState } from "react"
+import { lazy, Suspense, useState } from "react"
 import { Link, NavLink, useNavigate } from "react-router-dom"
-import { icons } from "@/assets/icons"
-import LikeModal from "./modals/LikeModal"
-import CardModal from "./modals/CardModal"
 import { useLikes } from "@/context/LikesContext"
 import { useCards } from "@/context/CardsContext"
+import headerLogo from "../assets/headerLogo.webp"
+
+const LikeModal = lazy(() => import("./modals/LikeModal"))
+const CardModal = lazy(() => import("./modals/CardModal"))
+
+const headerActionLabels: Record<number, string> = {
+    0: "Корзина",
+    1: "Избранное",
+    2: "Профиль",
+}
 
 const Header = () => {
     const [likeOpen, setLikeOpen] = useState(false)
@@ -14,6 +21,17 @@ const Header = () => {
     const navigate = useNavigate()
     const { likedItems } = useLikes()
     const { CardItems } = useCards()
+
+    const headerActionAriaLabel = (id: number) => {
+        const base = headerActionLabels[id] ?? "Действие"
+        if (id === 0 && CardItems.length > 0) {
+            return `${base}, ${CardItems.length} товаров`
+        }
+        if (id === 1 && likedItems.length > 0) {
+            return `${base}, ${likedItems.length} товаров`
+        }
+        return base
+    }
 
     const handleIconClick = (id: number) => {
         switch (id) {
@@ -37,7 +55,7 @@ const Header = () => {
                 <div>
                     <div className="flex items-center justify-between px-4 py-3 bg-white rounded-b-3xl">
                         <div className="flex gap-1">
-                            <Phone />
+                            <Phone className="shrink-0" aria-hidden />
                             <span>+998 71 200 14 41</span>
                         </div>
                         <select>
@@ -47,7 +65,15 @@ const Header = () => {
                     </div>
                     <div className="flex items-center justify-between px-4 py-5 bg-white rounded-3xl mt-2.5">
                         <Link to="/">
-                            <icons.logo />
+                            <img
+                                src={headerLogo}
+                                alt="RentMarket"
+                                fetchPriority="high"
+                                decoding="async"
+                                width={120}
+                                height={40}
+                                className="h-10 w-auto"
+                            />
                         </Link>
                         <nav className="flex items-center justify-between">
                             {headerLinks.map((el) => (
@@ -74,9 +100,10 @@ const Header = () => {
                                             key={el.id}
                                             className="relative cursor-pointer"
                                             type="button"
+                                            aria-label={headerActionAriaLabel(el.id)}
                                             onClick={() => handleIconClick(el.id)}
                                         >
-                                            <Heart />
+                                            <Heart aria-hidden />
                                             {likedItems.length > 0 && (
                                                 <span className="absolute -top-2 -right-2 min-w-[1.1rem] h-[1.1rem] flex items-center justify-center bg-red-500 text-white text-[0.6rem] font-bold rounded-full px-[0.2rem] leading-none">
                                                     {likedItems.length}
@@ -86,8 +113,14 @@ const Header = () => {
                                     )
                                 }
                                 return (
-                                    <button key={el.id} className="relative cursor-pointer" type="button" onClick={() => handleIconClick(el.id)}>
-                                        <Icon />
+                                    <button
+                                        key={el.id}
+                                        className="relative cursor-pointer"
+                                        type="button"
+                                        aria-label={headerActionAriaLabel(el.id)}
+                                        onClick={() => handleIconClick(el.id)}
+                                    >
+                                        <Icon aria-hidden />
                                         {el.id === 0 && CardItems.length > 0 && (
                                             <span className="absolute -top-2 -right-2 min-w-[1.1rem] h-[1.1rem] flex items-center justify-center bg-green-500 text-white text-[0.6rem] font-bold rounded-full px-[0.2rem] leading-none">
                                                 {CardItems.length}
@@ -97,8 +130,16 @@ const Header = () => {
                                 )
                             })}
                         </div>
-                        <LikeModal open={likeOpen} onOpenChange={setLikeOpen} />
-                        <CardModal open={cardOpen} onOpenChange={setCardOpen} />
+                        {likeOpen && (
+                            <Suspense fallback={null}>
+                                <LikeModal open={likeOpen} onOpenChange={setLikeOpen} />
+                            </Suspense>
+                        )}
+                        {cardOpen && (
+                            <Suspense fallback={null}>
+                                <CardModal open={cardOpen} onOpenChange={setCardOpen} />
+                            </Suspense>
+                        )}
                     </div>
                 </div>
             </div>

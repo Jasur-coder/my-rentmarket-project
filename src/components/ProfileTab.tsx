@@ -38,7 +38,7 @@ const ProfileTab = ({ hasAccount, account, updateAccountField, saveAccount }: Pr
                     <button
                       type="button"
                       onClick={saveAccount}
-                      className="h-12 rounded-xl border border-[#d7d7d7] bg-[#ececec] px-8 text-[32px] font-semibold text-[#9a9a9a]"
+                      className="h-12 rounded-xl border border-[#c0c0c0] bg-[#d5d5d5] px-8 text-[32px] font-semibold text-[#4a4a4a]"
                     >
                       Сохранить
                     </button>

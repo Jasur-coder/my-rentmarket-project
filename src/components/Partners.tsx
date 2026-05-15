@@ -1,5 +1,5 @@
 import React from 'react';
-import { partners } from '@/data';
+import { partners } from "@/data/partners-data"
 
 const Partners: React.FC = () => {
   return (
@@ -14,9 +14,13 @@ const Partners: React.FC = () => {
               key={partner.id}
               className="bg-white rounded-[24px] h-[160px] flex items-center justify-center p-6 shadow-sm hover:shadow-md transition-shadow duration-300"
             >
-              <img 
-                src={partner.logo} 
-                alt={partner.name} 
+              <img
+                src={partner.logo}
+                alt={partner.name}
+                loading="lazy"
+                decoding="async"
+                width={160}
+                height={80}
                 className="max-h-full max-w-full object-contain grayscale hover:grayscale-0 transition-all duration-300"
                 onError={(e) => {
                   (e.target as HTMLImageElement).style.display = 'none';

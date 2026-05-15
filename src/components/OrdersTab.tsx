@@ -67,6 +67,10 @@ const OrdersTab: React.FC<OrdersTabProps> = ({ orders }) => {
                           <img
                             src={resolveImagePath(item.img)}
                             alt={item.title}
+                            loading="lazy"
+                            decoding="async"
+                            width={80}
+                            height={80}
                             className="h-16 w-16 md:h-20 md:w-20 rounded-2xl object-cover bg-white shrink-0"
                           />
                         )}

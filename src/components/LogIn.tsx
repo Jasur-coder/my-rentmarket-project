@@ -63,7 +63,7 @@ const LogIn = ({
                 type="button"
                 onClick={handleCreateProfile}
                 disabled={!setupValid}
-                className="h-12 rounded-xl border border-[#d7d7d7] bg-[#ececec] px-8 text-[28px] font-semibold text-[#6a6a6a] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="h-12 rounded-xl border border-[#c0c0c0] bg-[#d5d5d5] px-8 text-[28px] font-semibold text-[#3a3a3a] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Создать профиль
               </button>
